@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeCRUDController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', 'App\Http\Controllers\EmployeeController@viewEmployees')->middleware(['auth', 'verified'])->name('dashboard');
+Route::resource('/dashboard', EmployeeCRUDController::class)->middleware(['auth', 'verified']);
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
