@@ -9,9 +9,9 @@ class Employees extends Model
 {
     use HasFactory;
     protected $table = 'employees';
-    protected $primaryKey = 'rvm_id';
-    protected $fillable = ['name', 'email'];
+    protected $primaryKey = 'id';
+    protected $fillable = ['name', 'email','password'];
 
-    protected $hidden = 'password';
+    protected $hidden = ['password'];
 }
     

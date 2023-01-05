@@ -6,7 +6,7 @@
         </x-slot>
     </x-sidebar.link>
 
-    <x-sidebar.dropdown title="Buttons" :active="Str::startsWith(request()->route()->uri(), 'buttons')">
+    {{-- <x-sidebar.dropdown title="Buttons" :active="Str::startsWith(request()->route()->uri(), 'buttons')">
         <x-slot name="icon">
             <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
@@ -17,16 +17,16 @@
             :active="request()->routeIs('buttons.icon')" />
         <x-sidebar.sublink title="Text with icon" href="{{ route('buttons.text-icon') }}"
             :active="request()->routeIs('buttons.text-icon')" />
-    </x-sidebar.dropdown>
+    </x-sidebar.dropdown> --}}
 
-    <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">Dummy Links</div>
+    <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">RVM IDs</div>
 
     @php
         $links = array_fill(0, 20, '');
     @endphp
 
-    @foreach ($links as $index => $link)
+    {{-- @foreach ($links as $index => $link)
         <x-sidebar.link title="Dummy link {{ $index + 1 }}" href="#" />
-    @endforeach
+    @endforeach --}}
        
 </x-perfect-scrollbar>
