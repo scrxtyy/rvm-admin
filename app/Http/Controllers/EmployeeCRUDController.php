@@ -27,7 +27,7 @@ class EmployeeCRUDController extends Controller
     {
         $input = $request->all();
         Employees::create($input);
-        return redirect('dashboard')->with('flash_message', 'Employees Addedd!');  
+        return redirect('dashboard')->with('flash_message', 'Employees Added!');  
     }
  
     
@@ -57,7 +57,7 @@ class EmployeeCRUDController extends Controller
     public function destroy($id)
     {
         Employees::destroy($id);
-        return redirect('dashboard')->with('flash_message', 'Employees deleted!');  
+        return redirect('dashboard')->with('flash_message', 'Employees Deleted!');  
     }
 
     }
