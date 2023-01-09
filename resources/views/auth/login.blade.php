@@ -11,7 +11,7 @@
 
        
         <form method="POST" action="{{ route('login') }}">
-            @csrf
+            {!! csrf_field() !!}
             <div class="grid gap-6">
                 <!-- Email Address -->
                 <div class="space-y-2">

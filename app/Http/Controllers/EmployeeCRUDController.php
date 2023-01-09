@@ -3,12 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employees;
+use App\Models\monitorCoins;
+use App\Models\monitorPlastics;
+use App\Models\monitorTincans;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeCRUDController extends Controller
 {
-    public function search(Request $request){
+    public function sidebar(){
 
+        $employees = Employees::all();
+        return view ('employees.sidebarlinks')->with('employees', $employees);
+
+    }
+    public function rules()
+    {
+        return [
+            'password' => 'required|confirmed',
+        ];
     }
     public function index()
     {
@@ -18,15 +31,25 @@ class EmployeeCRUDController extends Controller
  
     
     public function create()
-    {
-        return view('employees.create');
+    {   
+        $rvmid = Employees::latest()->first();   
+        $rvm_id = $rvmid->id;
+        $lastrvmid = $rvm_id + 1;
+
+        return view('employees.create')->with('lastrvmid',$lastrvmid);
     }
  
    
     public function store(Request $request)
     {
-        $input = $request->all();
-        Employees::create($input);
+        $input = Employees::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        //$input = $request->all();
+       // Employees::create($input);
         return redirect('dashboard')->with('flash_message', 'Employees Added!');  
     }
  
@@ -34,6 +57,19 @@ class EmployeeCRUDController extends Controller
     public function show($id)
     {
         $employees = Employees::find($id);
+
+        $result1 = monitorPlastics::latest()->first();   
+        $plasticweight = $result1->total_kg; 
+        $plastic = $plasticweight * 0.1;
+
+        $result2 = monitorTincans::latest()->first();   
+        $cansweight = $result2->total_kg; 
+        $tincans = $cansweight * 0.1;
+
+        $result3 = monitorCoins::latest()->first();   
+        $currentCoins = $result3->coins_total; 
+        $coins = $currentCoins / 200;
+        
         return view('employees.show')->with('employees', $employees);
     }
  

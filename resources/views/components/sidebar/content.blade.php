@@ -20,13 +20,11 @@
     </x-sidebar.dropdown> --}}
 
     <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">RVM IDs</div>
-
+{{-- 
     @php
         $links = array_fill(0, 20, '');
-    @endphp
+    @endphp --}}
 
-    {{-- @foreach ($links as $index => $link)
-        <x-sidebar.link title="Dummy link {{ $index + 1 }}" href="#" />
-    @endforeach --}}
+    @yield('side')
        
 </x-perfect-scrollbar>
