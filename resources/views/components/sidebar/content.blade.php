@@ -30,9 +30,11 @@
     @endphp --}}
 
     @foreach ($employees as $index)
-        <a href="{{ url('/dashboard/' . $index->id) }}">
+        {{-- <a href="{{ url('/dashboard/' . $index->id) }}">
             RVM {{ $index->id}}
-        </a>
+        </a> --}}
+        <x-sidebar.link title="RVM {{ $index->id}}" href="{{ url('/dashboard/' . $index->id) }}" :isActive="request()->routeIs('dashboard/{{$index->id}}')">
+        </x-sidebar.link>
     @endforeach
        
 </x-perfect-scrollbar>

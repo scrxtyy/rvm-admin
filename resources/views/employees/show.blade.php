@@ -157,13 +157,13 @@
     value: {{$coins}}
     });
 
-    setInterval(function(){
-    $.get('/dashboard', function(){
-    $(".circle .bar").circleProgress({value: {{$plastic}}});
-    $(".js .bar").circleProgress({ value: {{$tincans}}});
-    $(".react .bar").circleProgress({ value: {{$coins}}});
-    });
-    }, 10000);
+    // setInterval(function(){
+    // $.get('/dashboard', function(){
+    // $(".circle .bar").circleProgress({value: {{$plastic}}});
+    // $(".js .bar").circleProgress({ value: {{$tincans}}});
+    // $(".react .bar").circleProgress({ value: {{$coins}}});
+    // });
+    // }, 10000);
 </script>
 
 @endsection
