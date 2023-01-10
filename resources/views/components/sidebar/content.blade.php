@@ -1,3 +1,7 @@
+@php
+    $employees = App\Models\Employees::all();
+@endphp
+
 <x-perfect-scrollbar as="nav" aria-label="main" class="flex flex-col flex-1 gap-4 px-3">
 
     <x-sidebar.link title="Dashboard" href="{{ route('dashboard') }}" :isActive="request()->routeIs('dashboard')">
@@ -25,6 +29,10 @@
         $links = array_fill(0, 20, '');
     @endphp --}}
 
-    @yield('side')
+    @foreach ($employees as $index)
+        <a href="{{ url('/dashboard/' . $index->id) }}">
+            RVM {{ $index->id}}
+        </a>
+    @endforeach
        
 </x-perfect-scrollbar>

@@ -70,7 +70,7 @@ class EmployeeCRUDController extends Controller
         $currentCoins = $result3->coins_total; 
         $coins = $currentCoins / 200;
         
-        return view('employees.show')->with('employees', $employees);
+        return view('employees.show',compact('employees','plastic','tincans','coins'));
     }
  
     
