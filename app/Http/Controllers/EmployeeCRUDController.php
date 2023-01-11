@@ -6,17 +6,13 @@ use App\Models\Employees;
 use App\Models\monitorCoins;
 use App\Models\monitorPlastics;
 use App\Models\monitorTincans;
+use App\Models\Notifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 class EmployeeCRUDController extends Controller
 {
-    public function sidebar(){
-
-        $employees = Employees::all();
-        return view ('employees.sidebarlinks')->with('employees', $employees);
-
-    }
     public function rules()
     {
         return [
@@ -32,21 +28,24 @@ class EmployeeCRUDController extends Controller
     
     public function create()
     {   
-        $rvmid = Employees::latest()->first();   
-        $rvm_id = $rvmid->id;
-        $lastrvmid = $rvm_id + 1;
 
-        return view('employees.create')->with('lastrvmid',$lastrvmid);
+        return view('employees.create');
     }
  
    
     public function store(Request $request)
     {
         $input = Employees::create([
+
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+        $validatedData = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:8'],
+            'password_confirmation' => ['same:password'],
         ]);
         //$input = $request->all();
        // Employees::create($input);
@@ -73,7 +72,10 @@ class EmployeeCRUDController extends Controller
         return view('employees.show',compact('employees','plastic','tincans','coins'));
     }
  
-    
+    public function rules(){
+        $rules->id;
+
+    }
     public function edit($id)
     {
         $employees = Employees::find($id);
@@ -96,4 +98,5 @@ class EmployeeCRUDController extends Controller
         return redirect('dashboard')->with('flash_message', 'Employees Deleted!');  
     }
 
+        
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmployeeCRUDController;
+use App\Http\Controllers\NotifController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,9 +20,9 @@ Route::get('/', function () {
 });
 
 Route::resource('/dashboard', EmployeeCRUDController::class)->middleware(['auth','verified']);
-Route::get('/dashboard', [EmployeeCRUDController::class, 'sidebar']);
 Route::get('/dashboard', [EmployeeCRUDController::class, 'index'])->middleware(['auth','verified'])->name('dashboard');
 
+Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
 
 // Route::get('/employees/create', [EmployeeCRUDController::class, 'create'])->middleware(['auth','verified']);
 // Route::get('/employees/edit', [EmployeeCRUDController::class, 'edit'])->middleware(['auth','verified']);
