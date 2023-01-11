@@ -33,8 +33,9 @@
         {{-- <a href="{{ url('/dashboard/' . $index->id) }}">
             RVM {{ $index->id}}
         </a> --}}
-        <x-sidebar.link title="RVM {{ $index->id}}" href="{{ url('/dashboard/' . $index->id) }}" :isActive="request()->routeIs('dashboard/{{$index->id}}')">
-        </x-sidebar.link>
+        <a title="RVM {{ $index->id}}" href="{{ url('/dashboard/' . $index->id) }}" class="{{ Request::is(route('dashboard', ['id' => $index->id])) ? 'active' : '' }} ">
+        {{$index->id}}
+        </a>
     @endforeach
        
 </x-perfect-scrollbar>
