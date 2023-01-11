@@ -71,11 +71,7 @@ class EmployeeCRUDController extends Controller
         
         return view('employees.show',compact('employees','plastic','tincans','coins'));
     }
- 
-    public function rules(){
-        $rules->id;
 
-    }
     public function edit($id)
     {
         $employees = Employees::find($id);
