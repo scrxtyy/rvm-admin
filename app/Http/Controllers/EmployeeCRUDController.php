@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Collection\Paginate;
+use DB;
 
 class EmployeeCRUDController extends Controller
 {
@@ -69,7 +70,6 @@ class EmployeeCRUDController extends Controller
         $result3 = monitorCoins::latest()->first();   
         $currentCoins = $result3->coins_total; 
         $coins = $currentCoins / 200;
-        
         return view('employees.show',compact('employees','plastic','tincans','coins'));
     }
 

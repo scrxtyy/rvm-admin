@@ -3,6 +3,7 @@
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\NotifController;
 use Illuminate\Support\Facades\Route;
+use App\Models\monitorPlastics;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,17 @@ Route::get('/dashboard', [EmployeeCRUDController::class, 'index'])->middleware([
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
 
 Route::get('/email', [NotifController::class, 'sendEmail']);
+Route::get('/simulatePlastics', function(){
+    $plastic = new monitorPlastics();
+    $plastic = monitorPlastics::create([
+        'kg_weight' => 5,
+        'pieces' => 200,
+        'price' => 20,
+        'total_kg' => 2,
+        
+    ]);
+    return redirect()->back();
+});
 // Route::get('/employees/create', [EmployeeCRUDController::class, 'create'])->middleware(['auth','verified']);
 // Route::get('/employees/edit', [EmployeeCRUDController::class, 'edit'])->middleware(['auth','verified']);
 // Route::get('/employees/show', [EmployeeCRUDController::class, 'show'])->middleware(['auth','verified']);
