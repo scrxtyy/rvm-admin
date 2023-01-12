@@ -24,6 +24,7 @@ Route::get('/dashboard', [EmployeeCRUDController::class, 'index'])->middleware([
 
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
 
+Route::get('/email', [NotifController::class, 'sendEmail']);
 // Route::get('/employees/create', [EmployeeCRUDController::class, 'create'])->middleware(['auth','verified']);
 // Route::get('/employees/edit', [EmployeeCRUDController::class, 'edit'])->middleware(['auth','verified']);
 // Route::get('/employees/show', [EmployeeCRUDController::class, 'show'])->middleware(['auth','verified']);

@@ -7,28 +7,26 @@ use App\Models\monitorCoins;
 use App\Models\monitorPlastics;
 use App\Models\monitorTincans;
 use App\Models\Notifications;
+use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Collection\Paginate;
 
 class EmployeeCRUDController extends Controller
 {
-    public function rules()
-    {
-        return [
-            'password' => 'required|confirmed',
-        ];
-    }
+    public $message = "";
     public function index()
     {
-        $employees = Employees::all();
-        return view ('employees.index')->with('employees', $employees);
+       // $employees = Employees::all()->Paginate(5,['*'], 'all');
+        $employees = new Employees();
+        $employees = $employees->Paginate(5, ['*'], 'all');
+        return view ('employees.index', compact('employees'));
     }
  
     
     public function create()
     {   
-
         return view('employees.create');
     }
  
@@ -40,16 +38,19 @@ class EmployeeCRUDController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
         ]);
         $validatedData = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'min:8'],
-            'password_confirmation' => ['same:password'],
+            'email' => ['required','email'],
         ]);
+
         //$input = $request->all();
        // Employees::create($input);
-        return redirect('dashboard')->with('flash_message', 'Employees Added!');  
+        //Toastr::success('Messages in here', 'Title'); 
+        $employees = new Employees();
+        $employees = $employees->Paginate(5, ['*'], 'all');
+        return view ('employees.index', compact('employees'));
+    
+        
     }
  
     

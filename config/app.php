@@ -196,6 +196,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\AdminProvider::class,
 
+        Brian2694\Toastr\ToastrServiceProvider::class,
+
     ],
 
     /*

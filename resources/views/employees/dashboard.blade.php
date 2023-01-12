@@ -5,8 +5,13 @@
                 {{ __('Admin Dashboard') }}
             </h2>
         </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     </x-slot>
 
     @yield('content')
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    {!! Toastr::message() !!}
 </x-app-layout>
