@@ -6,6 +6,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-circle-progress/1.2.2/circle-progress.min.js"></script>        
 <style>
+    body{
+      scroll-behavior: smooth!important;
+    }
     .wrapper{
     width: 800px;
     display: flex;
@@ -89,10 +92,10 @@
 
 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
   <h3 class="text-xl font-semibold leading-tight">
-      RVM ID: RVM{{ $employees->id}}
+      RVM ID: RVM{{ $employees->rvm_id}}
   </h3>
   <h2 class="text-xl font-semibold leading-tight">
-    Employee name: {{ $employees->first_name." ".$employees->last_name }}
+    Employee name: {{ $employees->name }}
   </h2>
   <h2 class="card-text">
     Email: {{ $employees->email }}
@@ -100,15 +103,13 @@
   </a>
 </div>
 <br><br>
-
-
 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
   <div class="p-6 text-gray-900">
       <div class="wrapper">
           <div class="card">
             <div class="circle">
                 <div class="bar"></div>
-                <a href="#">
+                <a href="#pet">
                   <div class="box"><span></span></div>
                 </a>
             </div>
@@ -118,7 +119,7 @@
       <div class="card js">
           <div class="circle">
             <div class="bar"></div>
-              <a href="#">
+              <a href="#tincans">
                 <div class="box"><span></span></div>
               </a>
           </div>
@@ -128,7 +129,7 @@
         <div class="card react">
           <div class="circle">
             <div class="bar"></div>
-              <a href="#">
+              <a href="#coins">
                 <div class="box"><span></span></div>
               </a>
           </div>
@@ -138,6 +139,168 @@
       </div>
   </div>
 </div>
+
+<br><br>
+<div id="pet"></div>
+<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+  <h2 class="py-4 text-gray-600 dark:text-gray-400">PET Bottles</h2> 
+  <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
+    <span>Total: {{$plasticweight*10}} KG / 10 KG</span>
+  </x-button>
+</div>
+
+<div class="flex flex-col">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-hidden">
+          <table class="min-w-full">
+            <thead class="border-b bg-gray-800">
+              <tr>
+                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                  Date/Time
+                </th>
+                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                  Item/s Weight
+                </th>
+                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                  No. of Item/s
+                </th>
+                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                  Price of Item/s
+                </th>
+
+              </tr>
+            </thead>
+            <tbody>
+                @foreach($plasticsLog as $plasticsLog)
+                    <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {{$plasticsLog->created_at}}
+                        </td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {{$plasticsLog->kg_Weight}}
+                        </td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {{$plasticsLog->pieces}}
+                        </td>
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                            {{$plasticsLog->price}}
+                        </td>
+                    </tr>
+              @endforeach
+            </tbody>
+            {{-- {{ $plasticsLog->links() }} --}}
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+<br><br>
+<div id="tincans"></div>
+<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+  <h2 class="py-4 text-gray-600 dark:text-gray-400">Tin Cans</h2> 
+  <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
+    <span>Total: {{$cansweight*10}} KG / 10 KG</span>
+  </x-button>
+</div>
+  <div class="flex flex-col">
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="overflow-hidden">
+            <table class="min-w-full">
+              <thead class="border-b bg-gray-800">
+                <tr>
+                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                    Date/Time
+                  </th>
+                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                    Item/s Weight
+                  </th>
+                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                    No. of Item/s
+                  </th>
+                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                    Price of Item/s
+                  </th>
+
+                </tr>
+              </thead>
+              <tbody>
+                  @foreach($cansLog as $cansLog)
+                      <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">  
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                          {{$cansLog->created_at}}
+                      </td>
+                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              {{$cansLog->kg_weight}} KG
+                          </td>
+                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              {{$cansLog->pieces}}
+                          </td>
+                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              {{$cansLog->price}} PHP
+                          </td>
+                      </tr>
+                @endforeach
+              </tbody>
+              {{-- {{ $cansLog->links() }} --}}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<br><br>
+<div id="coins"></div>
+<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+  <h2 class="py-4 text-gray-600 dark:text-gray-400">Coins</h2> 
+  <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
+    <span>Total: {{$currentCoins}} PHP / 200 PHP</span>
+  </x-button>
+</div>
+
+    <div class="flex flex-col">
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="overflow-hidden">
+            <table class="min-w-full">
+              <thead class="border-b bg-gray-800">
+                <tr>
+                  
+                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                    Date/Time
+                  </th>
+                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                    Coins IN
+                  </th>
+                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                    Coins OUT
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                  @foreach($coinTable as $coinTable)
+                      <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                          {{$coinTable->created_at}}
+                      </td>
+                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              {{$coinTable->coins_in}} PHP
+                          </td>
+                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                              {{$coinTable->coins_out}} PHP
+                          </td>
+                      </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
 <script>
     let options = {

@@ -16,12 +16,11 @@ use App\Models\monitorPlastics;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', destination:'login');
 
 Route::resource('/dashboard', EmployeeCRUDController::class)->middleware(['auth','verified']);
 Route::get('/dashboard', [EmployeeCRUDController::class, 'index'])->middleware(['auth','verified'])->name('dashboard');
+Route::get('/employee/{id}', [EmployeeCRUDController::class, 'show'])->middleware(['auth'])->name('emp');
 
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
 
@@ -29,10 +28,10 @@ Route::get('/email', [NotifController::class, 'sendEmail']);
 Route::get('/simulatePlastics', function(){
     $plastic = new monitorPlastics();
     $plastic = monitorPlastics::create([
-        'kg_weight' => 5,
+        'kg_weight' => 2,
         'pieces' => 200,
         'price' => 20,
-        'total_kg' => 2,
+        'total_kg' => 5,
         
     ]);
     return redirect()->back();

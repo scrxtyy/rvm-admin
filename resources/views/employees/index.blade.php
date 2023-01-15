@@ -1,5 +1,6 @@
 @extends('employees.dashboard')
 @section('content')
+@if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('admin'))
   <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <h2 class="text-xl font-semibold leading-tight">
           {{ __('Reverse Vending Machines') }}
@@ -53,10 +54,10 @@
                   @foreach($employees as $item)
                   <tr class="bg-white border-b">
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {{ $item->id }}
+                      {{ $item->rvm_id }}
                     </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                      {{ $item->last_name }}, {{$item->first_name}}
+                      {{ $item->name }}
                     </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {{$item->email}}
@@ -108,5 +109,11 @@
           window.alert($message);
         }
       </script> --}}
-
+@endrole
+@role('employee')
+@php
+  $id = Auth::user()->id;
+@endphp
+<script>window.location = "/employee/<?php echo $id; ?>";</script>
+@endrole
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employees;
+use App\Models\User;
 use App\Models\monitorCoins;
 use App\Models\monitorPlastics;
 use App\Models\monitorTincans;
@@ -19,9 +20,8 @@ class EmployeeCRUDController extends Controller
     public $message = "";
     public function index()
     {
-       // $employees = Employees::all()->Paginate(5,['*'], 'all');
-        $employees = new Employees();
-        $employees = $employees->Paginate(5, ['*'], 'all');
+        $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
+        // $employees = $employees->Paginate(5, ['*'], 'all');
         return view ('employees.index', compact('employees'));
     }
  
@@ -34,43 +34,51 @@ class EmployeeCRUDController extends Controller
    
     public function store(Request $request)
     {
-        $input = Employees::create([
-
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+        $input = User::create([
+            'rvm_id' => $request->rvm,
+            'name' => $request->name,
             'email' => $request->email,
-        ]);
+            'password' => Hash::make($request->password),
+        ])->assignRole('employee');
         $validatedData = $request->validate([
             'email' => ['required','email'],
+            'rvm_id' => ['required'],
         ]);
-
         //$input = $request->all();
        // Employees::create($input);
         //Toastr::success('Messages in here', 'Title'); 
-        $employees = new Employees();
-        $employees = $employees->Paginate(5, ['*'], 'all');
+        // $employees = new User();
+        // $employees = $employees->Paginate(5, ['*'], 'all');
+        $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
         return view ('employees.index', compact('employees'));
-    
-        
     }
  
     
     public function show($id)
     {
-        $employees = Employees::find($id);
+        $employees = User::find($id);
+        $limit = 100;
 
-        $result1 = monitorPlastics::latest()->first();   
-        $plasticweight = $result1->total_kg; 
-        $plastic = $plasticweight * 0.1;
 
-        $result2 = monitorTincans::latest()->first();   
-        $cansweight = $result2->total_kg; 
-        $tincans = $cansweight * 0.1;
+        $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
+        $plastics = monitorPlastics::where('rvm_id', $employees->rvm_id);
+        $plasticsLog = $plastics->Paginate(7, ['*'], 'all');
+        $plasticweight = $result1 / $limit;
+        $plastic = $plasticweight;
 
-        $result3 = monitorCoins::latest()->first();   
-        $currentCoins = $result3->coins_total; 
+        $result2 = monitorTincans::where('rvm_id', $employees->rvm_id)->sum('pieces');
+        $cans = monitorTincans::where('rvm_id', $employees->rvm_id);
+        $cansLog = $cans->Paginate(7, ['*'], 'all');
+        $cansweight = $result2 / $limit; 
+        $tincans = $cansweight;
+   
+        $coinsLog = monitorCoins::latest()->first();   
+        $currentCoins = $coinsLog->coins_total; 
         $coins = $currentCoins / 200;
-        return view('employees.show',compact('employees','plastic','tincans','coins'));
+
+        $coin = monitorCoins::where('rvm_id', $employees->rvm_id);
+        $coinTable = $coin->Paginate(7, ['*'], 'all');
+        return view('employees.show',compact('plasticweight','cansweight','currentCoins','coinTable','employees','plastic','tincans','coins','plasticsLog','cansLog'));
     }
 
     public function edit($id)

@@ -3,9 +3,9 @@
 @section('content')
   
   @php
-        $rvmid = App\Models\Employees::latest()->first();   
-        $rvm_id = $rvmid->id;
-        $lastrvmid = $rvm_id + 1;
+        $rvm = App\Models\User::whereNotNull('rvm_id')->latest()->first();   
+        $rvmid = $rvm->rvm_id;
+        $lastrvmid = $rvmid + 1;
   @endphp
 
   <form class="w-full max-w-lg" action="{{ url('dashboard') }}" method="post">
@@ -14,24 +14,21 @@
       <div class="w-full px-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           RVM ID
-        </label>        
-        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="id" name="id" type="id" placeholder="{{$lastrvmid}}" disabled>
+        </label>       
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+          {{$lastrvmid}}
+        </label>   
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="rvm" name="rvm" type="hidden" value="{{$lastrvmid}}">
         {{-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> --}}
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
         {!! csrf_field() !!}
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
-          First Name
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-name">
+          Name
         </label>
-        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" name="first_name" id="first_name" placeholder="Jane" required>
-      </div>
-      <div class="w-full md:w-1/2 px-3">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-last-name">
-          Last Name
-        </label>
-        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="last-name" name="last_name" type="text" placeholder="Doe" required>
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" name="name" id="name" placeholder="Jane Doe" required>
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-6">
@@ -43,21 +40,21 @@
         {{-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> --}}
       </div>
    </div>
-    {{-- <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Password
         </label>
-        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="password" id="password" type="password" placeholder="******************">
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" name="password" id="password" type="password" placeholder="">
         <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
       </div>
       <div class="w-full md:w-1/2 px-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="password_confirmation">
           Confirm Password
         </label>
-        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="password_confirmation" name="password_confirmation" type="password" placeholder="******************">
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="password_confirmation" name="password_confirmation" type="password" placeholder="">
       </div>
-    </div> --}}
+    </div>
    <div class="flex flex-wrap -mx-3 mb-6">
     {{-- <div class="w-full px-3">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">

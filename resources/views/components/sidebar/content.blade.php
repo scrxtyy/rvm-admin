@@ -1,9 +1,12 @@
 @php
-    $employees = App\Models\Employees::all();
+    $employees = App\Models\User::whereHas(
+    'roles', function($q){
+        $q->where('name', 'employee');
+    })->get();
 @endphp
 
 <x-perfect-scrollbar as="nav" aria-label="main" class="flex flex-col flex-1 gap-4 px-3">
-
+@if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('admin'))
     <x-sidebar.link title="Dashboard" href="{{ route('dashboard') }}" :isActive="request()->routeIs('dashboard')">
         <x-slot name="icon">
             <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
@@ -44,11 +47,17 @@
     </x-sidebar.link>
 
     @foreach ($employees as $index)
-        <x-sidebar.link title="RVM {{ $index->id}}" href="{{ url('/dashboard/' . $index->id) }}" class="{{ Request::is(route('dashboard', ['id' => $index->id])) ? 'active' : '' }} ">
+
+        <x-sidebar.link title="RVM {{ $index->rvm_id}}" href="{{ url('/employee/' . $index->id) }}" class="{{ Request::is(route('dashboard', ['id' => $index->id])) ? 'active' : '' }} ">
             <x-slot name="icon">
                 <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
             </x-slot>
         </x-sidebar.link>
     @endforeach
-       
+@endif
+@role('employee')
+ Employee: {{Auth::user()->name}}
+ <br><br>
+ RVM ID: {{Auth::user()->rvm_id}}
+@endrole
 </x-perfect-scrollbar>
