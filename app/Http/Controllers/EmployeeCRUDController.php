@@ -102,6 +102,12 @@ class EmployeeCRUDController extends Controller
         Employees::destroy($id);
         return redirect('dashboard')->with('flash_message', 'Employees Deleted!');  
     }
+    public function search(Request $request)
+    {
+    $search = $request->get('search');
+    $employees = User::where('name', 'like', "%{$search}%")->paginate(5);
+    return view('employees.index', ['employees' => $employees]);
+    }
 
         
     }
