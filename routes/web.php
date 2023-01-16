@@ -38,6 +38,7 @@ Route::get('/simulatePlastics', function(){
 });
 
 Route::get('/search', [EmployeeCRUDController::class, 'search']);
+Route::get('/clearsearch', [EmployeeCRUDController::class, 'clearsearch']);
 // Route::get('/employees/create', [EmployeeCRUDController::class, 'create'])->middleware(['auth','verified']);
 // Route::get('/employees/edit', [EmployeeCRUDController::class, 'edit'])->middleware(['auth','verified']);
 // Route::get('/employees/show', [EmployeeCRUDController::class, 'show'])->middleware(['auth','verified']);

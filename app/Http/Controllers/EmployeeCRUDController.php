@@ -109,5 +109,10 @@ class EmployeeCRUDController extends Controller
     return view('employees.index', ['employees' => $employees]);
     }
 
+    public function clearsearch(Request $request){
+        $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
+        return view ('employees.index', compact('employees'));
+    }
+
         
     }
