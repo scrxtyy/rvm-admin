@@ -109,7 +109,7 @@
           <div class="card">
             <div class="circle">
                 <div class="bar"></div>
-                <a href="#pet">
+                <a href="route('employee/{{$employees->id}}/plastics')">
                   <div class="box"><span></span></div>
                 </a>
             </div>
@@ -139,169 +139,80 @@
       </div>
   </div>
 </div>
-
-<br><br>
-<div id="pet"></div>
-<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-  <h2 class="py-4 text-gray-600 dark:text-gray-400">PET Bottles</h2> 
-  <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
-    <span>Total: {{$plasticweight*10}} KG / 10 KG</span>
-  </x-button>
-</div>
-
-<div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="overflow-hidden">
-          <table class="min-w-full">
-            <thead class="border-b bg-gray-800">
-              <tr>
-                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                  Date/Time
-                </th>
-                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                  Item/s Weight
-                </th>
-                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                  No. of Item/s
-                </th>
-                <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                  Price of Item/s
-                </th>
-
-              </tr>
-            </thead>
-            <tbody>
-                @foreach($plasticsLog as $plasticLog)
-                    <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{$plasticLog->created_at}}
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{$plasticLog->kg_Weight}}
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{$plasticLog->pieces}}
-                        </td>
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{$plasticLog->price}}
-                        </td>
-                    </tr>
-              @endforeach
-            </tbody>
-            {{ $plasticsLog->links() }}
-          </table>
-        </div>
-      </div>
-    </div>
+<div class="flex items-center justify-center">
+  <div class="inline-flex shadow-md hover:shadow-lg focus:shadow-lg" role="group">
+    <a
+      href="{{ url('/employee/' . $employees->id . '/plastics#down')}}"
+      aria-current="page"
+      class="
+        rounded-l
+        px-6
+        py-2.5
+        bg-blue-600
+        text-white
+        font-medium
+        text-xs
+        leading-tight
+        uppercase
+        hover:bg-blue-700
+        focus:bg-blue-700 focus:outline-none focus:ring-0
+        active:bg-blue-800
+        transition
+        duration-150
+        ease-in-out
+      "
+    >
+      Plastics
+    </a>
+    <a
+    href="{{ url('/employee/' . $employees->id . '/tincans#down')}}"
+      class="
+        px-6
+        py-2.5
+        bg-blue-600
+        text-white
+        font-medium
+        text-xs
+        leading-tight
+        uppercase
+        hover:bg-blue-700
+        focus:bg-blue-700 focus:outline-none focus:ring-0
+        active:bg-blue-800
+        transition
+        duration-150
+        ease-in-out
+      "
+    >
+      Tin Cans
+    </a>
+    <a
+    href="{{ url('/employee/' . $employees->id . '/coins#down')}}"
+      class="
+        rounded-r
+        px-6
+        py-2.5
+        bg-blue-600
+        text-white
+        font-medium
+        text-xs
+        leading-tight
+        uppercase
+        hover:bg-blue-700
+        focus:bg-blue-700 focus:outline-none focus:ring-0
+        active:bg-blue-800
+        transition
+        duration-150
+        ease-in-out
+      "
+    >
+      Coins
+    </a>
   </div>
-
-
-  
-<br><br>
-<div id="tincans"></div>
-<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-  <h2 class="py-4 text-gray-600 dark:text-gray-400">Tin Cans</h2> 
-  <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
-    <span>Total: {{$cansweight*10}} KG / 10 KG</span>
-  </x-button>
-</div>
-  <div class="flex flex-col">
-      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-          <div class="overflow-hidden">
-            <table class="min-w-full">
-              <thead class="border-b bg-gray-800">
-                <tr>
-                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                    Date/Time
-                  </th>
-                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                    Item/s Weight
-                  </th>
-                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                    No. of Item/s
-                  </th>
-                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                    Price of Item/s
-                  </th>
-
-                </tr>
-              </thead>
-              <tbody>
-                  @foreach($cansLog as $canLog)
-                      <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">  
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {{$canLog->created_at}}
-                      </td>
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$canLog->kg_weight}} KG
-                          </td>
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$canLog->pieces}}
-                          </td>
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$canLog->price}} PHP
-                          </td>
-                      </tr>
-                @endforeach
-              </tbody>
-              {{ $cansLog->links() }}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-<br><br>
-<div id="coins"></div>
-<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-  <h2 class="py-4 text-gray-600 dark:text-gray-400">Coins</h2> 
-  <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
-    <span>Total: {{$currentCoins}} PHP / 200 PHP</span>
-  </x-button>
 </div>
 
-    <div class="flex flex-col">
-      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-          <div class="overflow-hidden">
-            <table class="min-w-full">
-              <thead class="border-b bg-gray-800">
-                <tr>
-                  
-                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                    Date/Time
-                  </th>
-                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                    Coins IN
-                  </th>
-                  <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                    Coins OUT
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                  @foreach($coinTable as $coinsTable)
-                      <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {{$coinsTable->created_at}}
-                      </td>
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$coinsTable->coins_in}} PHP
-                          </td>
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$coinsTable->coins_out}} PHP
-                          </td>
-                      </tr>
-                @endforeach
-              </tbody>
-              {{$coinTable->links()}}
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+<div id="down"></div>
+
+  @yield('logs')
 
 <script>
     let options = {

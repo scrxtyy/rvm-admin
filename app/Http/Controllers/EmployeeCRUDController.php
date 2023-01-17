@@ -61,14 +61,10 @@ class EmployeeCRUDController extends Controller
 
 
         $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $plastics = monitorPlastics::where('rvm_id', $employees->rvm_id);
-        $plasticsLog = $plastics->Paginate(5, ['*'], 'all');
         $plasticweight = $result1 / $limit;
         $plastic = $plasticweight;
 
         $result2 = monitorTincans::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $cans = monitorTincans::where('rvm_id', $employees->rvm_id);
-        $cansLog = $cans->Paginate(5, ['*'], 'all');
         $cansweight = $result2 / $limit; 
         $tincans = $cansweight;
    
@@ -76,9 +72,7 @@ class EmployeeCRUDController extends Controller
         $currentCoins = $coinsLog->coins_total; 
         $coins = $currentCoins / 200;
 
-        $coin = monitorCoins::where('rvm_id', $employees->rvm_id);
-        $coinTable = $coin->Paginate(5, ['*'], 'all');
-        return view('employees.show',compact('plasticweight','cansweight','currentCoins','coinTable','employees','plastic','tincans','coins','plasticsLog','cansLog'));
+        return view('employees.show',compact('plasticweight','cansweight','currentCoins','employees','plastic','tincans','coins'));
     }
 
     public function edit($id)
@@ -114,5 +108,78 @@ class EmployeeCRUDController extends Controller
         return view ('employees.index', compact('employees'));
     }
 
+    public function showPlastic($id){
+        $employees = User::find($id);
         
+        $limit = 100;
+
+
+        $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
+        $plasticweight = $result1 / $limit;
+        $plastic = $plasticweight;
+
+        $result2 = monitorTincans::where('rvm_id', $employees->rvm_id)->sum('pieces');
+        $cansweight = $result2 / $limit; 
+        $tincans = $cansweight;
+   
+        $coinsLog = monitorCoins::latest()->first();   
+        $currentCoins = $coinsLog->coins_total; 
+        $coins = $currentCoins / 200;
+
+        $plastics = monitorPlastics::where('rvm_id', $employees->rvm_id);
+        $plasticsLog = $plastics->Paginate(5, ['*'], 'all');
+
+        return view('logs.plastics', compact('employees','plasticsLog','plastic','coins','tincans'));
+    }
+    
+    public function showTincans($id){
+        $employees = User::find($id);
+
+        
+        $limit = 100;
+
+
+        $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
+        $plasticweight = $result1 / $limit;
+        $plastic = $plasticweight;
+
+        $result2 = monitorTincans::where('rvm_id', $employees->rvm_id)->sum('pieces');
+        $cansweight = $result2 / $limit; 
+        $tincans = $cansweight;
+   
+        $coinsLog = monitorCoins::latest()->first();   
+        $currentCoins = $coinsLog->coins_total; 
+        $coins = $currentCoins / 200;
+        
+        $cans = monitorTincans::where('rvm_id', $employees->rvm_id);
+        $cansLog = $cans->Paginate(5, ['*'], 'all');
+
+        return view('logs.tincans', compact('employees','cansLog','plastic','coins','tincans'));
+        
+    }
+
+    
+    public function showCoins($id){
+        $employees = User::find($id);
+        
+        $limit = 100;
+
+
+        $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
+        $plasticweight = $result1 / $limit;
+        $plastic = $plasticweight;
+
+        $result2 = monitorTincans::where('rvm_id', $employees->rvm_id)->sum('pieces');
+        $cansweight = $result2 / $limit; 
+        $tincans = $cansweight;
+   
+        $coinsLog = monitorCoins::latest()->first();   
+        $currentCoins = $coinsLog->coins_total; 
+        $coins = $currentCoins / 200;
+        
+        $coin = monitorCoins::where('rvm_id', $employees->rvm_id);
+        $coinTable = $coin->Paginate(5, ['*'], 'all');
+
+        return view('logs.coins', compact('employees','coinTable','plastic','coins','tincans'));
+    }
     }

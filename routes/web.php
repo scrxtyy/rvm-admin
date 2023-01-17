@@ -39,6 +39,15 @@ Route::get('/simulatePlastics', function(){
 
 Route::get('/search', [EmployeeCRUDController::class, 'search']);
 Route::get('/clearsearch', [EmployeeCRUDController::class, 'clearsearch']);
+
+Route::group(['prefix' => 'employee'], function () {
+    Route::get('/{id}', [EmployeeCRUDController::class, 'show']);
+    Route::get('/{id}/plastics', [EmployeeCRUDController::class,'showPlastic']);
+    Route::get('/{id}/tincans', [EmployeeCRUDController::class,'showTincans']);
+    Route::get('/{id}/coins', [EmployeeCRUDController::class, 'showCoins']);
+});
+
+
 // Route::get('/employees/create', [EmployeeCRUDController::class, 'create'])->middleware(['auth','verified']);
 // Route::get('/employees/edit', [EmployeeCRUDController::class, 'edit'])->middleware(['auth','verified']);
 // Route::get('/employees/show', [EmployeeCRUDController::class, 'show'])->middleware(['auth','verified']);
