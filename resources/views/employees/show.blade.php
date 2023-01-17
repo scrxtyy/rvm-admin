@@ -172,24 +172,24 @@
               </tr>
             </thead>
             <tbody>
-                @foreach($plasticsLog as $plasticsLog)
+                @foreach($plasticsLog as $plasticLog)
                     <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{$plasticsLog->created_at}}
+                            {{$plasticLog->created_at}}
                         </td>
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{$plasticsLog->kg_Weight}}
+                            {{$plasticLog->kg_Weight}}
                         </td>
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{$plasticsLog->pieces}}
+                            {{$plasticLog->pieces}}
                         </td>
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{$plasticsLog->price}}
+                            {{$plasticLog->price}}
                         </td>
                     </tr>
               @endforeach
             </tbody>
-            {{-- {{ $plasticsLog->links() }} --}}
+            {{ $plasticsLog->links() }}
           </table>
         </div>
       </div>
@@ -229,24 +229,24 @@
                 </tr>
               </thead>
               <tbody>
-                  @foreach($cansLog as $cansLog)
+                  @foreach($cansLog as $canLog)
                       <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">  
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {{$cansLog->created_at}}
+                          {{$canLog->created_at}}
                       </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$cansLog->kg_weight}} KG
+                              {{$canLog->kg_weight}} KG
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$cansLog->pieces}}
+                              {{$canLog->pieces}}
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$cansLog->price}} PHP
+                              {{$canLog->price}} PHP
                           </td>
                       </tr>
                 @endforeach
               </tbody>
-              {{-- {{ $cansLog->links() }} --}}
+              {{ $cansLog->links() }}
             </table>
           </div>
         </div>
@@ -282,20 +282,21 @@
                 </tr>
               </thead>
               <tbody>
-                  @foreach($coinTable as $coinTable)
+                  @foreach($coinTable as $coinsTable)
                       <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                         <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {{$coinTable->created_at}}
+                          {{$coinsTable->created_at}}
                       </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$coinTable->coins_in}} PHP
+                              {{$coinsTable->coins_in}} PHP
                           </td>
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$coinTable->coins_out}} PHP
+                              {{$coinsTable->coins_out}} PHP
                           </td>
                       </tr>
                 @endforeach
               </tbody>
+              {{$coinTable->links()}}
             </table>
           </div>
         </div>
