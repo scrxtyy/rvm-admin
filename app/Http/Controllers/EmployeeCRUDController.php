@@ -59,7 +59,7 @@ class EmployeeCRUDController extends Controller
         $employees = User::find($id);
         $limit = 100;
 
-
+        
         $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
         $plastics = monitorPlastics::where('rvm_id', $employees->rvm_id);
         $plasticsLog = $plastics->Paginate(7, ['*'], 'all');
