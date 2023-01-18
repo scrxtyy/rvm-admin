@@ -23,7 +23,7 @@ class NotifController extends Controller
 
         return view('employees.dashboard');
     }
-    public function assignTask(Request $request,$id){
+    public function assignTask($id){
         $employees = User::find($id);
     
         return view('employees.assign',compact('id'));
@@ -31,10 +31,14 @@ class NotifController extends Controller
 
     public function insertAssign(Request $request){
         $assign = Notifications::create([
-            'sender_id' => $request->sender_id,
-            'message' => $request->message,
+            'name' => $request->name,
+            'sender_id' => $request->id,
+            'isAdmin'=> false,
+            'message' => $request->description,
             'deadline' => $request->deadline,
         ]);
+
+        return redirect('dashboard');
     }
     public function notifyEmployee($id){
         $employees = User::find($id);

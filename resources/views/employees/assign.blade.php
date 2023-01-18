@@ -7,14 +7,9 @@
         $rvmid = $rvm->rvm_id;
         $lastrvmid = $rvmid + 1;
   @endphp
-  
 
-  <script src="{{asset('/index.min.js')}}"></script>
-  <input type="hidden" value="{{$id}}">
-
-
-  {{-- <form class="w-full max-w-lg" action="/assign/{{$id}}" method="post"> --}}
-    
+  <form action="/insertassign" method="get">
+    <input type="hidden" value="{{$id}}" name="id">
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
         {!! csrf_field() !!}
@@ -43,18 +38,18 @@
         </label>
         <input type="date"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-        placeholder="Select a date" />  
+        placeholder="Select a date" name="deadline"/>  
       </div>
     </div>
 
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <button type="button" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-large text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">
+        <button type="submit" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-large text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">
           Send Notification
         </button>
       </div>
     </div>
     
-  {{-- </form> --}}
+  </form>
 
 @endsection
