@@ -102,6 +102,14 @@
   </h2>
   </a>
 </div>
+<div class="flex space-x-2 justify-center">
+  
+  <form class="w-full max-w-lg" action="/assign/{{$employees->id}}" method="get">
+  <button type="submit" href="{{ url('/assign/' . $employees->id) }}" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+    Assign Task
+  </button>
+  </form>
+</div>
 <br><br>
 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
   <div class="p-6 text-gray-900">
@@ -139,6 +147,8 @@
       </div>
   </div>
 </div>
+
+<br><br><br>
 <div class="flex items-center justify-center">
   <div class="inline-flex shadow-md hover:shadow-lg focus:shadow-lg" role="group">
     <a

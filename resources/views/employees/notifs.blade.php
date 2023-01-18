@@ -1,21 +1,17 @@
+@extends('employees.dashboard')
 
-    @php
-        $notificatiosn = App\Models\Notifications::all();
-    @endphp
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <h2 class="text-xl font-semibold leading-tight">
-                {{ __('Admin Dashboard') }}
-            </h2>
-        </div>
-    </x-slot>
-<div class="flex flex-col">
+@section('content')
+<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+  <h3 class="text-xl font-semibold leading-tight">
+      {{ __('Notifications') }}
+  </h3>
+</div>
+  <div class="flex flex-col">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="overflow-x-auto">
+        <div class="overflow-hidden">
           <table class="min-w-full">
-            <thead class="border-b">
+            <thead class="bg-white border-b">
               <tr>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                   #
@@ -32,21 +28,21 @@
               </tr>
             </thead>
             <tbody>
-            @foreach($notifications as $notif)
-                <tr class="border-b">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {{$notif->id}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{$notif->sender_id}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{$notif->message}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                        {{$notif->created_at}}
-                    </td>
-                </tr>
+              @foreach($notifications as $notif)
+              <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  {{$notif->id}}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{$notif->sender_id}}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{$notif->message}}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{$notif->created_at}}
+                </td>
+              </tr>
               @endforeach
             </tbody>
           </table>
@@ -55,4 +51,5 @@
     </div>
   </div>
 
-</x-app-layout>
+
+@endsection

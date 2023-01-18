@@ -24,6 +24,7 @@ class PlasticObserver
             //kung 200 na, mag send ng email
             Mail::to("allyyydelrosario@gmail.com")
             ->send(new RvmMail());
+            
             //kung hindi, wag
 
             //turnOFF RPI(){
