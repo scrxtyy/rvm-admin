@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\NotifController;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 use App\Models\monitorPlastics;
 
@@ -50,6 +52,10 @@ Route::group(['prefix' => 'employee'], function () {
 Route::get('/assign/{id}', [NotifController::class,'assignTask']);
 
 Route::get('/insertassign', [NotifController::class, 'insertAssign']);
+
+Route::get('/notifs/{id}', [NotifController::class, 'employeenotifications'])->name('notifs');
+
+Route::get('/addcoins/{id}',[EmployeeController::class,'addcoins']);
 // Route::get('/employees/create', [EmployeeCRUDController::class, 'create'])->middleware(['auth','verified']);
 // Route::get('/employees/edit', [EmployeeCRUDController::class, 'edit'])->middleware(['auth','verified']);
 // Route::get('/employees/show', [EmployeeCRUDController::class, 'show'])->middleware(['auth','verified']);

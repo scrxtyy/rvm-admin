@@ -17,6 +17,12 @@ class NotifController extends Controller
 
     }
 
+    public function employeenotifications($id){
+        $employees = User::find($id);
+        $notifications = Notifications::where('sender_id',$employees->id);
+
+        return view('rvm.employeenotif',compact('notifications','employees'));
+    }
     public function sendEmail(){
         Mail::to("allyyydelrosario@gmail.com")
         ->send(new RvmMail());
@@ -25,8 +31,8 @@ class NotifController extends Controller
     }
     public function assignTask($id){
         $employees = User::find($id);
-    
-        return view('employees.assign',compact('id'));
+        $name = $employees->name;
+        return view('employees.assign',compact('id', 'name'));
     }
 
     public function insertAssign(Request $request){

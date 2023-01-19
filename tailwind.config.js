@@ -7,6 +7,8 @@ module.exports = {
         "./storage/framework/views/*.php",
         "./resources/views/**/*.blade.php",
         "./resources/js/**/*.js",
+        "./src/**/*.{html,js}", 
+        "./node_modules/tw-elements/dist/js/**/*.js",
     ],
 
     theme: {
@@ -24,8 +26,8 @@ module.exports = {
             },
         },
     },
-
-    plugins: [require("@tailwindcss/forms")],
+    plugins: [require("@tailwindcss/forms"),
+        require('tw-elements/dist/plugin')],
 
     // content: ['./src/**/*.{html,js}', './node_modules/tw-elements/dist/js/**/*.js'],
     

@@ -55,32 +55,39 @@ class EmployeeCRUDController extends Controller
         $employees = User::find($id);
         $limit = 0.1;
 
+        $selecttotal= monitorPlastics::where('rvm_id',$employees->rvm_id);
+        $sort = $selecttotal->latest()->first();
+        $totalplastic = $sort->total_kg;
+        
+        $selecttotal1= monitorTincans::where('rvm_id',$employees->rvm_id);
+        $sort1 = $selecttotal1->latest()->first();
+        $totaltincans = $sort1->total_kg;
 
-        $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $plasticweight = $result1 * $limit;
+        $plasticBars = monitorPlastics::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $plasticweight = $totalplastic * $limit;
         $plastic = $plasticweight;
 
-        $result2 = monitorTincans::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $cansweight = $result2 * $limit; 
+        $tinBars = monitorTincans::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $cansweight = $totaltincans * $limit; 
         $tincans = $cansweight;
-   
+    
         $coinsLog = monitorCoins::latest()->first();   
         $currentCoins = $coinsLog->coins_total; 
         $coins = $currentCoins / 200;
 
-        return view('employees.show',compact('plasticweight','cansweight','currentCoins','employees','plastic','tincans','coins'));
+        return view('employees.show',compact('totalplastic','totaltincans','plasticweight','cansweight','currentCoins','employees','plastic','tincans','coins','plasticBars','tinBars'));
     }
 
     public function edit($id)
     {
-        $employees = Employees::find($id);
+        $employees = User::find($id);
         return view('employees.edit')->with('employees', $employees);
     }
  
   
     public function update(Request $request, $id)
     {
-        $employees = Employees::find($id);
+        $employees = User::find($id);
         $input = $request->all();
         $employees->update($input);
         return redirect('dashboard')->with('flash_message', 'Employees Updated!');  
@@ -89,7 +96,7 @@ class EmployeeCRUDController extends Controller
    
     public function destroy($id)
     {
-        Employees::destroy($id);
+        User::destroy($id);
         return redirect('dashboard')->with('flash_message', 'Employees Deleted!');  
     }
     public function search(Request $request)
@@ -109,12 +116,20 @@ class EmployeeCRUDController extends Controller
         
         $limit = 0.1;
 
-        $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $plasticweight = $result1 * $limit;
+        $selecttotal= monitorPlastics::where('rvm_id',$employees->rvm_id);
+        $sort = $selecttotal->latest()->first();
+        $totalplastic = $sort->total_kg;
+        
+        $selecttotal1= monitorTincans::where('rvm_id',$employees->rvm_id);
+        $sort1 = $selecttotal1->latest()->first();
+        $totaltincans = $sort1->total_kg;
+
+        $plasticBars = monitorPlastics::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $plasticweight = $totalplastic * $limit;
         $plastic = $plasticweight;
 
-        $result2 = monitorTincans::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $cansweight = $result2 * $limit; 
+        $tinBars = monitorTincans::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $cansweight = $totaltincans * $limit; 
         $tincans = $cansweight;
    
         $coinsLog = monitorCoins::latest()->first();   
@@ -124,30 +139,39 @@ class EmployeeCRUDController extends Controller
         $plastics = monitorPlastics::where('rvm_id', $employees->rvm_id);
         $plasticsLog = $plastics->Paginate(5, ['*'], 'all');
 
-        return view('logs.plastics', compact('employees','plasticsLog','plastic','coins','tincans'));
+        return view('logs.plastics', compact('totalplastic','totaltincans','employees','plasticsLog','plastic','coins','tincans','tinBars','plasticBars'));
     }
     
     public function showTincans($id){
         $employees = User::find($id);
         
         $limit = 0.1;
+        
+        $selecttotal= monitorPlastics::where('rvm_id',$employees->rvm_id);
+        $sort = $selecttotal->latest()->first();
+        $totalplastic = $sort->total_kg;
+        
+        $selecttotal1= monitorTincans::where('rvm_id',$employees->rvm_id);
+        $sort1 = $selecttotal1->latest()->first();
+        $totaltincans = $sort1->total_kg;
 
-        $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $plasticweight = $result1 * $limit;
+        $plasticBars = monitorPlastics::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $plasticweight = $totalplastic * $limit;
         $plastic = $plasticweight;
 
-        $result2 = monitorTincans::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $cansweight = $result2 * $limit; 
+        $tinBars = monitorTincans::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $cansweight = $totaltincans * $limit; 
         $tincans = $cansweight;
    
         $coinsLog = monitorCoins::latest()->first();   
         $currentCoins = $coinsLog->coins_total; 
         $coins = $currentCoins / 200;
+
         
         $cans = monitorTincans::where('rvm_id', $employees->rvm_id);
         $cansLog = $cans->Paginate(5, ['*'], 'all');
 
-        return view('logs.tincans', compact('employees','cansLog','plastic','coins','tincans'));
+        return view('logs.tincans', compact('totalplastic','totaltincans','employees','cansLog','plastic','coins','tincans','tinBars','plasticBars'));
         
     }
 
@@ -157,22 +181,30 @@ class EmployeeCRUDController extends Controller
         
         $limit = 0.1;
 
+        $selecttotal= monitorPlastics::where('rvm_id',$employees->rvm_id);
+        $sort = $selecttotal->latest()->first();
+        $totalplastic = $sort->total_kg;
+        
+        $selecttotal1= monitorTincans::where('rvm_id',$employees->rvm_id);
+        $sort1 = $selecttotal1->latest()->first();
+        $totaltincans = $sort1->total_kg;
 
-        $result1 = monitorPlastics::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $plasticweight = $result1 * $limit;
+        $plasticBars = monitorPlastics::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $plasticweight = $totalplastic * $limit;
         $plastic = $plasticweight;
 
-        $result2 = monitorTincans::where('rvm_id', $employees->rvm_id)->sum('pieces');
-        $cansweight = $result2 * $limit; 
+        $tinBars = monitorTincans::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $cansweight = $totaltincans * $limit; 
         $tincans = $cansweight;
    
         $coinsLog = monitorCoins::latest()->first();   
         $currentCoins = $coinsLog->coins_total; 
         $coins = $currentCoins / 200;
+
         
         $coin = monitorCoins::where('rvm_id', $employees->rvm_id);
         $coinTable = $coin->Paginate(5, ['*'], 'all');
 
-        return view('logs.coins', compact('employees','coinTable','plastic','coins','tincans'));
+        return view('logs.coins', compact('totalplastic','totaltincans','employees','coinTable','currentCoins','plastic','coins','tincans','tinBars','plasticBars'));
     }
     }

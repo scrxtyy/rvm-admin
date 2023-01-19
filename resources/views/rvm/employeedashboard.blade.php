@@ -3,7 +3,7 @@
         
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <h2 class="text-xl font-semibold leading-tight">
-                {{ __('Admin Dashboard') }}
+                {{ __('Employee Dashboard') }}
             </h2>
         </div>
         <script src="{{ asset('Chart.min.js') }}"></script>
@@ -18,4 +18,5 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    {!! Toastr::message() !!}
 </x-app-layout>

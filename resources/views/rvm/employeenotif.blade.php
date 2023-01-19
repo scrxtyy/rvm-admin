@@ -1,6 +1,6 @@
 @extends('employees.dashboard')
 
-@section('content')
+@section('notif')
 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
   <h3 class="text-xl font-semibold leading-tight">
       {{ __('Notifications') }}
@@ -15,9 +15,6 @@
               <tr>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                   #
-                </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  User ID
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                   RVM ID
@@ -38,9 +35,6 @@
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{$notif->sender_id}}
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  1001
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{$notif->message}}

@@ -16,7 +16,7 @@
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
           Name
         </label>
-        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" name="name" id="name" placeholder="Name" required>
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" name="name" id="name" value="{{$name}}" required>
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-6">

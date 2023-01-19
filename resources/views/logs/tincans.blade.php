@@ -6,7 +6,7 @@
 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
   <h2 class="py-4 text-gray-600 dark:text-gray-400">Tin Cans</h2> 
   <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
-    {{-- <span>Total: {{$cansweight*10}} KG / 10 KG</span> --}}
+    <span>Total: {{$totaltincans}} KG / 10 KG</span>
   </x-button>
 </div>
   <div class="flex flex-col">
