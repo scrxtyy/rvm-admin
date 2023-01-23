@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Collection\Paginate;
 use DB;
+use Illuminate\Support\Facades\Redirect;
 
 class EmployeeCRUDController extends Controller
 {
@@ -52,12 +53,13 @@ class EmployeeCRUDController extends Controller
         ])->assignRole('employee');
         $validatedData = $request->validate([
             'email' => ['required','email'],
+            'password'=>['required','confirmed'],
         ]);
         
         $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
         $message = "Employee Successfully Added!";
         $color = "green";
-        return view ('employees.index', compact('employees','message','color'));
+        return view ('employees.index', compact('employees','message'));
     }
  
     
@@ -110,29 +112,28 @@ class EmployeeCRUDController extends Controller
     public function changePassword(Request $request)
     {
         $request->validate([
-            'current_password' => ['required'],
-            'new_password' => ['required','confirmed'],
+            'current_password' => 'required',
+            'new_password' => 'required|confirmed|min:8',
         ]);
-        $id = $request->id;
         $employees = User::find($request->id);
         if(Hash::check($request->current_password, $employees->password)) {
             $employees = User::find($request->id);
             $employees->password = Hash::make($request->new_password);
-            $employees->save();
+            // $employees->save();
 
             $email = $employees->email;
             Mail::to($email)->queue(new PasswordChanged());
             
-            $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
+            // $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
             // $message = "Successfully changed employee password.";
             // $color = "green";
-            return redirect('dashboard')->with('employees',$employees);
+            return redirect()->route('dashboard');
             //,compact('employees','message','color')
         }
         else{
             $message = "Incorrect old password.";
             $color = "red";
-            return view('edit.password',compact('employees','message'));
+            return Redirect::back()->withErrors(['msg', 'Incorrect old password.']);
         }
     }
  

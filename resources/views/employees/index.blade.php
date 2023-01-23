@@ -15,7 +15,7 @@
 <br>
 @isset($message)
 <div class="flex flex-col">
-  <div class="bg-{{$color}}-100 rounded-lg py-5 px-6 mb-4 text-base text-{{$color}}-700 mb-3" role="alert">
+  <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
     {{$message}}
   </div>
 </div>

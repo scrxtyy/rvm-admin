@@ -33,7 +33,7 @@ Route::group(['prefix' => 'rvm'], function () {
     Route::get('{id}/destroy', [RVMController::class, 'destroy']);
 });
 
-Route::get('/changePassword', [EmployeeCRUDController::class,'changePassword']);
+Route::post('/changePassword', [EmployeeCRUDController::class,'changePassword']);
 
 // Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
 

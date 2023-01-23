@@ -5,17 +5,27 @@
 @php
      $id = Auth::user()->id; 
 @endphp
+
+
 Change Password
 
-<form action="{{url('/changePassword')}}">
+<form action="{{url('/changePassword')}}" method="post">
     <br>
+    @csrf
     <input type="hidden" name="id" value="{{$employees->id}}">
     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Old Password
         </label>
         <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
-        name="current_password" id="password" type="password" placeholder="******************">
+        name="current_password" id="current_password" type="password" placeholder="******************">
+        @if ($errors->any())
+            <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
+                {{$errors->first()}}
+            </div>
+        @endif
+
         {{-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> --}}
     </div>
     <div class="w-full md:w-1/2 px-3">
@@ -61,7 +71,7 @@ Change Password
 <script>
     window.addEventListener("DOMContentLoaded", function () {
     const toggleOldPassword = document.querySelector("#showOldPassword");
-    const password = document.querySelector("#password");
+    const password = document.querySelector("#current_password");
 
     const toggleNewPassword = document.querySelector("#showNewPassword");
     const new_password = document.querySelector("#new_password");
