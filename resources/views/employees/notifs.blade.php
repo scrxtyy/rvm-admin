@@ -6,6 +6,13 @@
       {{ __('Notifications') }}
   </h3>
 </div>
+@isset($message)
+<div class="flex flex-col">
+  <div class="bg-{{$color}}-100 rounded-lg py-5 px-6 mb-4 text-base text-{{$color}}-700 mb-3" role="alert">
+    {{$message}}
+  </div>
+</div>
+@endisset
   <div class="flex flex-col">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">

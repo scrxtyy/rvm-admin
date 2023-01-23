@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PasswordChanged;
+use App\Mail\RvmMail;
 use App\Models\Employees;
 use App\Models\Rvms;
 use App\Models\User;
@@ -13,6 +15,7 @@ use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Collection\Paginate;
 use DB;
@@ -49,12 +52,12 @@ class EmployeeCRUDController extends Controller
         ])->assignRole('employee');
         $validatedData = $request->validate([
             'email' => ['required','email'],
-            'rvm_id' => ['required'],
-            'password' =>['required','string','min:8','confirmed'],
         ]);
         
         $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
-        return view ('employees.index', compact('employees'));
+        $message = "Employee Successfully Added!";
+        $color = "green";
+        return view ('employees.index', compact('employees','message','color'));
     }
  
     
@@ -89,7 +92,8 @@ class EmployeeCRUDController extends Controller
     public function edit($id)
     {
         $employees = User::find($id);
-        return view('edit.edit')->with('employees', $employees);
+        $message = "Employee Detail Successfully Updated!";
+        return view('edit.edit',compact('employees', 'message'));
     }
 
     public function editrvm($id){
@@ -107,7 +111,7 @@ class EmployeeCRUDController extends Controller
     {
         $request->validate([
             'current_password' => ['required'],
-            'new_password' => ['required', 'string', 'min:8','confirmed'],
+            'new_password' => ['required','confirmed'],
         ]);
         $id = $request->id;
         $employees = User::find($request->id);
@@ -115,7 +119,20 @@ class EmployeeCRUDController extends Controller
             $employees = User::find($request->id);
             $employees->password = Hash::make($request->new_password);
             $employees->save();
-            return view('edit.password');
+
+            $email = $employees->email;
+            Mail::to($email)->queue(new PasswordChanged());
+            
+            $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
+            // $message = "Successfully changed employee password.";
+            // $color = "green";
+            return redirect('dashboard')->with('employees',$employees);
+            //,compact('employees','message','color')
+        }
+        else{
+            $message = "Incorrect old password.";
+            $color = "red";
+            return view('edit.password',compact('employees','message'));
         }
     }
  
@@ -125,7 +142,9 @@ class EmployeeCRUDController extends Controller
         $employees = User::find($id);
         $input = $request->all();
         $employees->update($input);
-        return redirect('dashboard')->with('flash_message', 'Employees Updated!');  
+        $message = "Successfully Updated Employee Details!";
+        $color = "green";
+        return redirect('dashboard')->with('message',$message)->with('color',$color);  
     }
  
    

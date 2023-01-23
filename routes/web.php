@@ -59,7 +59,7 @@ Route::group(['prefix' => 'employee'], function () {
 
 Route::get('/assign/{id}', [NotifController::class,'assignTask']);
 
-Route::get('/insertassign', [NotifController::class, 'insertAssign']);
+Route::post('/insertassign', [NotifController::class, 'insertAssign']);
 
 Route::get('/notifs/{id}', [NotifController::class, 'employeenotifications'])->name('notifs');
 

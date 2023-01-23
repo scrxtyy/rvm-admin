@@ -50,7 +50,7 @@
           >
             Change Password
           </a>
-          <a
+          {{-- <a
           href="{{ url('/employee/' . $employees->id . '/editrvm')}}"
             class="
               rounded-r
@@ -71,7 +71,7 @@
             "
           >
             Edit RVM Details
-          </a>
+          </a> --}}
         </div>
       </div>
     </div>

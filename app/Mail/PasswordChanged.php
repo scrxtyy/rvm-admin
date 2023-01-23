@@ -9,18 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class RvmMail extends Mailable
+class PasswordChanged extends Mailable
 {
     use Queueable, SerializesModels;
-    public $task;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($task)
+    public function __construct()
     {
-        $this->task = $task;
+        //
     }
 
     /**
@@ -31,13 +31,10 @@ class RvmMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Rvm Mail',
+            subject: 'Password Changed',
         );
     }
-    public function build()
-    {
-        return $this->view('mail.email', ['task' => $this->task]);
-    }
+
     /**
      * Get the message content definition.
      *
@@ -46,7 +43,7 @@ class RvmMail extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.email',
+            view: 'mail.passwordchanged',
         );
     }
 
