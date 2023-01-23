@@ -336,19 +336,6 @@ class="modal-content border-none shadow-lg relative flex flex-col w-full pointer
   </div> --}}
 </div>
 
-<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-  <div id="chart-wrapper">
-    <canvas id="chart1"></canvas>
-  </div>
-</div>
-
-<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-  <div id="chart-wrapper">
-    <canvas id="chart2"></canvas>
-  </div>
-</div>
-
-
 <div class="flex space-x-2 justify-center">
   
 
@@ -392,6 +379,19 @@ class="modal-content border-none shadow-lg relative flex flex-col w-full pointer
     </center>
   </div>
 </div>
+
+<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+  <div id="chart-wrapper">
+    <canvas id="chart1"></canvas>
+  </div>
+</div>
+
+<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+  <div id="chart-wrapper">
+    <canvas id="chart2"></canvas>
+  </div>
+</div>
+
 
 <br><br><br>
 <div class="flex items-center justify-center">

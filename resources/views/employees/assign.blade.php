@@ -24,11 +24,28 @@
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="description">
           Task Description
         </label>
+
+          <select class="form-select appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+          aria-label="Default select example" id="selectTask" placeholder="Select Task">
+            <option selected></option>
+            <option value="emptyplastics">Empty PLASTICS Storage</option>
+            <option value="emptytincans">Empty TINCANS Storage</option>
+            <option value="replenishcoins">Replenish COINS</option>
+        </select>
+        <br>
+        <div id="addcoins" style="display:none;">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="addedcoins">
+          Amount of coins in Pesos:
+        </label>
+        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="addedcoins" type="number" placeholder="₱" required>
+        </div>
+        <br>
         <textarea
-          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-          rows="3"
-          placeholder="Describe the Task" 
-          name="description" required></textarea>
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        rows="3"
+        placeholder="Add Notes" 
+        name="description" required></textarea>
+
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-6">
@@ -36,7 +53,7 @@
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="description">
           Task Deadline
         </label>
-        <input type="date"
+        <input type="time"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         placeholder="Select a date" name="deadline"/>  
       </div>
@@ -52,4 +69,13 @@
     
   </form>
 
+<script>
+  document.getElementById("selectTask").onchange = function() {
+    if (this.value === "replenishcoins") {
+      document.getElementById("addcoins").style.display = "block";
+    } else {
+      document.getElementById("addcoins").style.display = "none";
+    }
+  }
+</script>
 @endsection

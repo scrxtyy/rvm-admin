@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employees;
+use App\Models\Rvms;
 use App\Models\User;
 use App\Models\monitorCoins;
 use App\Models\monitorPlastics;
@@ -10,6 +11,7 @@ use App\Models\monitorTincans;
 use App\Models\Notifications;
 use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Collection\Paginate;
@@ -23,6 +25,11 @@ class EmployeeCRUDController extends Controller
         $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
         // $employees = $employees->Paginate(5, ['*'], 'all');
         return view ('employees.index', compact('employees'));
+    }
+
+    public function rvmTable(){
+        $rvms = DB::table('rvms')->paginate(5);
+        return view('employees.rvms', compact('rvms'));
     }
  
     
@@ -43,6 +50,7 @@ class EmployeeCRUDController extends Controller
         $validatedData = $request->validate([
             'email' => ['required','email'],
             'rvm_id' => ['required'],
+            'password' =>['required','string','min:8','confirmed'],
         ]);
         
         $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
@@ -81,7 +89,34 @@ class EmployeeCRUDController extends Controller
     public function edit($id)
     {
         $employees = User::find($id);
-        return view('employees.edit')->with('employees', $employees);
+        return view('edit.edit')->with('employees', $employees);
+    }
+
+    public function editrvm($id){
+        $employees = User::find($id);
+        return view('edit.editrvm')->with('employees', $employees);
+    }
+
+    public function editpassword($id){
+        $employees = User::find($id);
+        
+        return view('edit.password')->with('employees', $employees);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required'],
+            'new_password' => ['required', 'string', 'min:8','confirmed'],
+        ]);
+        $id = $request->id;
+        $employees = User::find($request->id);
+        if(Hash::check($request->current_password, $employees->password)) {
+            $employees = User::find($request->id);
+            $employees->password = Hash::make($request->new_password);
+            $employees->save();
+            return view('edit.password');
+        }
     }
  
   

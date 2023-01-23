@@ -19,7 +19,7 @@ class NotifController extends Controller
 
     public function employeenotifications($id){
         $employees = User::find($id);
-        $notifications = Notifications::where('sender_id',$employees->id);
+        $notifications = Notifications::where('sender_id',$employees->id)->get();
 
         return view('rvm.employeenotif',compact('notifications','employees'));
     }

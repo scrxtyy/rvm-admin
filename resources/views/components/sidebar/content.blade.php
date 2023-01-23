@@ -23,11 +23,16 @@
     </x-sidebar.link>
     @endrole
 @if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('admin'))
-    <x-sidebar.link title="Dashboard" href="{{ route('dashboard') }}" :isActive="request()->routeIs('dashboard')">
+    <x-sidebar.link title="Employees" href="{{ route('dashboard') }}" :isActive="request()->routeIs('dashboard')">
         <x-slot name="icon">
             <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
        </x-slot>
     </x-sidebar.link>
+    {{-- <x-sidebar.link title="RVMs" href="{{ route('rvm') }}" :isActive="request()->routeIs('rvm')">
+        <x-slot name="icon">
+            <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+       </x-slot>
+    </x-sidebar.link> --}}
     <x-sidebar.link title="Notifications" href="{{ route('notifications') }}" :isActive="request()->routeIs('notifications')">
         <x-slot name="icon">
             <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="comment-alt" class="w-5 h-5" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

@@ -3,7 +3,7 @@
 @if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('admin'))
   <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <h2 class="text-xl font-semibold leading-tight">
-          {{ __('Reverse Vending Machines') }}
+          {{ __('Employees') }}
       </h2>
       <a href="{{ url('/dashboard/create') }}" class="btn btn-success btn-sm" title="Add New RVM">   
         <button class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
@@ -48,13 +48,16 @@
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                      RVM ID
+                      Employee ID
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
                       Name
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
                       Email
+                    </th>
+                    <th scope="col" class="text-sm font-medium text-white px-6 py-4">
+                      Assign RVM ID
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
                       Actions
@@ -65,13 +68,16 @@
                   @foreach($employees as $item)
                   <tr class="bg-white border-b">
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {{ $item->rvm_id }}
+                      {{ $item->id }}
                     </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {{ $item->name }}
                     </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {{$item->email}}
+                    </td>
+                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      {{$item->rvm_id}}
                     </td>
                     {{-- <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {{ substr($item->password, 0, 8)."..." }}
@@ -106,14 +112,14 @@
         </div>
       </div>
 
-      <div class="flex space-x-2 justify-center">
+      {{-- <div class="flex space-x-2 justify-center">
         <a type="button" href="{{url('/simulatePlastics')}}" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
           Send 200 pieces to Plastics today
         </a>
         <a type="button" href="{{url('/simulatePlastics')}}" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
           Empty Plastics
         </a>
-      </div>
+      </div> --}}
 
       {{-- <script>
         if ({{$message}} != ""){

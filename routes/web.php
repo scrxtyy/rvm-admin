@@ -3,6 +3,7 @@
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\NotifController;
+use App\Http\Controllers\RVMController;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 use App\Models\monitorPlastics;
@@ -24,20 +25,21 @@ Route::resource('/dashboard', EmployeeCRUDController::class)->middleware(['auth'
 Route::get('/dashboard', [EmployeeCRUDController::class, 'index'])->middleware(['auth','verified'])->name('dashboard');
 Route::get('/employee/{id}', [EmployeeCRUDController::class, 'show'])->middleware(['auth'])->name('emp');
 
+Route::group(['prefix' => 'rvm'], function () {
+    Route::get('/', [RVMController::class, 'index'])->name('rvm');
+    Route::get('/{id}', [RVMController::class, 'show']);
+    Route::get('/{id}/edit', [RVMController::class, 'edit']);
+    Route::get('/create', [RVMController::class, 'create']);
+    Route::get('{id}/destroy', [RVMController::class, 'destroy']);
+});
+
+Route::get('/changePassword', [EmployeeCRUDController::class,'changePassword']);
+
+// Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
+
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
 
 Route::get('/email', [NotifController::class, 'sendEmail']);
-Route::get('/simulatePlastics', function(){
-    $plastic = new monitorPlastics();
-    $plastic = monitorPlastics::create([
-        'kg_weight' => 2,
-        'pieces' => 200,
-        'price' => 20,
-        'total_kg' => 5,
-        
-    ]);
-    return redirect()->back();
-});
 
 Route::get('/search', [EmployeeCRUDController::class, 'search']);
 Route::get('/clearsearch', [EmployeeCRUDController::class, 'clearsearch']);
@@ -47,6 +49,12 @@ Route::group(['prefix' => 'employee'], function () {
     Route::get('/{id}/plastics', [EmployeeCRUDController::class,'showPlastic']);
     Route::get('/{id}/tincans', [EmployeeCRUDController::class,'showTincans']);
     Route::get('/{id}/coins', [EmployeeCRUDController::class, 'showCoins']);
+});
+
+Route::group(['prefix' => 'employee'], function () {
+    Route::get('/{id}/edit', [EmployeeCRUDController::class, 'edit']);
+    Route::get('/{id}/editrvm', [EmployeeCRUDController::class,'editrvm']);
+    Route::get('/{id}/editpassword', [EmployeeCRUDController::class,'editpassword']);
 });
 
 Route::get('/assign/{id}', [NotifController::class,'assignTask']);

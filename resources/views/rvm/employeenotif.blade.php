@@ -1,6 +1,6 @@
 @extends('employees.dashboard')
 
-@section('notif')
+@section('content')
 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
   <h3 class="text-xl font-semibold leading-tight">
       {{ __('Notifications') }}
@@ -31,7 +31,7 @@
               @foreach($notifications as $notif)
               <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {{$notif->id}}
+                  {{$loop->iteration}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{$notif->sender_id}}
