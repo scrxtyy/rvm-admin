@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UpdateElementEvent;
 use App\Mail\RvmMail;
 use App\Models\Notifications;
 use App\Models\User;
@@ -9,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Response;
+use Pusher\Pusher;
 
 class NotifController extends Controller
 {
@@ -63,20 +66,47 @@ class NotifController extends Controller
         $message = "Notification sent.";
         $color = "green";
 
+        $notify = "RVM Admin sent you a task.".
+
         $task = $request->selectTask;
         $employees = User::find($request->id);
         $email = $employees->email;
         Mail::to($email)->queue(new RvmMail($task));
 
+        event(new UpdateElementEvent($notify));
+
         return redirect('notifications')->with('message',$message)->with('color',$color);
     }
-    public function notifyEmployee($id){
-        $employees = User::find($id);
-        $email = $employees->email;
 
-        Mail::to($email)->send(new RvmMail());
+    public function uploadProof(Request $request){
+        DB::table('notifications')->where('id', $request->id)->update(['proof' => $request->proof]);
+        DB::table('notifications')->where('id', $request->id)->update(['status' => "Done"]);
 
-        return view('employees.dashboard');
-
+        $message = "Task marked as done! Please wait for admin approval.";
+        return redirect()->back()->with('message',$message);
     }
+
+    public function getImage($id){
+        $rendered_buffer= Notifications::all()->find($id)->proof;
+
+        $response = Response::make($rendered_buffer);
+        $response->header('Content-Type', 'image/png');
+        $response->header('Cache-Control','max-age=2592000');
+        return $response;
+    }
+
+    public function sendNotification()
+{
+    $pusher = new Pusher(
+        env('bc1280fa0058a73f5332'),
+        env('c2cdead1ab85105ac669'),
+        env('1542720'),
+        [
+            'cluster' => env('ap1'),
+            'useTLS' => true
+        ]
+    );
+
+    $pusher->trigger('update-element', 'my-event', ['message' => 'Notification sent!']);
+}
 }

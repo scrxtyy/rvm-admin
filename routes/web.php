@@ -33,13 +33,19 @@ Route::group(['prefix' => 'rvm'], function () {
     Route::get('{id}/destroy', [RVMController::class, 'destroy']);
 });
 
-Route::post('/changePassword', [EmployeeCRUDController::class,'changePassword']);
+Route::post('/changePassword', [EmployeeCRUDController::class,'changePassword'])->name('changePassword');
 
 // Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
 
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
+Route::get('/uploadProof', [NotifController::class, 'uploadProof'])->name('uploadProof');
 
 Route::get('/email', [NotifController::class, 'sendEmail']);
+
+Route::get('/sort', [EmployeeCRUDController::class, 'sort'])->name('sort');
+Route::get('/sortEmployee', [EmployeeCRUDController::class, 'sortEmployee'])->name('sort');
+
+Route::get('/proof/{id}',[NotifController::class, 'getImage']);
 
 Route::get('/search', [EmployeeCRUDController::class, 'search']);
 Route::get('/clearsearch', [EmployeeCRUDController::class, 'clearsearch']);

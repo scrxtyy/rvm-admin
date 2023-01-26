@@ -111,30 +111,29 @@ class EmployeeCRUDController extends Controller
 
     public function changePassword(Request $request)
     {
+        $errors = [
+            'current_password.required' => 'The current password field is required.',
+            'new_password.required' => 'The new password field is required.',
+            'new_password.confirmed' => 'The new password does not match.',  
+            'new_password.min' => 'The new password must be at least 8 characters.',
+        ];
+
         $request->validate([
             'current_password' => 'required',
             'new_password' => 'required|confirmed|min:8',
-        ]);
-        $employees = User::find($request->id);
-        if(Hash::check($request->current_password, $employees->password)) {
-            $employees = User::find($request->id);
-            $employees->password = Hash::make($request->new_password);
-            // $employees->save();
+        ],$errors);
 
-            $email = $employees->email;
-            Mail::to($email)->queue(new PasswordChanged());
-            
-            // $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
-            // $message = "Successfully changed employee password.";
-            // $color = "green";
-            return redirect()->route('dashboard');
-            //,compact('employees','message','color')
+        $employees = User::find($request->id);
+        if(!Hash::check($request->current_password, $employees->password)) {
+            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
         }
-        else{
-            $message = "Incorrect old password.";
-            $color = "red";
-            return Redirect::back()->withErrors(['msg', 'Incorrect old password.']);
-        }
+        $employees = User::find($request->id);
+        $employees->password = Hash::make($request->new_password);
+
+        $email = $employees->email;
+        Mail::to($email)->queue(new PasswordChanged());
+
+        return redirect()->back()->with('success','Employee Password has been changed.');
     }
  
   
@@ -164,6 +163,30 @@ class EmployeeCRUDController extends Controller
     public function clearsearch(Request $request){
         $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
         return view ('employees.index', compact('employees'));
+    }
+    public function sort(Request $request)
+    {
+        $column = $request->get('column');
+        $order = $request->get('order');
+        $notifications = Notifications::orderBy($column, $order)->paginate(10);
+        return view('employees.notifs')->with('notifications', $notifications);
+    }
+
+    public function sortEmployee(Request $request)
+    {
+        $column = $request->column;
+        $order = $request->order;
+        
+        $employees = Auth::user();
+        $notif = Notifications::where('sender_id',$employees->id)->get();
+
+        $notifications = $notif->sort(function($a, $b) use ($column, $order) {
+            if($order == 'asc')
+                return $a->{$column} <=> $b->{$column};
+            else
+                return $b->{$column} <=> $a->{$column};
+        });
+        return view('rvm.employeenotif')->with('notifications', $notifications);
     }
 
     public function showPlastic($id){

@@ -3,7 +3,7 @@
         
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <h2 class="text-xl font-semibold leading-tight">
-                {{ __('Logged in as Admin') }}
+                {{ __('Dashboard') }}
             </h2>
         </div>
         <script src="{{ asset('Chart.min.js') }}"></script>
@@ -18,4 +18,15 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
+        var pusher = new Pusher('bc1280fa0058a73f5332', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('update-element');
+        channel.bind('my-event', function(data) {
+            alert(data.message);
+        });
+    </script>
 </x-app-layout>
