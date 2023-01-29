@@ -40,6 +40,8 @@ Route::post('/changePassword', [EmployeeCRUDController::class,'changePassword'])
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
 Route::get('/uploadProof', [NotifController::class, 'uploadProof'])->name('uploadProof');
 
+Route::get('notification/{id}',[NotifController::class,'viewnotif']);
+
 Route::get('/email', [NotifController::class, 'sendEmail']);
 
 Route::get('/sort', [EmployeeCRUDController::class, 'sort'])->name('sort');

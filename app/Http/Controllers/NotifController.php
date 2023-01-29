@@ -80,7 +80,7 @@ class NotifController extends Controller
 
     public function uploadProof(Request $request){
         DB::table('notifications')->where('id', $request->id)->update(['proof' => $request->proof]);
-        DB::table('notifications')->where('id', $request->id)->update(['status' => "Done"]);
+        DB::table('notifications')->where('id', $request->id)->update(['status' => "For verification"]);
 
         $message = "Task marked as done! Please wait for admin approval.";
         return redirect()->back()->with('message',$message);
@@ -95,8 +95,7 @@ class NotifController extends Controller
         return $response;
     }
 
-    public function sendNotification()
-{
+    public function sendNotification(){
     $pusher = new Pusher(
         env('bc1280fa0058a73f5332'),
         env('c2cdead1ab85105ac669'),
@@ -108,5 +107,15 @@ class NotifController extends Controller
     );
 
     $pusher->trigger('update-element', 'my-event', ['message' => 'Notification sent!']);
-}
+    }
+
+    public function viewnotif($id){
+        $notif = Notifications::find($id);
+
+        DB::table('notifications')->where('id', $id)->update(['isread' => 1]);
+        
+        return view('rvm.shownotif',compact('notif'));
+
+    }
+
 }

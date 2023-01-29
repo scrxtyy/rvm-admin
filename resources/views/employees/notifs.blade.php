@@ -78,16 +78,11 @@
                   {{$notif->created_at}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  @isset($notif->status)
-                  <div class="mb-1 text-base text-green-700 mb-1 font-bold" role="alert">
-                    {{$notif->status}}
-                  </div>
-                  @endisset
-                  @empty($notif->status)
-                  <div class="mb-1 text-base text-yellow-700 mb-1 font-bold" role="alert">
-                    In progress
-                  </div>
-                  @endempty
+                  @if (isset($notif->status))
+                    <span class="text-green-500">{{$notif->status}}</span>
+                  @else
+                    <span class="text-yellow-500">In progress</span>
+                  @endif
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   <button type="button" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" 
