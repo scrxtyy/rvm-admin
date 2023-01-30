@@ -66,7 +66,7 @@
                   {{$notif->sender_id}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  1001
+                  {{$notif->id}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{$notif->message}}
@@ -113,7 +113,9 @@
                           @endif
                           Deadline: {{$notif->deadline}} <br>
                           Sent at: {{$notif->created_at}}
-                            <img src="/proof/{{$notif->id}}.png" >
+                          @isset($notif->proof)
+                            <img src="{{ asset($notif->proof) }}">
+                          @endisset
                         </div>
                         <div
                           class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">

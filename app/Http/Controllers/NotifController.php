@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Response;
+use Intervention\Image\ImageManagerStatic as Image;
 use Pusher\Pusher;
 
 class NotifController extends Controller
@@ -97,13 +98,14 @@ class NotifController extends Controller
     public function uploadProof(Request $request){
         $image = $request->proof;
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-        
+        Image::make($image)->resize(300,200)->save('image/'.$name_gen);
+            
         // $notification = Notification::find($request->id);
         // $notification->proof = 'image/products/'.$name_gen;
         // $notification->status = "For verification";
         // $notification->save();
-        DB::table('notications')->where('id',$request->id)->save(['proof' => 'image/products/'.$name_gen]);
-        DB::table('notifications')->where('id', $request->id)->save(['status' => "For verification"]);
+        DB::table('notifications')->where('id',$request->id)->update(['proof' => 'image/'.$name_gen]);
+        DB::table('notifications')->where('id', $request->id)->update(['status' => "For verification"]);
 
         $message = "Task marked as done! Please wait for admin approval.";
         return redirect('notifications')->with('message',$message);
