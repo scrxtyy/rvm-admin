@@ -33,7 +33,7 @@
             <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
 
             <div x-show="dropdownOpen" class="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20" style="width:20rem;">
-                <div class="py-2">
+                <div class="py-2" id="notifications-list">
                     @foreach($notifications as $notif)
                         @if ($notif->isread == '1')
                             <a href="{{url('/notification/'. $notif->id)}}" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
@@ -53,6 +53,30 @@
                 <a href="{{url('/notifs/'.$id)}}" class="block bg-gray-800 text-white text-center font-bold py-2">See all notifications</a>
             </div>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+        <script>
+    
+
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher1 = new Pusher('b89eb6a948d95cf92f3b', {
+            cluster: 'ap1'
+        });
+
+        var channel1 = pusher1.subscribe('update-dropdown');
+        channel1.bind('update', function(data) {
+            alert(data);
+            // var notifications = data.notifications;
+            // $('#notifications-list').empty();
+            // for (var i = 0; i < notifications.length; i++) {
+            //     var notification = notifications[i];
+            //     var timeElapsed = moment(notification.created_at).fromNow();
+            //     $('#notifications-list').prepend("<a href='{{url('/notification/'."+data.notifications.id+")}}' class='flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2'><p class='text-gray-600 text-sm mx-2'><span class='font-bold' href='#'>RVM Admin sent you a task: "+data.notifications.message+"</span>. <span class='text-gray-300'>"+timeElapsed+"</span></p></a>");
+            // }
+        });
+        </script>
     @endrole
 
         <x-button type="button" class="hidden md:inline-flex" iconOnly variant="secondary" srText="Toggle dark mode"

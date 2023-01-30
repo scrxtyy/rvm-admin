@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UpdateDropdown;
 use App\Events\UpdateElementEvent;
 use App\Mail\RvmMail;
 use App\Models\Notifications;
@@ -15,6 +16,11 @@ use Pusher\Pusher;
 
 class NotifController extends Controller
 {
+    public function testupdate(){
+        $lol = "test";
+        event(new UpdateDropdown($lol));
+        redirect()->back();
+    }
     public function notifs(){
         $notifications = Notifications::all();
         return view ('employees.notifs', compact('notifications'));
@@ -66,14 +72,17 @@ class NotifController extends Controller
         $message = "Notification sent.";
         $color = "green";
 
-        $notify = "RVM Admin sent you a task.".
+        $notify = "RVM Admin sent you a task. ".
 
         $task = $request->selectTask;
         $employees = User::find($request->id);
         $email = $employees->email;
         Mail::to($email)->queue(new RvmMail($task));
 
-        event(new UpdateElementEvent($notify));
+        $notif_dropdown = Notifications::where('sender_id',$employees->id)->latest()->get();
+        $lol = "test";
+        event(new UpdateDropdown($lol));
+        // UpdateElementEvent::dispatch($notify);
 
         return redirect('notifications')->with('message',$message)->with('color',$color);
     }
@@ -95,19 +104,19 @@ class NotifController extends Controller
         return $response;
     }
 
-    public function sendNotification(){
-    $pusher = new Pusher(
-        env('bc1280fa0058a73f5332'),
-        env('c2cdead1ab85105ac669'),
-        env('1542720'),
-        [
-            'cluster' => env('ap1'),
-            'useTLS' => true
-        ]
-    );
+    // public function sendNotification(){
+    // $pusher = new Pusher(
+    //     env('bc1280fa0058a73f5332'),
+    //     env('c2cdead1ab85105ac669'),
+    //     env('1542720'),
+    //     [
+    //         'cluster' => env('ap1'),
+    //         'useTLS' => true
+    //     ]
+    // );
 
-    $pusher->trigger('update-element', 'my-event', ['message' => 'Notification sent!']);
-    }
+    // $pusher->trigger('update-element', 'my-event', ['message' => 'Notification sent!']);
+    // }
 
     public function viewnotif($id){
         $notif = Notifications::find($id);
@@ -116,6 +125,12 @@ class NotifController extends Controller
         
         return view('rvm.shownotif',compact('notif'));
 
+    }
+    public function updateDropdown($id)
+    {
+    $notifications = DB::table('notifications')->where('sender_id',$id)->latest()->get();
+
+    event(new UpdateDropdown($notifications));
     }
 
 }
