@@ -25,20 +25,22 @@ Route::resource('/dashboard', EmployeeCRUDController::class)->middleware(['auth'
 Route::get('/dashboard', [EmployeeCRUDController::class, 'index'])->middleware(['auth','verified'])->name('dashboard');
 Route::get('/employee/{id}', [EmployeeCRUDController::class, 'show'])->middleware(['auth'])->name('emp');
 
-Route::group(['prefix' => 'rvm'], function () {
-    Route::get('/', [RVMController::class, 'index'])->name('rvm');
-    Route::get('/{id}', [RVMController::class, 'show']);
-    Route::get('/{id}/edit', [RVMController::class, 'edit']);
-    Route::get('/create', [RVMController::class, 'create']);
-    Route::get('{id}/destroy', [RVMController::class, 'destroy']);
-});
+// Route::group(['prefix' => 'rvm'], function () {
+//     Route::get('/', [RVMController::class, 'index'])->name('rvm');
+//     Route::get('/{id}', [RVMController::class, 'show']);
+//     Route::get('/{id}/edit', [RVMController::class, 'edit']);
+//     Route::get('/create', [RVMController::class, 'create']);
+//     Route::get('{id}/destroy', [RVMController::class, 'destroy']);
+// });
+
 Route::post('/testupdate', [NotifController::class, 'testupdate']);
+Route::post('/testupdate2', [NotifController::class, 'testupdate2']);
 Route::post('/changePassword', [EmployeeCRUDController::class,'changePassword'])->name('changePassword');
 
 // Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
 
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
-Route::get('/uploadProof', [NotifController::class, 'uploadProof'])->name('uploadProof');
+Route::post('/uploadProof', [NotifController::class, 'uploadProof'])->name('uploadProof');
 
 Route::get('notification/{id}',[NotifController::class,'viewnotif']);
 

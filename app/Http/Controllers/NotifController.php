@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TestEvent;
 use App\Events\UpdateDropdown;
 use App\Events\UpdateElementEvent;
 use App\Mail\RvmMail;
@@ -16,6 +17,12 @@ use Pusher\Pusher;
 
 class NotifController extends Controller
 {
+    public function testupdate2(){
+        $lol = "test";
+        event(new TestEvent($lol));
+        redirect()->back();
+    }
+
     public function testupdate(){
         $lol = "test";
         event(new UpdateDropdown($lol));
@@ -81,18 +88,25 @@ class NotifController extends Controller
 
         $notif_dropdown = Notifications::where('sender_id',$employees->id)->latest()->get();
         $lol = "test";
-        event(new UpdateDropdown($lol));
-        // UpdateElementEvent::dispatch($notify);
+        // event(new UpdateDropdown($lol));
+        UpdateElementEvent::dispatch($notify);
 
         return redirect('notifications')->with('message',$message)->with('color',$color);
     }
 
     public function uploadProof(Request $request){
-        DB::table('notifications')->where('id', $request->id)->update(['proof' => $request->proof]);
-        DB::table('notifications')->where('id', $request->id)->update(['status' => "For verification"]);
+        $image = $request->proof;
+        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        
+        // $notification = Notification::find($request->id);
+        // $notification->proof = 'image/products/'.$name_gen;
+        // $notification->status = "For verification";
+        // $notification->save();
+        DB::table('notications')->where('id',$request->id)->save(['proof' => 'image/products/'.$name_gen]);
+        DB::table('notifications')->where('id', $request->id)->save(['status' => "For verification"]);
 
         $message = "Task marked as done! Please wait for admin approval.";
-        return redirect()->back()->with('message',$message);
+        return redirect('notifications')->with('message',$message);
     }
 
     public function getImage($id){

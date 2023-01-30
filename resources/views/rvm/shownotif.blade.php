@@ -43,7 +43,7 @@
           data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body relative p-4">
-        <form action="{{url('/uploadProof')}}" method="get">
+        <form action="{{url('/uploadProof')}}" enctype="multipart/form-data" method="post">
           <input type="hidden" name="id" value="{{$notif->id}}">
           <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Please upload proof: </label>
           <input class="form-control

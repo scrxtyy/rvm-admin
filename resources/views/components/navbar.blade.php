@@ -65,9 +65,9 @@
             cluster: 'ap1'
         });
 
-        var channel1 = pusher1.subscribe('update-dropdown');
-        channel1.bind('update', function(data) {
-            alert(data);
+        var channel1 = pusher1.subscribe('test-event');
+        channel1.bind('pwet', function(data) {
+            alert(data.test);
             // var notifications = data.notifications;
             // $('#notifications-list').empty();
             // for (var i = 0; i < notifications.length; i++) {

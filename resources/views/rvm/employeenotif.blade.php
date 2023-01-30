@@ -29,7 +29,7 @@
             <thead class="bg-white border-b">
               <tr>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  #
+                  Task ID
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                   Message
@@ -51,7 +51,7 @@
               @foreach($notifications as $notif)
               <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{$loop->iteration}}
+                  {{$notif->id}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{$notif->message}}
@@ -70,10 +70,11 @@
                   @endif
                 </td>               
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  <button type="button" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                  href="{{url('/notification/'.$notif->id)}}">
+                  <a href="{{url('/notification/'.$notif->id)}}">
+                    <button type="button" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                       View Details  
-                  </button>
+                    </button>
+                  </a>
                 </td>  
               </tr>
               @endforeach
