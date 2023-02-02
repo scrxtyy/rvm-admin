@@ -170,13 +170,13 @@
     </center>
   </div>
 </div>
-
+ <br><br>
 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
   <div id="chart-wrapper">
     <canvas id="chart1"></canvas>
   </div>
 </div>
-
+<br><br>
 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
   <div id="chart-wrapper">
     <canvas id="chart2"></canvas>

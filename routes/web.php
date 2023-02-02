@@ -41,6 +41,7 @@ Route::post('/changePassword', [EmployeeCRUDController::class,'changePassword'])
 
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
 Route::post('/uploadProof', [NotifController::class, 'uploadProof'])->name('uploadProof');
+Route::post('/verifyProof', [NotifController::class, 'verifyProof'])->name('verifyProof');
 
 Route::get('notification/{id}',[NotifController::class,'viewnotif']);
 

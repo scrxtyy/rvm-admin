@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Response;
 use Intervention\Image\ImageManagerStatic as Image;
 use Pusher\Pusher;
+use Carbon\Carbon;
 
 class NotifController extends Controller
 {
@@ -100,15 +101,20 @@ class NotifController extends Controller
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
         Image::make($image)->resize(300,200)->save('image/'.$name_gen);
             
-        // $notification = Notification::find($request->id);
-        // $notification->proof = 'image/products/'.$name_gen;
-        // $notification->status = "For verification";
-        // $notification->save();
         DB::table('notifications')->where('id',$request->id)->update(['proof' => 'image/'.$name_gen]);
         DB::table('notifications')->where('id', $request->id)->update(['status' => "For verification"]);
 
         $message = "Task marked as done! Please wait for admin approval.";
-        return redirect('notifications')->with('message',$message);
+        return redirect()->back()->with('message',$message);
+    }
+
+    public function verifyProof(Request $request){
+        DB::table('notifications')->where('id', $request->id)->update(['status' => "Done"]);
+        DB::table('notifications')->where('id', $request->id)->update(['verified_at' => Carbon::now()]);
+
+
+        return redirect('notifications');
+
     }
 
     public function getImage($id){

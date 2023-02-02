@@ -285,4 +285,5 @@ class EmployeeCRUDController extends Controller
 
         return view('logs.coins', compact('totalplastic','totaltincans','employees','coinTable','currentCoins','plastic','coins','tincans','tinBars','plasticBars'));
     }
+
     }
