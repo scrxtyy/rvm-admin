@@ -13,13 +13,18 @@
       </a>
 </div>
 <br>
-@isset($message)
-<div class="flex flex-col">
-  <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
-    {{$message}}
-  </div>
+@if( session('message') )
+<div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+  {{session('message')}}
+  {{ session()->forget('message') }}
 </div>
-@endisset
+@endif
+@if( session('deletemessage') )
+<div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
+  {{session('deletemessage')}}
+  {{ session()->forget('deletemessage') }}
+</div>
+@endif
 <div class="overflow-hidden bg-white shadow-md dark:bg-dark-eval-1">
    
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -55,16 +60,13 @@
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                      Employee ID
+                      RVM ID
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
                       Name
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
                       Email
-                    </th>
-                    <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                      Assign RVM ID
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
                       Actions
@@ -75,16 +77,13 @@
                   @foreach($employees as $item)
                   <tr class="bg-white border-b">
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {{ $item->id }}
+                      {{ $item->rvm_id }}
                     </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {{ $item->name }}
                     </td>
                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {{$item->email}}
-                    </td>
-                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                      {{$item->rvm_id}}
                     </td>
                     {{-- <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {{ substr($item->password, 0, 8)."..." }}

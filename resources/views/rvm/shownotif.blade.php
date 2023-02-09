@@ -2,6 +2,11 @@
 
 @section('content')
 
+@if( session('message') )
+<div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+  {{session('message')}}
+</div>
+@endif
 <!-- Jumbotron -->
 <div class="p-6 shadow-lg rounded-lg bg-white text-gray-700">
     <h2 class="font-semibold text-3xl mb-5">{{$notif->message}}</h2>

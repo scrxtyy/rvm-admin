@@ -1,25 +1,20 @@
 @extends('employees.dashboard')
 
 @section('assign')
-  
-  @php
-        $rvm = App\Models\User::whereNotNull('rvm_id')->latest()->first();   
-        $rvmid = $rvm->rvm_id;
-        $lastrvmid = $rvmid + 1;
-  @endphp
 
   <form action="{{url('/insertassign')}}" method="post">
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
         @isset($message)
           <div class="flex flex-col">
-            <div class="bg-{{$color}}-100 rounded-lg py-5 px-6 mb-4 text-base text-{{$color}}-700 mb-3" role="alert">
+            <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
               {{$message}}
             </div>
           </div>
         @endisset
         {!! csrf_field() !!}
         <input type="hidden" value="{{$id}}" name="id">
+        <input type="hidden" value="{{$rvmid}}" name="rvmid">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
           Name
         </label>

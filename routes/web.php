@@ -4,6 +4,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\NotifController;
 use App\Http\Controllers\RVMController;
+use App\Models\Notifications;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
 use App\Models\monitorPlastics;
@@ -24,7 +25,7 @@ Route::redirect('/', destination:'login');
 Route::resource('/dashboard', EmployeeCRUDController::class)->middleware(['auth','verified']);
 Route::get('/dashboard', [EmployeeCRUDController::class, 'index'])->middleware(['auth','verified'])->name('dashboard');
 Route::get('/employee/{id}', [EmployeeCRUDController::class, 'show'])->middleware(['auth'])->name('emp');
-
+Route::get('/rvm/{id)',[EmployeeCRUDController::class, 'showEmployee']);
 // Route::group(['prefix' => 'rvm'], function () {
 //     Route::get('/', [RVMController::class, 'index'])->name('rvm');
 //     Route::get('/{id}', [RVMController::class, 'show']);
@@ -33,8 +34,7 @@ Route::get('/employee/{id}', [EmployeeCRUDController::class, 'show'])->middlewar
 //     Route::get('{id}/destroy', [RVMController::class, 'destroy']);
 // });
 
-Route::post('/testupdate', [NotifController::class, 'testupdate']);
-Route::post('/testupdate2', [NotifController::class, 'testupdate2']);
+Route::get('/testupdate', [NotifController::class, 'testupdate']);
 Route::post('/changePassword', [EmployeeCRUDController::class,'changePassword'])->name('changePassword');
 
 // Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
@@ -45,12 +45,10 @@ Route::post('/verifyProof', [NotifController::class, 'verifyProof'])->name('veri
 
 Route::get('notification/{id}',[NotifController::class,'viewnotif']);
 
-Route::get('/email', [NotifController::class, 'sendEmail']);
-
 Route::get('/sort', [EmployeeCRUDController::class, 'sort'])->name('sort');
 Route::get('/sortEmployee', [EmployeeCRUDController::class, 'sortEmployee'])->name('sort');
-
-Route::get('/proof/{id}',[NotifController::class, 'getImage']);
+Route::get('/filter', [EmployeeCRUDController::class, 'filter']);
+Route::get('/filterEmployee', [EmployeeCRUDController::class, 'filterEmployee']);
 
 Route::get('/search', [EmployeeCRUDController::class, 'search']);
 Route::get('/clearsearch', [EmployeeCRUDController::class, 'clearsearch']);
@@ -73,8 +71,6 @@ Route::get('/assign/{id}', [NotifController::class,'assignTask']);
 Route::post('/insertassign', [NotifController::class, 'insertAssign']);
 
 Route::get('/notifs/{id}', [NotifController::class, 'employeenotifications'])->name('notifs');
-
-Route::get('/addcoins/{id}',[EmployeeController::class,'addcoins']);
 // Route::get('/employees/create', [EmployeeCRUDController::class, 'create'])->middleware(['auth','verified']);
 // Route::get('/employees/edit', [EmployeeCRUDController::class, 'edit'])->middleware(['auth','verified']);
 // Route::get('/employees/show', [EmployeeCRUDController::class, 'show'])->middleware(['auth','verified']);

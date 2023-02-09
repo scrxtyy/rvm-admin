@@ -7,17 +7,22 @@
   </h3>
 </div>
 
-<form action="/sortEmployee" method="GET">
-  <select name="column">
-      <option value="created_at">Created At</option>
-      <option value="deadline">Deadline</option>
-  </select>
-  <select name="order">
-      <option value="asc">From Oldest</option>
-<option value="desc">From Latest</option>
+<form action="{{url('/filterEmployee')}}" method="GET">
+    @php
+        $rvm = Auth::user();
+    @endphp
+    <input type="hidden" name="rvmid" value="{{$rvm->rvm_id}}">
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      Filter by: (Status)
+    </label>
+    <select id="status" name="status" class="form-select appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
+        <option selected class="text-gray-500">Status</option>
+        <option value="Done">Done</option>
+        <option value="For verification">For Verification</option>
+        <option value="Incomplete">In progress</option>
   </select>
   <button type="submit"class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-    Sort
+    Filter
   </button>
 </form>
 

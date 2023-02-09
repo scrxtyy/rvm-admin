@@ -54,29 +54,6 @@
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-        <script>
-    
-
-        // Enable pusher logging - don't include this in production
-        Pusher.logToConsole = true;
-
-        var pusher1 = new Pusher('b89eb6a948d95cf92f3b', {
-            cluster: 'ap1'
-        });
-
-        var channel1 = pusher1.subscribe('test-event');
-        channel1.bind('pwet', function(data) {
-            alert(data.test);
-            // var notifications = data.notifications;
-            // $('#notifications-list').empty();
-            // for (var i = 0; i < notifications.length; i++) {
-            //     var notification = notifications[i];
-            //     var timeElapsed = moment(notification.created_at).fromNow();
-            //     $('#notifications-list').prepend("<a href='{{url('/notification/'."+data.notifications.id+")}}' class='flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2'><p class='text-gray-600 text-sm mx-2'><span class='font-bold' href='#'>RVM Admin sent you a task: "+data.notifications.message+"</span>. <span class='text-gray-300'>"+timeElapsed+"</span></p></a>");
-            // }
-        });
-        </script>
     @endrole
 
         <x-button type="button" class="hidden md:inline-flex" iconOnly variant="secondary" srText="Toggle dark mode"

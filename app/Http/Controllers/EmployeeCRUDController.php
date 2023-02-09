@@ -56,10 +56,9 @@ class EmployeeCRUDController extends Controller
             'password'=>['required','confirmed'],
         ]);
         
-        $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
         $message = "Employee Successfully Added!";
-        $color = "green";
-        return view ('employees.index', compact('employees','message'));
+        session(['message' => $message]);
+        return redirect()->route('dashboard');
     }
  
     
@@ -84,11 +83,21 @@ class EmployeeCRUDController extends Controller
         $cansweight = $totaltincans * $limit; 
         $tincans = $cansweight;
     
-        $coinsLog = monitorCoins::latest()->first();   
-        $currentCoins = $coinsLog->coins_total; 
+        $coinsLog = monitorCoins::where('rvm_id',$employees->rvm_id);   
+        $sort2 = $coinsLog->latest()->first(); 
+        $currentCoins = $sort2->coins_total; 
         $coins = $currentCoins / 200;
+        
+        $plastics = monitorPlastics::where('rvm_id', $employees->rvm_id);
+        $plasticsLog = $plastics->Paginate(5, ['*'], 'plastics');
 
-        return view('employees.show',compact('totalplastic','totaltincans','plasticweight','cansweight','currentCoins','employees','plastic','tincans','coins','plasticBars','tinBars'));
+        $cans = monitorTincans::where('rvm_id', $employees->rvm_id);
+        $cansLog = $cans->Paginate(5, ['*'], 'tincans');
+
+        $coin = monitorCoins::where('rvm_id', $employees->rvm_id);
+        $coinTable = $coin->Paginate(5, ['*'], 'coins');
+
+        return view('employees.show',compact('coinTable','cansLog','plasticsLog','totalplastic','totaltincans','plasticweight','cansweight','currentCoins','employees','plastic','tincans','coins','plasticBars','tinBars'));
     }
 
     public function edit($id)
@@ -133,7 +142,9 @@ class EmployeeCRUDController extends Controller
         $email = $employees->email;
         Mail::to($email)->queue(new PasswordChanged());
 
-        return redirect()->back()->with('success','Employee Password has been changed.');
+        $message = "Employee Password has been changed.";
+        session(['message' => $message]);
+        return redirect()->back();
     }
  
   
@@ -143,15 +154,17 @@ class EmployeeCRUDController extends Controller
         $input = $request->all();
         $employees->update($input);
         $message = "Successfully Updated Employee Details!";
-        $color = "green";
-        return redirect('dashboard')->with('message',$message)->with('color',$color);  
+        session(['message' => $message]);
+        return redirect()->route('dashboard');  
     }
  
    
     public function destroy($id)
     {
         User::destroy($id);
-        return redirect('dashboard')->with('flash_message', 'Employees Deleted!');  
+        $deletemessage = "Employee deleted.";
+        session(['deletemessage' => $deletemessage]);
+        return redirect()->route('dashboard');  
     }
     public function search(Request $request)
     {
@@ -168,8 +181,39 @@ class EmployeeCRUDController extends Controller
     {
         $column = $request->get('column');
         $order = $request->get('order');
+        if($order == "asc"){
+            $ordermsg = "Ascending";
+        }
+        if($order == "desc"){
+            $ordermsg = "Descending";
+        }
         $notifications = Notifications::orderBy($column, $order)->paginate(10);
-        return view('employees.notifs')->with('notifications', $notifications);
+        $sorted = "Sorted by " . "'". $column ."' in ". $ordermsg . " order.";
+        return view('employees.notifs')->with('notifications', $notifications)->with('sorted',$sorted);
+    }
+
+    public function filter(Request $request){
+        $status = $request->status;
+        if ($request->status == "Incomplete") {
+            $status = null;
+        }
+    $notifications = Notifications::where('rvm_id', '=', $request->rvmid)
+        ->where('status', '=', $status)->get();
+
+    $filtered = "Showing only " . "'".$request->status ."' status for RVM ID: ". $request->rvmid;
+    return view('employees.notifs')->with('notifications',$notifications)->with('filtered',$filtered); 
+    }
+
+    public function filterEmployee(Request $request){
+        $status = $request->status;
+        if ($request->status == "Incomplete") {
+            $status = null;
+        }
+    $notifications = Notifications::where('rvm_id', '=', $request->rvmid)
+        ->where('status', '=', $status)->get();
+
+    $filtered = "Showing only " . "'".$request->status ."' status for RVM ID: ". $request->rvmid;
+    return view('rvm.employeenotif')->with('notifications',$notifications)->with('filtered',$filtered); 
     }
 
     public function sortEmployee(Request $request)
@@ -206,7 +250,7 @@ class EmployeeCRUDController extends Controller
         $plasticweight = $totalplastic * $limit;
         $plastic = $plasticweight;
 
-        $tinBars = monitorTincans::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $tinBars = monitorTincans::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_weight) as count")->groupBy('date')->get();
         $cansweight = $totaltincans * $limit; 
         $tincans = $cansweight;
    
@@ -284,6 +328,34 @@ class EmployeeCRUDController extends Controller
         $coinTable = $coin->Paginate(5, ['*'], 'all');
 
         return view('logs.coins', compact('totalplastic','totaltincans','employees','coinTable','currentCoins','plastic','coins','tincans','tinBars','plasticBars'));
+    }
+
+    public function showEmployee($id){
+        $employees = User::find($id);
+        $limit = 0.1;
+
+        $selecttotal= monitorPlastics::where('rvm_id',$employees->rvm_id);
+        $sort = $selecttotal->latest()->first();
+        $totalplastic = $sort->total_kg;
+        
+        $selecttotal1= monitorTincans::where('rvm_id',$employees->rvm_id);
+        $sort1 = $selecttotal1->latest()->first();
+        $totaltincans = $sort1->total_kg;
+
+        $plasticBars = monitorPlastics::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $plasticweight = $totalplastic * $limit;
+        $plastic = $plasticweight;
+
+        $tinBars = monitorTincans::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        $cansweight = $totaltincans * $limit; 
+        $tincans = $cansweight;
+    
+        $coinsLog = monitorCoins::latest()->first();   
+        $currentCoins = $coinsLog->coins_total; 
+        $coins = $currentCoins / 200;
+
+        return view('rvm.employeesshow',compact('totalplastic','totaltincans','plasticweight','cansweight','currentCoins','employees','plastic','tincans','coins','plasticBars','tinBars'));
+  
     }
 
     }

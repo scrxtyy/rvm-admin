@@ -19,19 +19,13 @@ use Carbon\Carbon;
 
 class NotifController extends Controller
 {
-    public function testupdate2(){
-        $lol = "test";
-        event(new TestEvent($lol));
-        redirect()->back();
-    }
-
     public function testupdate(){
-        $lol = "test";
-        event(new UpdateDropdown($lol));
-        redirect()->back();
+        $notifications = "test";
+        event(new UpdateDropdown($notifications));
+        return redirect('notifications');
     }
     public function notifs(){
-        $notifications = Notifications::all();
+        $notifications = Notifications::latest()->get();
         return view ('employees.notifs', compact('notifications'));
 
     }
@@ -39,19 +33,15 @@ class NotifController extends Controller
     public function employeenotifications($id){
         $employees = User::find($id);
         $notifications = Notifications::where('sender_id',$employees->id)->get();
+        $rvmid = User::where('id',$employees->id);
 
-        return view('rvm.employeenotif',compact('notifications','employees'));
-    }
-    public function sendEmail(){
-        Mail::to("allyyydelrosario@gmail.com")
-        ->send(new RvmMail());
-
-        return view('employees.dashboard');
+        return view('rvm.employeenotif',compact('notifications','employees','rvmid'));
     }
     public function assignTask($id){
         $employees = User::find($id);
         $name = $employees->name;
-        return view('employees.assign',compact('id', 'name'));
+        $rvmid = $employees->rvm_id;
+        return view('employees.assign',compact('id', 'name', 'rvmid'));
     }
 
     public function insertAssign(Request $request){
@@ -60,6 +50,7 @@ class NotifController extends Controller
         $notifs->create([
             'name' => $request->name,
             'sender_id' => $request->id,
+            'rvm_id' => $request->rvmid,
             'isAdmin'=> false,
             'message' => $request->selectTask,
             'notes' =>$request->description,
@@ -70,6 +61,7 @@ class NotifController extends Controller
             $notifs->create([
                 'name' => $request->name,
                 'sender_id' => $request->id,
+                'rvm_id' => $request->rvmid,
                 'isAdmin'=> false,
                 'message' => $request->selectTask,
                 'notes' =>$request->description,
@@ -78,9 +70,6 @@ class NotifController extends Controller
             ]);
         }
 
-        $message = "Notification sent.";
-        $color = "green";
-
         $notify = "RVM Admin sent you a task. ".
 
         $task = $request->selectTask;
@@ -88,12 +77,11 @@ class NotifController extends Controller
         $email = $employees->email;
         Mail::to($email)->queue(new RvmMail($task));
 
-        $notif_dropdown = Notifications::where('sender_id',$employees->id)->latest()->get();
-        $lol = "test";
-        // event(new UpdateDropdown($lol));
         UpdateElementEvent::dispatch($notify);
-
-        return redirect('notifications')->with('message',$message)->with('color',$color);
+        $message = "Notification sent to RVM ID: ". $request->rvmid;
+        session(['message' => $message]);
+        
+        return redirect()->route('notifications');
     }
 
     public function uploadProof(Request $request){
@@ -104,41 +92,18 @@ class NotifController extends Controller
         DB::table('notifications')->where('id',$request->id)->update(['proof' => 'image/'.$name_gen]);
         DB::table('notifications')->where('id', $request->id)->update(['status' => "For verification"]);
 
-        $message = "Task marked as done! Please wait for admin approval.";
-        return redirect()->back()->with('message',$message);
+        $message = "Proof successfully submitted! Please wait for admin approval.";
+        session(['message' => $message]);
+        return redirect()->back();
     }
 
     public function verifyProof(Request $request){
         DB::table('notifications')->where('id', $request->id)->update(['status' => "Done"]);
         DB::table('notifications')->where('id', $request->id)->update(['verified_at' => Carbon::now()]);
 
-
         return redirect('notifications');
 
     }
-
-    public function getImage($id){
-        $rendered_buffer= Notifications::all()->find($id)->proof;
-
-        $response = Response::make($rendered_buffer);
-        $response->header('Content-Type', 'image/png');
-        $response->header('Cache-Control','max-age=2592000');
-        return $response;
-    }
-
-    // public function sendNotification(){
-    // $pusher = new Pusher(
-    //     env('bc1280fa0058a73f5332'),
-    //     env('c2cdead1ab85105ac669'),
-    //     env('1542720'),
-    //     [
-    //         'cluster' => env('ap1'),
-    //         'useTLS' => true
-    //     ]
-    // );
-
-    // $pusher->trigger('update-element', 'my-event', ['message' => 'Notification sent!']);
-    // }
 
     public function viewnotif($id){
         $notif = Notifications::find($id);

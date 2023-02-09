@@ -34,21 +34,33 @@
       var channel = pusher.subscribe('update-element');
       channel.bind('notif', function(data) {
         toastr.success(JSON.stringify(data.notify));
+        // $('#notifications-list').empty();
+
+        // for (var i = 0; i < data.notifications.length; i++) {
+        //     var notification = data.notifications[i];
+        //     var timeElapsed = moment(notification.created_at).fromNow();
+        //     if (notification.isread === 1) {
+        //         $('#notifications-list').prepend("<a href='{{url('/notification/'."+notifications.id+")}} class='flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2'><p class='text-gray-600 text-sm mx-2'><span class='font-normal' href='#'>RVM Admin sent you a task: "+notifications.message+"</span>. <span class='text-gray-300'>"+timeElapsed+"</span></p></a>");
+        //     } else {
+        //         $('#notifications-list').prepend("<a href='{{url('/notification/'."+notifications.id+")}} class='flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2'><p class='text-gray-600 text-sm mx-2'><span class='font-bold' href='#'>RVM Admin sent you a task: "+notifications.message+"</span>. <span class='text-gray-300'>"+timeElapsed+"</span></p></a>");
+        //     }
+        // }
       });
       
-      // var channel1 = pusher.subscribe('update-dropdown');
-      // channel1.bind('update', function(data) {
-      //   $('#notifications-list').empty();
+      var channel1 = pusher.subscribe('update-dropdown');
+      channel1.bind('update', function(data) {
+        toastr.success(JSON.stringify(data.notifications));
+        // $('#notifications-list').empty();
 
-      //   for (var i = 0; i < data.notifications.length; i++) {
-      //       var notification = data.notifications[i];
-      //       var timeElapsed = moment(notification.created_at).fromNow();
-      //       if (notification.isread === 1) {
-      //           $('#notifications-list').append("<a href='{{url('/notification/'."+notifications.id+")}} class='flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2'><p class='text-gray-600 text-sm mx-2'><span class='font-normal' href='#'>RVM Admin sent you a task: "+notifications.message+"</span>. <span class='text-gray-300'>"+timeElapsed+"</span></p></a>");
-      //       } else {
-      //           $('#notifications-list').append("<a href='{{url('/notification/'."+notifications.id+")}} class='flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2'><p class='text-gray-600 text-sm mx-2'><span class='font-bold' href='#'>RVM Admin sent you a task: "+notifications.message+"</span>. <span class='text-gray-300'>"+timeElapsed+"</span></p></a>");
-      //       }
-      //   }
-      // });
+        // for (var i = 0; i < data.notifications.length; i++) {
+        //     var notification = data.notifications[i];
+        //     var timeElapsed = moment(notification.created_at).fromNow();
+        //     if (notification.isread === 1) {
+        //         $('#notifications-list').append("<a href='{{url('/notification/'."+notifications.id+")}} class='flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2'><p class='text-gray-600 text-sm mx-2'><span class='font-normal' href='#'>RVM Admin sent you a task: "+notifications.message+"</span>. <span class='text-gray-300'>"+timeElapsed+"</span></p></a>");
+        //     } else {
+        //         $('#notifications-list').append("<a href='{{url('/notification/'."+notifications.id+")}} class='flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2'><p class='text-gray-600 text-sm mx-2'><span class='font-bold' href='#'>RVM Admin sent you a task: "+notifications.message+"</span>. <span class='text-gray-300'>"+timeElapsed+"</span></p></a>");
+        //     }
+        // }
+      });
     </script>
 </x-app-layout>

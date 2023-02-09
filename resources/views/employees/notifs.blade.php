@@ -6,28 +6,61 @@
       {{ __('Sent Notifications') }}
   </h3>
 </div>
-@isset($message)
-<div class="flex flex-col">
-  <div class="bg-{{$color}}-100 rounded-lg py-5 px-6 mb-4 text-base text-{{$color}}-700 mb-3" role="alert">
-    {{$message}}
-  </div>
-</div>
-@endisset
-<form action="/sort" method="GET">
-  <select name="column">
-      <option value="created_at">Created At</option>
-      <option value="sender_id">Employee ID</option>
+
+{{-- <form action="/sort" method="GET">
+  <select name="column" class="form-select appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+      <option selected class="text-gray-500">Sort by</option>
+      <option value="created_at">Sent At</option>
       <option value="deadline">Deadline</option>
   </select>
-  <select name="order">
+  <select name="order" class="form-select appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+      <option selected class="text-gray-500">Order</option>
       <option value="asc">From Oldest</option>
-<option value="desc">From Latest</option>
+      <option value="desc">From Latest</option>
   </select>
   <button type="submit"class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
     Sort
   </button>
+</form> --}}
+
+<form action="{{url('/filter')}}" method="GET">
+  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+    Filter by: (RVM ID/Status)
+  </label>     
+  <select id="rvmid" name="rvmid" class="form-select overflow-x appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+        @php
+            $rvmids = App\Models\User::all()->whereNotNull('rvm_id');
+        @endphp
+        @foreach($rvmids as $ids)
+          <option value="{{$ids->rvm_id}}">{{$ids->rvm_id}}</option>
+        @endforeach
+    </select>
+    <select id="status" name="status" class="form-select overflow appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+        <option value="Done">Done</option>
+        <option value="For verification">For Verification</option>
+        <option value="Incomplete">In progress</option>
+  </select>
+  <button type="submit"class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+    Filter
+  </button>
 </form>
 
+  @if (isset($filtered))
+    <div class="bg-blue-100 rounded-lg py-5 px-6 mb-4 text-base text-blue-700 mb-3" role="alert">
+      {{$filtered}}
+    </div>
+  @endif
+  @if (isset($sorted))
+    <div class="bg-blue-100 rounded-lg py-5 px-6 mb-4 text-base text-blue-700 mb-3" role="alert">
+      {{$sorted}}
+    </div>
+  @endif
+  @if( session('message') )
+    <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+      {{session('message')}}
+    </div>
+  @endif
+  
 
   <div class="flex flex-col">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -37,7 +70,7 @@
             <thead class="bg-white border-b">
               <tr>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Sent To: <br> (Employee ID)
+                  Sent To: <br> (RVM ID)
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                   Task ID
@@ -60,7 +93,7 @@
               @foreach($notifications as $notif)
               <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{$notif->sender_id}}
+                  {{$notif->rvm_id}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   {{$notif->id}}
@@ -72,7 +105,7 @@
                   {{$notif->created_at}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  @if (isset($notif->status))
+                  @if(isset($notif->status))
                     <span class="text-green-500">{{$notif->status}}</span> <br>
                     @if ($notif->status=="For verification")
                       <button type="button" class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" 
