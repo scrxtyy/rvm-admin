@@ -9,6 +9,13 @@
   @endphp
 
   <form class="w-full max-w-lg" action="{{ url('dashboard') }}" method="post">
+    @if ($errors->any())
+      <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
+          @foreach ($errors->all() as $error)
+              {{ $error }}
+          @endforeach
+      </div>
+    @endif
 
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full px-3">
@@ -47,7 +54,7 @@
         </label>
         <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
         name="password" id="password" type="password" placeholder="">
-        <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p>
+        <p class="text-gray-600 text-xs italic">Minimum of 8 characters</p>
       </div>
       <div class="w-full md:w-1/2 px-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="password_confirmation">
@@ -58,12 +65,6 @@
       </div>
     </div>
    <div class="flex flex-wrap -mx-3 mb-6">
-    {{-- <div class="w-full px-3">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-        RVM ID
-      </label>
-      <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="rvm_id" type="text" placeholder="RVM ID">
-      <p class="text-gray-600 text-xs italic">Enter RVM ID to monitor</p> --}}
       <div class="w-full px-3">
       <button type="submit" class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">
         Add

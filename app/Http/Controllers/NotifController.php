@@ -20,8 +20,22 @@ use Carbon\Carbon;
 class NotifController extends Controller
 {
     public function testupdate(){
-        $notifications = "test";
-        event(new UpdateDropdown($notifications));
+        
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+
+        $data = 'test text';
+        $pusher->trigger('update-dropdown','update',$data);
+        UpdateDropdown::dispatch($data);
         return redirect('notifications');
     }
     public function notifs(){
@@ -32,7 +46,7 @@ class NotifController extends Controller
 
     public function employeenotifications($id){
         $employees = User::find($id);
-        $notifications = Notifications::where('sender_id',$employees->id)->get();
+        $notifications = Notifications::where('sender_id',$employees->id)->latest()->get();
         $rvmid = User::where('id',$employees->id);
 
         return view('rvm.employeenotif',compact('notifications','employees','rvmid'));
@@ -77,6 +91,8 @@ class NotifController extends Controller
         $email = $employees->email;
         Mail::to($email)->queue(new RvmMail($task));
 
+        $test = "test";
+        UpdateDropdown::dispatch($test);
         UpdateElementEvent::dispatch($notify);
         $message = "Notification sent to RVM ID: ". $request->rvmid;
         session(['message' => $message]);

@@ -22,7 +22,7 @@
     <div class="flex items-center gap-3">
 
     @role('employee')
-        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+        {{-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script> --}}
         <div x-data="{ dropdownOpen: false }" class="relative">
             <button @click="dropdownOpen = !dropdownOpen" class="relative p-3 rounded focus:outline-none hover:bg-purple-700 active:bg-purple-700">
                 <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="comment-alt" class="w-5 h-5 mt-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -35,20 +35,34 @@
             <div x-show="dropdownOpen" class="absolute right-0 mt-2 bg-white rounded-md shadow-lg overflow-hidden z-20" style="width:20rem;">
                 <div class="py-2" id="notifications-list">
                     @foreach($notifications as $notif)
+
+                        @php
+                            $count = 0;
+                        @endphp
+
                         @if ($notif->isread == '1')
                             <a href="{{url('/notification/'. $notif->id)}}" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
                                 <p class="text-gray-600 text-sm mx-2">
                                     <span class="font-normal" href="#">RVM Admin sent you a task: {{$notif->message}}</span>. <span class="text-gray-300">{{$notif->created_at->diffForHumans()}}</span>
                                 </p>
                             </a>
+                            
                         @else
                             <a href="{{url('/notification/'. $notif->id)}}" class="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
                                 <p class="text-gray-600 text-sm mx-2">
                                     <span class="font-bold" href="#">RVM Admin sent you a task: {{$notif->message}}</span>. <span class="text-gray-300">{{$notif->created_at->diffForHumans()}}</span>
                                 </p>
-                            </a>    
+                            </a> 
+
+                            @php
+                                $count += 1;
+                            @endphp   
+
                         @endif
+
                     @endforeach
+                    {{-- <span class="text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-purple-600 text-white rounded">{{$count}}</span> --}}
+                  
                 </div>
                 <a href="{{url('/notifs/'.$id)}}" class="block bg-gray-800 text-white text-center font-bold py-2">See all notifications</a>
             </div>

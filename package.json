@@ -20,6 +20,8 @@
     },
     "dependencies": {
         "chart.js": "^2.9.4",
+        "laravel-echo": "^1.15.0",
+        "pusher-js": "^8.0.1",
         "tw-elements": "^1.0.0-alpha13"
     }
 }

@@ -23,7 +23,7 @@
     </x-sidebar.link>
     @endrole
 @if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('admin'))
-    <x-sidebar.link title="Employees" href="{{ route('dashboard') }}" :isActive="request()->routeIs('dashboard')">
+    <x-sidebar.link title="RVMs" href="{{ route('dashboard') }}" :isActive="request()->routeIs('dashboard')">
         <x-slot name="icon">
             <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
        </x-slot>

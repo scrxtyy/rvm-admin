@@ -3,7 +3,7 @@
 @if(Auth::user()->hasRole('super-admin') || Auth::user()->hasRole('admin'))
   <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <h2 class="text-xl font-semibold leading-tight">
-          {{ __('Employees') }}
+          {{ __('RVMs') }}
       </h2>
 
       <a href="{{ url('/dashboard/create') }}" class="btn btn-success btn-sm" title="Add New RVM">   

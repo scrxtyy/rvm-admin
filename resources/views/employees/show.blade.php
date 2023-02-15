@@ -94,7 +94,7 @@
     }
     }
 </style>
-
+<div id="my-element"></div>
 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
   <h3 class="text-xl font-semibold leading-tight">
       RVM ID: RVM{{ $employees->rvm_id}}
@@ -318,10 +318,10 @@
                       Item/s Weight
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                      No. of Item/s
+                      Price of Item/s
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                      Price of Item/s
+                      Date/Time
                     </th>
     
                   </tr>
@@ -333,13 +333,13 @@
                                 {{$plasticLog->created_at}}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$plasticLog->kg_Weight}}
+                                {{$plasticLog->kg_Weight}} KG
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$plasticLog->pieces}}
+                              {{$plasticLog->price}} PHP
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$plasticLog->price}}
+                              {{$plasticLog->created_at}}
                             </td>
                         </tr>
                   @endforeach
@@ -382,10 +382,10 @@
                       Item/s Weight
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                      No. of Item/s
+                      Price of Item/s
                     </th>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
-                      Price of Item/s
+                      Inserted at:
                     </th>
 
                   </tr>
@@ -400,10 +400,10 @@
                                 {{$canLog->kg_weight}} KG
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$canLog->pieces}}
+                              {{$canLog->price}} PHP
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$canLog->price}} PHP
+                              {{$canLog->created_at}}
                             </td>
                         </tr>
                   @endforeach
@@ -415,7 +415,7 @@
         </div>
       </div>
         <br><br>
-        Tin Cans Data Chart (kg per day):
+        Tin Cans Data Chart (grams per day):
         <br>
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div id="chart-wrapper">
@@ -479,23 +479,32 @@
 
 </div>
 
+
 <br><br><br>
 
   <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
   <script>
+     
+      // Enable pusher logging - don't include this in production  
+      
+      $(document).ready(function() {
+        Pusher.logToConsole = true;
 
-    // Enable pusher logging - don't include this in production
-    // Pusher.logToConsole = true;
+        var pusher = new Pusher('b89eb6a948d95cf92f3b', {
+          cluster: 'ap1'
+        });
 
-    var pusher = new Pusher('b89eb6a948d95cf92f3b', {
-      cluster: 'ap1'
-    });
+        var channel = pusher.subscribe('update-element');
+        var channel2 = pusher.subscribe('update-dropdown');
+        
+        channel.bind('notif', function(data) {
+          toastr.success(JSON.stringify(data.notify));
+        });
+        channel2.bind('update', function(data) {
+          console.log(data.test);
+        });
+      });
 
-    var channel = pusher.subscribe('update-element');
-    channel.bind('notif', function(data) {
-      toastr.success(JSON.stringify(data.notify));
-    });
-    
     const ctx1 = document.getElementById('chart1');
     // ctx.canvas.width = 300;
     // ctx.canvas.height = 300;  

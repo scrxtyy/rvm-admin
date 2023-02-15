@@ -14,15 +14,15 @@ class UpdateDropdown
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $notifications;
+    public $test;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($notifications)
+    public function __construct($test)
     {
-        $this->notifications = $notifications;
+        $this->test = $test;
     }
 
     /**
