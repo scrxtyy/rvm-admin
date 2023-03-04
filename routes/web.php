@@ -4,6 +4,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\NotifController;
 use App\Http\Controllers\RVMController;
+use App\Models\fullStorageNotifications;
 use App\Models\Notifications;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
@@ -35,8 +36,8 @@ Route::get('/rvm/{id)',[EmployeeCRUDController::class, 'showEmployee']);
 //     Route::get('/create', [RVMController::class, 'create']);
 //     Route::get('{id}/destroy', [RVMController::class, 'destroy']);
 // });
-Route::get('/trigger-event', 'NotifController@triggerEvent');
-Route::get('/testupdate', [NotifController::class, 'testupdate']);
+Route::get('/full-storage',[NotifController::class,'storageBlade']);
+Route::get('/trigger-event', [NotifController::class, 'triggerEvent']);
 Route::post('/changePassword', [EmployeeCRUDController::class,'changePassword'])->name('changePassword');
 
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');

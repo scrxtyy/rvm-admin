@@ -13,15 +13,15 @@
               rounded-l
               px-6
               py-2.5
-              bg-purple-600
+              bg-green-600
               text-white
               font-medium
               text-xs
               leading-tight
               uppercase
-              hover:bg-purple-700
-              focus:bg-purple-700 focus:outline-none focus:ring-0
-              active:bg-purple-800
+              hover:bg-green-700
+              focus:bg-green-700 focus:outline-none focus:ring-0
+              active:bg-green-800
               transition
               duration-150
               ease-in-out
@@ -34,15 +34,15 @@
             class="
               px-6
               py-2.5
-              bg-purple-600
+              bg-green-600
               text-white
               font-medium
               text-xs
               leading-tight
               uppercase
-              hover:bg-purple-700
-              focus:bg-purple-700 focus:outline-none focus:ring-0
-              active:bg-purple-800
+              hover:bg-green-700
+              focus:bg-green-700 focus:outline-none focus:ring-0
+              active:bg-green-800
               transition
               duration-150
               ease-in-out

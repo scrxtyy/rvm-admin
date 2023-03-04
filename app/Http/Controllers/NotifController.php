@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\TestEvent;
-use App\Events\UpdateDropdown;
-use App\Events\UpdateElementEvent;
+use App\Events\NotifyUser;
+use App\Events\UpdateNotifCount;
 use App\Mail\RvmMail;
+use App\Models\fullStorageNotifications;
 use App\Models\Notifications;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,24 +19,10 @@ use Carbon\Carbon;
 
 class NotifController extends Controller
 {
-    public function testupdate(){
-        
-        $options = array(
-            'cluster' => 'ap1',
-            'useTLS' => true
-        );
 
-        $pusher = new Pusher(
-            env('PUSHER_APP_KEY'),
-            env('PUSHER_APP_SECRET'),
-            env('PUSHER_APP_ID'),
-            $options
-        );
-
-        $data = 'test text';
-        $pusher->trigger('update-dropdown','update',$data);
-        UpdateDropdown::dispatch($data);
-        return redirect('notifications');
+    public function storageBlade(){
+        $storageTable = fullStorageNotifications::latest()->get();
+        return view('employees.fullstorage')->with('storageTable',$storageTable);
     }
     public function notifs(){
         $notifications = Notifications::latest()->get();
@@ -61,15 +47,6 @@ class NotifController extends Controller
     public function insertAssign(Request $request){
         $notifs = new Notifications();
         $deadline = $request->deadlinedate ." ". $request->deadlinetime;
-        $notifs->create([
-            'name' => $request->name,
-            'sender_id' => $request->id,
-            'rvm_id' => $request->rvmid,
-            'isAdmin'=> false,
-            'message' => $request->selectTask,
-            'notes' =>$request->description,
-            'deadline' => $deadline,
-        ]);
 
         if($request->selectTask=='Replenish Coins'){
             $notifs->create([
@@ -83,6 +60,17 @@ class NotifController extends Controller
                 'deadline' => $deadline,
             ]);
         }
+        else{
+            $notifs->create([
+                'name' => $request->name,
+                'sender_id' => $request->id,
+                'rvm_id' => $request->rvmid,
+                'isAdmin'=> false,
+                'message' => $request->selectTask,
+                'notes' =>$request->description,
+                'deadline' => $deadline,
+            ]);
+        }
 
         $notify = "RVM Admin sent you a task. ".
 
@@ -90,10 +78,38 @@ class NotifController extends Controller
         $employees = User::find($request->id);
         $email = $employees->email;
         Mail::to($email)->queue(new RvmMail($task));
+        
+        $count = Notifications::where('sender_id', '=', $request->id)->where('isread', '=', 0)->count();
+         
 
-        $test = "test";
-        UpdateDropdown::dispatch($test);
-        UpdateElementEvent::dispatch($notify);
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            [
+                'cluster' => 'ap1',
+                'useTLS' => true
+            ]
+        );
+        
+        $events = [
+            [
+                'channel' => 'notify-user',
+                'name' => 'notif',
+                'data' => $notify
+            ],
+            [
+                'channel' => 'update-count',
+                'name' => 'count',
+                'data' => $count
+            ]
+        ];
+        
+        $pusher->triggerBatch($events);
+
+        // UpdateNotifCount::dispatch($count);
+        // NotifyUser::dispatch($notify);
+
         $message = "Notification sent to RVM ID: ". $request->rvmid;
         session(['message' => $message]);
         
@@ -118,7 +134,6 @@ class NotifController extends Controller
         DB::table('notifications')->where('id', $request->id)->update(['verified_at' => Carbon::now()]);
 
         return redirect('notifications');
-
     }
 
     public function viewnotif($id){
@@ -128,12 +143,6 @@ class NotifController extends Controller
         
         return view('rvm.shownotif',compact('notif'));
 
-    }
-    public function updateDropdown($id)
-    {
-    $notifications = DB::table('notifications')->where('sender_id',$id)->latest()->get();
-
-    event(new UpdateDropdown($notifications));
     }
 
 }

@@ -12,15 +12,15 @@ use Illuminate\Queue\SerializesModels;
 class PasswordChanged extends Mailable
 {
     use Queueable, SerializesModels;
-
+    public $new_password;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($new_password)
     {
-        //
+        $this->new_password = $new_password;
     }
 
     /**

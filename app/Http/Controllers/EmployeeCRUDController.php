@@ -135,26 +135,26 @@ class EmployeeCRUDController extends Controller
     public function changePassword(Request $request)
     {
         $errors = [
-            'current_password.required' => 'The current password field is required.',
             'new_password.required' => 'The new password field is required.',
             'new_password.confirmed' => 'The new password does not match.',  
             'new_password.min' => 'The new password must be at least 8 characters.',
         ];
 
         $request->validate([
-            'current_password' => 'required',
             'new_password' => 'required|confirmed|min:8',
         ],$errors);
 
         $employees = User::find($request->id);
-        if(!Hash::check($request->current_password, $employees->password)) {
-            return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
-        }
+        // if(!Hash::check($request->current_password, $employees->password)) {
+        //     return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        // }
         $employees = User::find($request->id);
-        $employees->password = Hash::make($request->new_password);
+        $updated_pw = Hash::make($request->new_password);
+        
+        DB::table('users')->where('id', $request->id)->update(['password' => $updated_pw]);
 
         $email = $employees->email;
-        Mail::to($email)->queue(new PasswordChanged());
+        Mail::to($email)->queue(new PasswordChanged($request->new_password));
 
         $message = "Employee Password has been changed.";
         session(['message' => $message]);
@@ -182,9 +182,9 @@ class EmployeeCRUDController extends Controller
     }
     public function search(Request $request)
     {
-    $search = $request->get('search');
-    $employees = User::where('name', 'like', "%{$search}%")->paginate(5);
-    return view('employees.index', ['employees' => $employees]);
+        $search = $request->get('search');
+        $employees = User::where('name', 'like', "%{$search}%")->paginate(5);
+        return view('employees.index', ['employees' => $employees]);
     }
 
     public function clearsearch(Request $request){

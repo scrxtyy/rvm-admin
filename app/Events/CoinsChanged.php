@@ -9,21 +9,19 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use League\CommonMark\Node\Block\Document;
 
-class UpdateElementEvent implements ShouldBroadcast
+class CoinsChanged
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $notify;
+    public $coins;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($notify)
+    public function __construct($coins)
     {
-        $this->notify = $notify;
+        $this->coins = $coins;
     }
 
     /**
@@ -33,15 +31,10 @@ class UpdateElementEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('update-element');
+        return new PrivateChannel('coins-changed');
     }
 
-    /**
-     * 
-     * Notifications
-     * @return void
-     */
     public function broadcastAs(){
-        return 'notif';
+        return 'decrement';
     }
 }

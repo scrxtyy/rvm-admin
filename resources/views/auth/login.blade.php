@@ -21,7 +21,7 @@
                         <x-slot name="icon">
                             <x-heroicon-o-mail aria-hidden="true" class="w-5 h-5" />
                         </x-slot>
-                        <x-input withicon id="email" class="block w-full" type="email" name="email"
+                        <x-input withicon id="email" class="block w-full text-gray-900" type="email" name="email"
                             :value="old('email')" placeholder="{{ __('Email') }}" required autofocus />
        
                     </x-input-with-icon-wrapper>
@@ -47,7 +47,7 @@
                 <div class="flex items-center justify-between">
                     <label for="togglePassword" class="inline-flex items-center">
                         <input id="togglePassword" type="checkbox"
-                            class="text-purple-500 border-gray-300 rounded focus:border-purple-300 focus:ring focus:ring-purple-500 dark:border-gray-600 dark:bg-dark-eval-1 dark:focus:ring-offset-dark-eval-1"
+                            class="text-green-500 border-gray-300 rounded focus:border-green-300 focus:ring focus:ring-green-500 dark:border-gray-600 dark:bg-dark-eval-1 dark:focus:ring-offset-dark-eval-1"
                             name="showPW">
                         <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Show Password') }}</span>
                     </label>

@@ -23,25 +23,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script>
-  
       // Enable pusher logging - don't include this in production  
-      
-      $(document).ready(function() {
+
         Pusher.logToConsole = true;
 
         var pusher = new Pusher('b89eb6a948d95cf92f3b', {
           cluster: 'ap1'
         });
-
-        var channel = pusher.subscribe('update-element');
-        var channel2 = pusher.subscribe('update-dropdown');
+        
+        var channel = pusher.subscribe('notify-user');
         
         channel.bind('notif', function(data) {
-          toastr.success(JSON.stringify(data.notify));
+          toastr.success(JSON.stringify(data));
         });
-        channel2.bind('update', function(data) {
-          console.log(data);
-        });
-      });
     </script>
 </x-app-layout>

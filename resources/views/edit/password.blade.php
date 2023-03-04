@@ -14,41 +14,36 @@ Change Password
     @csrf
     @if(session('success'))
         <h1>{{session('success')}}</h1>
+        {{session()->forget('success')}}
     @endif
  
 
     <input type="hidden" name="id" value="{{$employees->id}}">
-    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+    {{-- <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0"> --}}
     @if ($errors->any())
-        <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
-            <ul class="list-disc">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+            <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
+                <ul class="list-disc">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
         </div>
     @endif
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+        {{-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Old Password
         </label>
         <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
         name="current_password" id="current_password" type="password" placeholder="******************" required>
-
-        {{-- <p class="text-gray-600 text-xs italic">Make it as long and as crazy as you'd like</p> --}}
-    </div>
-    <div class="w-full md:w-1/2 px-3">
+       </div> --}}
+    {{-- <div class="w-full md:w-1/2 px-3">
         <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-purple-600 checked:border-purple-600 focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" 
         type="checkbox" id="showOldPassword">
         <label class="block uppercase tracking-wide text-gray-700 text-xs mb-2" for="showOldPassword">
             Show Old Password
         </label>
-        {{-- @error('current_password')
-            <div class="text-red-700 mb-2 mt-2">{{ $message }}</div>
-        @enderror --}}
-    </div>
-
-    <br>
-
+    </div> --}}
     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         New Password
@@ -86,18 +81,18 @@ Change Password
 </form>
 <script>
     window.addEventListener("DOMContentLoaded", function () {
-    const toggleOldPassword = document.querySelector("#showOldPassword");
-    const password = document.querySelector("#current_password");
+    // const toggleOldPassword = document.querySelector("#showOldPassword");
+    // const password = document.querySelector("#current_password");
 
     const toggleNewPassword = document.querySelector("#showNewPassword");
     const new_password = document.querySelector("#new_password");
     const confirm_new_password = document.querySelector("#new_password_confirmation");
 
-    toggleOldPassword.addEventListener("click", function (e) {
-        const type =
-        password.getAttribute("type") === "password" ? "text" : "password";
-        password.setAttribute("type", type);
-    });
+    // toggleOldPassword.addEventListener("click", function (e) {
+    //     const type =
+    //     password.getAttribute("type") === "password" ? "text" : "password";
+    //     password.setAttribute("type", type);
+    // });
 
     
     toggleNewPassword.addEventListener("click", function (e) {

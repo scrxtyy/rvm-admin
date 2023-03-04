@@ -20,13 +20,20 @@
     <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script>
-        var pusher = new Pusher('bc1280fa0058a73f5332', {
+        Pusher.logToConsole = true;
+        var pusher = new Pusher('b89eb6a948d95cf92f3b', {
             cluster: 'ap1'
         });
 
-        var channel = pusher.subscribe('update-element');
-        channel.bind('my-event', function(data) {
-            alert(data.message);
+        var full_channel = pusher.subscribe('storage-full');
+        full_channel.bind('full', function(data) {
+            alert(data);
+        });
+
+        
+        var coinsfull_channel = pusher.subscribe('coins-empty');
+        coinsfull_channel.bind('empty', function(data) {
+            alert(data);
         });
     </script>
 </x-app-layout>

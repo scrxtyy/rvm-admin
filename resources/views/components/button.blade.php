@@ -9,7 +9,7 @@
             $variantClasses = 'bg-green-500 text-white hover:bg-green-400 focus:ring-green-400';
         break;
         case 'secondary':
-            $variantClasses = 'bg-white text-gray-500 hover:bg-gray-100 focus:ring-green-500 dark:text-gray-400 dark:bg-dark-eval-1 dark:hover:bg-dark-eval-2 dark:hover:text-gray-200';
+            $variantClasses = 'bg-green text-gray-500 hover:text-gray-500 hover:bg-gray-100 focus:ring-green-500 dark:text-gray-700 dark:bg-dark-eval-1 dark:hover:bg-dark-eval-2 dark:hover:text-gray-200';
         break;
         case 'success':
             $variantClasses = 'bg-green-500 text-white hover:bg-green-400 focus:ring-green-400';

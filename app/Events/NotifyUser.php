@@ -9,20 +9,21 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use League\CommonMark\Node\Block\Document;
 
-class UpdateDropdown
+class NotifyUser implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $test;
+    public $notify;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($test)
+    public function __construct($notify)
     {
-        $this->test = $test;
+        $this->notify = $notify;
     }
 
     /**
@@ -32,14 +33,10 @@ class UpdateDropdown
      */
     public function broadcastOn()
     {
-        return new Channel('update-dropdown');
+        return new Channel('notify-user');
     }
-    /**
-     * On Update Event
-     * 
-     * @return void
-     */
+
     public function broadcastAs(){
-        return 'update';
+        return 'notif';
     }
 }

@@ -7,23 +7,7 @@
   </h3>
 </div>
 
-{{-- <form action="/sort" method="GET">
-  <select name="column" class="form-select appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-      <option selected class="text-gray-500">Sort by</option>
-      <option value="created_at">Sent At</option>
-      <option value="deadline">Deadline</option>
-  </select>
-  <select name="order" class="form-select appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-      <option selected class="text-gray-500">Order</option>
-      <option value="asc">From Oldest</option>
-      <option value="desc">From Latest</option>
-  </select>
-  <button type="submit"class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-    Sort
-  </button>
-</form> --}}
-
-<form action="{{url('/filter')}}" method="GET">
+{{-- <form action="{{url('/filter')}}" method="GET">
   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
     Filter by: (RVM ID/Status)
   </label>     
@@ -43,7 +27,7 @@
   <button type="submit"class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
     Filter
   </button>
-</form>
+</form> --}}
 
   @if (isset($filtered))
     <div class="bg-blue-100 rounded-lg py-5 px-6 mb-4 text-base text-blue-700 mb-3" role="alert">
@@ -71,41 +55,46 @@
             <thead class="bg-white border-b">
               <tr>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Sent To: <br> (RVM ID)
+                  Log ID
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Task ID
+                  Storage
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Message
+                  RVM ID
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Sent at
+                  Full at
                 </th>
-                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                {{-- <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                   Status
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
 
-                </th>
+                </th> --}}
               </tr>
             </thead>
             <tbody id="adminnotif-tbody">
-              @foreach($notifications as $notif)
+              @foreach($storageTable as $store)
               <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{$notif->rvm_id}}
+                  {{$store->log_id}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{$notif->id}}
+                  @if ($store->storage==0)
+                      Plastics
+                    @if ($store->storage==1)
+                      Tin Cans
+                    @endif
+                  @endif
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{$notif->message}}
+                  {{$store->rvm_id}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{$notif->created_at}}
+                  {{$store->created_at}}
                 </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                {{-- <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                   @if(isset($notif->status))
                     <span class="text-green-500">{{$notif->status}}</span> <br>
                     @if ($notif->status=="For verification")
@@ -201,7 +190,7 @@
                     </div>
                   </div>
 
-                </td>  
+                </td>   --}}
               </tr>
               @endforeach
             </tbody>
@@ -210,22 +199,5 @@
       </div>
     </div>
   </div>
-
-  <script>
-     var adminnotif_channel = pusher.subscribe('coins-changed');
-
-    adminnotif_channel.bind('insert-1', function(data) {
-      var row = "<tr  class='bg-gray-100 border-b transition duration-300 ease-in-out hover:bg-gray-200'>"+
-              "<td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.id 
-              + "</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.kg_Weight 
-              + " g </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.price 
-              + " PHP</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.created_at 
-              + "</td></tr>";
-      $('#plastic-tbody').prepend(row);
-      
-      const myspan = document.getElementById('plastictotal');
-      myspan.innerHTML = data.total_kg;
-    });
-  </script>
 
 @endsection

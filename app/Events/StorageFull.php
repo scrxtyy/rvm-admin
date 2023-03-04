@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Listeners\StorageListener;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -10,19 +11,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class TestEvent
+class StorageFull
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $test;
+    public $notifyAdmin;
+    public $rvm_id;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($test)
+    public function __construct($notifyAdmin,$rvm_id)
     {
-        $this->test = $test;
+        $this->notifyAdmin = $notifyAdmin;
+        $this->listen(new StorageListener($rvm_id));
     }
 
     /**
@@ -32,11 +35,9 @@ class TestEvent
      */
     public function broadcastOn()
     {
-        return new Channel('test-event');
+        return new PrivateChannel('storage-full');
     }
-
-        public function broadcastAs()
-    {
-        return 'pwet';
+    public function broadcastAs(){
+        return 'full';
     }
 }

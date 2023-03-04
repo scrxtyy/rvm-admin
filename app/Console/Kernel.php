@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +17,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // $id=Auth::user()->id;
         // $schedule->command('inspire')->hourly();
+        // $schedule->call(function () use ($id){
+        //     $value = DB::table('monitor_coins')->where('id', $id)->value('my_column');
+
+        //     if ($value >= 100) {
+        //         // Fire event to notify user
+        //     }
+        // })->everyMinute();
     }
 
     /**
