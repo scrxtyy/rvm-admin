@@ -11,6 +11,12 @@
 
        
         <form method="POST" action="{{ route('login') }}">
+            @if( session('message') )
+                <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+                {{session('message')}}
+                {{ session()->forget('message') }}
+                </div>
+            @endif
             {!! csrf_field() !!}
             <div class="grid gap-6">
                 <!-- Email Address -->
@@ -76,6 +82,7 @@
                 @endif --}}
             </div>
         </form>
+        
         <script>
             window.addEventListener("DOMContentLoaded", function () {
             const togglePassword = document.querySelector("#togglePassword");

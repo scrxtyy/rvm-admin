@@ -12,7 +12,7 @@ use App\Models\monitorPlastics;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+|                               Web Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -27,19 +27,21 @@ Route::resource('/dashboard', EmployeeCRUDController::class)->middleware(['auth'
 Route::get('/dashboard', [EmployeeCRUDController::class, 'index'])->middleware(['auth','verified'])->name('dashboard');
 Route::get('/employee/{id}', [EmployeeCRUDController::class, 'show'])->middleware(['auth'])->name('emp');
 Route::get('/rvm/{id)',[EmployeeCRUDController::class, 'showEmployee']);
-// Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
 
-// Route::group(['prefix' => 'rvm'], function () {
-//     Route::get('/', [RVMController::class, 'index'])->name('rvm');
-//     Route::get('/{id}', [RVMController::class, 'show']);
-//     Route::get('/{id}/edit', [RVMController::class, 'edit']);
-//     Route::get('/create', [RVMController::class, 'create']);
-//     Route::get('{id}/destroy', [RVMController::class, 'destroy']);
-// });
-Route::get('/full-storage',[NotifController::class,'storageBlade']);
+Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
+
+Route::group(['prefix' => 'rvm'], function () {
+    Route::get('/', [RVMController::class, 'index'])->name('rvm');
+    Route::get('/{id}', [RVMController::class, 'show']);
+    Route::get('/{id}/edit', [RVMController::class, 'edit']);
+    Route::get('/create', [RVMController::class, 'create']);
+    Route::get('{id}/destroy', [RVMController::class, 'destroy']);
+});
+
+Route::get('/full-storage',[NotifController::class,'storageBlade'])->name('full-storage');
 Route::get('/trigger-event', [NotifController::class, 'triggerEvent']);
 Route::post('/changePassword', [EmployeeCRUDController::class,'changePassword'])->name('changePassword');
-
+Route::post('/newpassword',[EmployeeCRUDController::class,'newPassword'])->name('newpassword');
 Route::get('/notifications', [NotifController::class, 'notifs'])->middleware(['auth','verified'])->name('notifications');
 Route::post('/uploadProof', [NotifController::class, 'uploadProof'])->name('uploadProof');
 Route::post('/verifyProof', [NotifController::class, 'verifyProof'])->name('verifyProof');

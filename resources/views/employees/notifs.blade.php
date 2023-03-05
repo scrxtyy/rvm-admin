@@ -212,6 +212,15 @@
   </div>
 
   <script>
+
+    const rows = document.querySelectorAll("tr");
+    
+    rows.forEach(row => {
+        row.addEventListener("click", () => {
+            window.location.href = row.dataset.href;
+        });
+    });
+
      var adminnotif_channel = pusher.subscribe('coins-changed');
 
     adminnotif_channel.bind('insert-1', function(data) {

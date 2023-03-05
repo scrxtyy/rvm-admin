@@ -28,7 +28,6 @@ class EmployeeCRUDController extends Controller
     public function index()
     {
         $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
-        // $employees = $employees->Paginate(5, ['*'], 'all');
         return view ('employees.index', compact('employees'));
     }
 
@@ -40,7 +39,8 @@ class EmployeeCRUDController extends Controller
     
     public function create()
     {   
-        return view('employees.create');
+        $allRvms = DB::table('rvms')->paginate(5);
+        return view('employees.create',compact('allRvms'));
     }
  
    
@@ -56,14 +56,14 @@ class EmployeeCRUDController extends Controller
         ],$errors);
         
         $input = User::create([
-            'rvm_id' => $request->rvm,
+            'rvm_id' => $request->rvmid,
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ])->assignRole('employee');
 
         $toEmail = [
-            'rvm_id'=>$request->rvm,
+            'rvm_id'=>$request->rvmid,
             'name'=>$request->name,
             'email' =>$request->email,
             'password'=>$request->password,
@@ -79,28 +79,19 @@ class EmployeeCRUDController extends Controller
     public function show($id)
     {
         $employees = User::find($id);
-        $limit = 0.1;
 
-        $selecttotal= monitorPlastics::where('rvm_id',$employees->rvm_id);
-        $sort = $selecttotal->latest()->first();
-        $totalplastic = $sort->total_kg;
+        $selecttotal= monitorPlastics::where('rvm_id',$employees->rvm_id)->latest()->first();
+        $totalplastic = $selecttotal->total_kg;
         
-        $selecttotal1= monitorTincans::where('rvm_id',$employees->rvm_id);
-        $sort1 = $selecttotal1->latest()->first();
-        $totaltincans = $sort1->total_kg;
+        $selecttotal1= monitorTincans::where('rvm_id',$employees->rvm_id)->latest()->first();
+        $totaltincans = $selecttotal1->total_kg;
+
+        $coinsLog = monitorCoins::where('rvm_id',$employees->rvm_id)->latest()->first(); 
+        $currentCoins = $coinsLog->coins_total;
 
         $plasticBars = monitorPlastics::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
-        $plasticweight = $totalplastic * $limit;
-        $plastic = $plasticweight;
 
         $tinBars = monitorTincans::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
-        $cansweight = $totaltincans * $limit; 
-        $tincans = $cansweight;
-    
-        $coinsLog = monitorCoins::where('rvm_id',$employees->rvm_id);   
-        $sort2 = $coinsLog->latest()->first(); 
-        $currentCoins = $sort2->coins_total; 
-        $coins = $currentCoins / 200;
         
         $plastics = monitorPlastics::where('rvm_id', $employees->rvm_id)->latest();
         $plasticsLog = $plastics->Paginate(5, ['*'], 'plastics');
@@ -111,7 +102,7 @@ class EmployeeCRUDController extends Controller
         $coin = monitorCoins::where('rvm_id', $employees->rvm_id)->latest();
         $coinTable = $coin->Paginate(5, ['*'], 'coins');
 
-        return view('employees.show',compact('coinTable','cansLog','plasticsLog','totalplastic','totaltincans','plasticweight','cansweight','currentCoins','employees','plastic','tincans','coins','plasticBars','tinBars'));
+        return view('employees.show',compact('coinTable','cansLog','plasticsLog','totalplastic','totaltincans','currentCoins','employees','plasticBars','tinBars'));
     }
 
     public function edit($id)
@@ -124,6 +115,26 @@ class EmployeeCRUDController extends Controller
     public function editrvm($id){
         $employees = User::find($id);
         return view('edit.editrvm')->with('employees', $employees);
+    }
+
+    public function newPassword(Request $request){
+        $errors = [
+            'password.required' => 'The new password field is required.',
+            'password.confirmed' => 'The new password does not match.',  
+            'password.min' => 'The new password must be at least 8 characters.',
+        ];
+        $request->validate([
+            'password' => 'required|confirmed|min:8',
+        ],$errors);
+
+        $updated_pw = Hash::make($request->password);
+        
+        DB::table('users')->where('email', $request->email)->update(['password' => $updated_pw]);
+        
+        $message = "Password changed! Please log in.";
+        session(['message' => $message]);
+        return route('/login');
+
     }
 
     public function editpassword($id){
@@ -145,9 +156,6 @@ class EmployeeCRUDController extends Controller
         ],$errors);
 
         $employees = User::find($request->id);
-        // if(!Hash::check($request->current_password, $employees->password)) {
-        //     return redirect()->back()->withErrors(['current_password' => 'The current password is incorrect.']);
-        // }
         $employees = User::find($request->id);
         $updated_pw = Hash::make($request->new_password);
         

@@ -114,53 +114,9 @@
     </form>
       
   @endif
-  {{-- <form action="{{url('/trigger-event')}}" method="get">
-    @csrf
-    <button type="submit" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-    id="trigger-event">
-      Trigger event</b>
-    </button>
-  </form> --}}
 </div>
-{{-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-  <div class="p-6 text-gray-900">
-    <center>
-      <div class="wrapper">
-          <div class="card">
-            <div class="circle">
-              <div class="bar"></div>
-              <a href="#">
-                <div class="box"><span></span></div>
-              </a>
-          </div>
-          <div class="text">Plastic</div>
-        </div>
 
-      <div class="card js">
-          <div class="circle">
-            <div class="bar"></div>
-              <a href="#tincans">
-                <div class="box"><span></span></div>
-              </a>
-          </div>
-          <div class="text">Tin Cans</div>
-        </div>
-
-        <div class="card react">
-          <div class="circle">
-            <div class="bar"></div>
-              <a href="#coins">
-                <div class="box"><span></span></div>
-              </a>
-          </div>
-          <div class="text">Coins</div>
-        </div>
-        
-      </div>
-    </center>
-  </div>
-</div> --}}
-
+{{-- RADIAL PROGRESS BAR --}}
 {{-- <div class="flex items-center justify-center">
   <div class="inline-flex shadow-md hover:shadow-lg focus:shadow-lg" role="group">
     <a
@@ -231,6 +187,7 @@
     </a>
   </div>
 </div> --}}
+
 <ul class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4" id="tabs-tab"
   role="tablist">
 
@@ -300,7 +257,7 @@
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Plastic Bottles</h2>
       <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
-        Total:<span id="plastictotal"> {{$totalplastic}} </span>KG / 10 KG
+        Total:<span id="plastictotal"> {{$totalplastic}} </span>KG / 5 KG
       </x-button>
     </div>
     
@@ -342,7 +299,7 @@
                               {{$plasticLog->created_at}}
                             </td>
                         </tr>
-                  @endforeach
+                    @endforeach
                 </tbody>
                 {{ $plasticsLog->links() }}
               </table>
@@ -352,11 +309,11 @@
       </div>
       <br><br>
       Plastic Bottles Data Chart (kg per day): <br>
-      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div id="chart-wrapper">
-          <canvas id="chart1"></canvas>
-        </div>
-      </div>
+          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div id="chart-wrapper">
+              <canvas id="chart1"></canvas>
+            </div>
+          </div>
 
   </div>
 
@@ -365,7 +322,7 @@
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Tin Cans</h2>
         <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
-          Total:<span id="tincanstotal"> {{$totaltincans}} </span>KG / 10 KG
+          Total:<span id="tincanstotal"> {{$totaltincans}} </span>KG / 5 KG
         </x-button>
       </div>
     <div class="flex flex-col">
@@ -406,7 +363,7 @@
                               {{$canLog->created_at}}
                             </td>
                         </tr>
-                  @endforeach
+                    @endforeach
                 </tbody>
                 {{ $cansLog->links() }}
               </table>
@@ -417,11 +374,11 @@
         <br><br>
         Tin Cans Data Chart (grams per day):
         <br>
-        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div id="chart-wrapper">
-            <canvas id="chart2"></canvas>
+          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div id="chart-wrapper">
+              <canvas id="chart2"></canvas>
+            </div>
           </div>
-        </div>
   </div>
 
   {{-- COINS TAB --}}
@@ -492,6 +449,7 @@
     });
   </script>
 @endrole
+
 <br><br><br>
 
   <script>
@@ -549,21 +507,26 @@
       type: 'bar',
       data: {
         labels: [
-          @foreach($plasticBars as $plasticBar)
-            '{{$plasticBar->date}}',
-          @endforeach
+          @if(isset($plasticBars))
+            @foreach($plasticBars as $plasticBar)
+              '{{$plasticBar->date}}',
+            @endforeach
+          @endif
         ],
         datasets: [{
           label: 'KG of plastic bottles per day',
-          data: [@foreach($plasticBars as $plasticBar)
-            '{{$plasticBar->count}}',
-          @endforeach],
-            backgroundColor: [@foreach($plasticBars as $plasticBar)
-                'rgba(34,197,94, 0.2)',
-            @endforeach],
-            borderColor: [@foreach($plasticBars as $plasticBar)
-                'rgba(34,197,94,  1)',
+          data: [
+                    @foreach($plasticBars as $plasticBar)
+                      '{{$plasticBar->count}}',
+                    @endforeach],
+            backgroundColor: [
+                @foreach($plasticBars as $plasticBar)
+                  'rgba(34,197,94, 0.2)',
                 @endforeach],
+            borderColor: [
+              @foreach($plasticBars as $plasticBar)
+                'rgba(34,197,94,  1)',
+              @endforeach],
           borderWidth: 1
         }]
       },
@@ -610,24 +573,6 @@
           }
         }
       }
-    });
-
-
-    let options = {
-    startAngle: -1.55,
-    size: 150,
-    value: {{$plastic}},
-    fill: {gradient: ['#581b81', '#5e286e']}
-    }
-    $(".circle .bar").circleProgress(options).on('circle-animation-progress',
-    function(event, progress, stepValue){
-    $(this).parent().find("span").text(String(stepValue.toFixed(2).substr(2)) + "%");
-    });
-    $(".js .bar").circleProgress({
-    value: {{$tincans}}
-    });
-    $(".react .bar").circleProgress({
-    value: {{$coins}}
     });
 </script>
 
