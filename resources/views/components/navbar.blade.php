@@ -10,7 +10,6 @@
         '-translate-y-full': scrollingDown,
         'translate-y-0': scrollingUp,
     }">
-
     <div class="flex items-center gap-3">
         <x-button type="button" class="md:hidden" iconOnly variant="secondary" srText="Toggle dark mode"
             @click="toggleTheme">

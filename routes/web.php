@@ -26,16 +26,21 @@ Route::redirect('/', destination:'login');
 Route::resource('/dashboard', EmployeeCRUDController::class)->middleware(['auth','verified']);
 Route::get('/dashboard', [EmployeeCRUDController::class, 'index'])->middleware(['auth','verified'])->name('dashboard');
 Route::get('/employee/{id}', [EmployeeCRUDController::class, 'show'])->middleware(['auth'])->name('emp');
-Route::get('/rvm/{id)',[EmployeeCRUDController::class, 'showEmployee']);
+//Route::get('/rvm/{id})',[EmployeeCRUDController::class, 'showEmployee']);
 
-Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
+//Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
 
+Route::resource('/rvm',RVMController::class)->middleware(['auth','verified']);
 Route::group(['prefix' => 'rvm'], function () {
-    Route::get('/', [RVMController::class, 'index'])->name('rvm');
+    Route::get('/', function(){
+        $allRvms = DB::table('rvms')->paginate(5);
+        return view('employees.rvms')->with('allRvms',$allRvms);
+    })->name('rvm');
     Route::get('/{id}', [RVMController::class, 'show']);
-    Route::get('/{id}/edit', [RVMController::class, 'edit']);
-    Route::get('/create', [RVMController::class, 'create']);
-    Route::get('{id}/destroy', [RVMController::class, 'destroy']);
+    // Route::get('/{id}/edit', [RVMController::class, 'edit']);
+    // Route::get('/create', [RVMController::class, 'create']);
+    //Route::get('/add',[RVMController::class,'store']);
+    // Route::get('{id}/destroy', [RVMController::class, 'destroy']);
 });
 
 Route::get('/full-storage',[NotifController::class,'storageBlade'])->name('full-storage');
@@ -61,6 +66,9 @@ Route::group(['prefix' => 'employee'], function () {
 });
 
 Route::group(['prefix' => 'employee'], function () {
+    Route::get('/',function(){
+        echo 'hello';
+    });
     Route::get('/{id}/edit', [EmployeeCRUDController::class, 'edit']);
     Route::get('/{id}/editrvm', [EmployeeCRUDController::class,'editrvm']);
     Route::get('/{id}/editpassword', [EmployeeCRUDController::class,'editpassword']);

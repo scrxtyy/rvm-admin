@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\monitorCoins;
+use App\Models\monitorPlastics;
+use App\Models\monitorTincans;
 use App\Models\Rvms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +18,8 @@ class RVMController extends Controller
      */
     public function index()
     {
-        $rvms = DB::table('rvms')->paginate(5);
-        return view('rvmcrud.rvmindex')->with('rvms',$rvms);
+        $allRvms = DB::table('rvms')->paginate(5);
+        return view('employees.rvms')->with('allRvms',$allRvms);
     }
 
     /**
@@ -37,13 +40,12 @@ class RVMController extends Controller
      */
     public function store(Request $request)
     {
-        $input = Rvms::create([
+        Rvms::create([
             'rvm_id' => $request->rvm_id,
             'location' => $request->location,
         ]);
         
-        $rvms = DB::table('rvms')->paginate(5);
-        return view ('employees.rvms')->with('rvms',$rvms);
+        return redirect()->route('rvm');
     }
 
     /**
@@ -55,7 +57,30 @@ class RVMController extends Controller
     public function show($id)
     {
         $rvms = Rvms::find($id);
-        return view('rvmcrud.rvmshow')->with('rvms',$rvms);
+
+        $selecttotal= monitorPlastics::where('rvm_id',$rvms->rvm_id)->latest()->first();
+        $totalplastic = $selecttotal->total_kg;
+        
+        $selecttotal1= monitorTincans::where('rvm_id',$rvms->rvm_id)->latest()->first();
+        $totaltincans = $selecttotal1->total_kg;
+
+        $coinsLog = monitorCoins::where('rvm_id',$rvms->rvm_id)->latest()->first(); 
+        $currentCoins = $coinsLog->coins_total;
+
+        $plasticBars = monitorPlastics::where('rvm_id', $rvms->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+
+        $tinBars = monitorTincans::where('rvm_id', $rvms->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
+        
+        $plastics = monitorPlastics::where('rvm_id', $rvms->rvm_id)->latest();
+        $plasticsLog = $plastics->Paginate(5, ['*'], 'plastics');
+
+        $cans = monitorTincans::where('rvm_id', $rvms->rvm_id)->latest();
+        $cansLog = $cans->Paginate(5, ['*'], 'tincans');
+
+        $coin = monitorCoins::where('rvm_id', $rvms->rvm_id)->latest();
+        $coinTable = $coin->Paginate(5, ['*'], 'coins');
+  
+        return view('rvmcrud.rvmshow',compact('coinTable','cansLog','plasticsLog','totalplastic','totaltincans','currentCoins','rvms','plasticBars','tinBars'));
     }
 
     /**
@@ -82,7 +107,7 @@ class RVMController extends Controller
         $rvms = Rvms::find($id);
         $input = $request->all();
         $rvms->update($input);
-        return redirect('employees.rvms');  
+        return redirect()->back('rvm');  
     }
 
     /**
@@ -93,8 +118,7 @@ class RVMController extends Controller
      */
     public function destroy($id)
     {
-        
         Rvms::destroy($id);
-        return redirect('employees.rvms');  
+        return redirect()->back('rvm'); 
     }
 }

@@ -3,7 +3,7 @@
     'roles', function($q){
         $q->where('name', 'employee');
     })->get();
-
+    $rvms = App\Models\Rvms::all();
     $id = Auth::user()->id;
 @endphp
 
@@ -38,7 +38,7 @@
           </svg>
        </x-slot>
     </x-sidebar.link>
-    <x-sidebar.link title="RVMs" href="{{ route('rvms') }}" :isActive="request()->routeIs('rvms')">
+    <x-sidebar.link title="RVMs" href="{{ route('rvm') }}" :isActive="request()->routeIs('rvm')">
         <x-slot name="icon">
             <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
@@ -67,17 +67,17 @@
        </x-slot>
     </x-sidebar.link>
     <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">RVM IDs</div>
-    <x-sidebar.link title="Add a new machine" href="{{ route('dashboard.create') }}" :isActive="request()->routeIs('dashboard.create')">
+    <x-sidebar.link title="Add a new machine" href="{{ route('rvm.create') }}" :isActive="request()->routeIs('rvm.create')">
         <x-slot name="icon">
-            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sliders-h" class="w-5 h-5" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path fill="currentColor" d="M496 384H160v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h80v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h336c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160h-80v-16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h336v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h80c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-160H288V48c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v16H16C7.2 64 0 71.2 0 80v32c0 8.8 7.2 16 16 16h208v16c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16v-16h208c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16z"></path>
-            </svg>
+            <svg fill="none" stroke="currentColor" class="w-6 h-6" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z"></path>
+              </svg>
         </x-slot>
     </x-sidebar.link>
 
-    @foreach ($employees as $index)
+    @foreach ($rvms as $index)
 
-        <x-sidebar.link title="RVM {{ $index->rvm_id}}" href="{{ url('/employee/' . $index->id) }}" :isActive="request()->route()->parameter('id') == $index->id">
+        <x-sidebar.link title="RVM {{ $index->rvm_id}}" href="{{ url('/rvm/' . $index->rvm_id) }}" :isActive="request()->route()->parameter('id') == $index->rvm_id">
             <x-slot name="icon">
                 <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
             </x-slot>

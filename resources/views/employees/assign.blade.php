@@ -55,10 +55,10 @@
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="description">
           Task Deadline
         </label>
-        <input type="date"
+        <input type="date" id="date"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         placeholder="Select a date" name="deadlinedate" required/> 
-        <input type="time"
+        <input type="time" id="time"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         placeholder="Select a time" name="deadlinetime" step="1" required/>  
       </div>
@@ -74,6 +74,8 @@
   </form>
 
 <script>
+  date.min = new Date().toISOString().split("T")[0];
+
   document.getElementById("selectTask").onchange = function() {
     if (this.value === "Replenish Coins") {
       document.getElementById("addcoins").style.display = "block";
