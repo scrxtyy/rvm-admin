@@ -37,7 +37,7 @@
         channel.bind('notif', function(data) {
           toastr.success(JSON.stringify(data));
         });
-        emptied-channel.bind('empty', function(data) {
+        emptied_channel.bind('empty', function(data) {
           alert(data);
         });
     </script>

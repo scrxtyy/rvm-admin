@@ -23,27 +23,150 @@
   </button>
 </form> --}}
 
-<form action="{{url('/filter')}}" method="GET">
+{{-- <form action="{{url('/filter')}}" method="GET">
   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
     Filter by: (RVM ID/Status)
   </label>     
   <select id="rvmid" name="rvmid" class="form-select overflow-x appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
         @php
-            $rvmids = App\Models\User::all()->whereNotNull('rvm_id');
+            $rvmids = App\Models\Rvms::all();
         @endphp
         @foreach($rvmids as $ids)
-          <option value="{{$ids->rvm_id}}">{{$ids->rvm_id}}</option>
+          <option value="{{$ids->rvm_id}}"{{ old('rvmid') == $ids->rvm_id ? 'selected' : '' }}>{{$ids->rvm_id}}</option>
         @endforeach
     </select>
     <select id="status" name="status" class="form-select overflow appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-        <option value="Done">Done</option>
-        <option value="For verification">For Verification</option>
-        <option value="Incomplete">In progress</option>
+      <option value="Done" {{ old('status') == 'Done' ? 'selected' : '' }}>Done</option>
+      <option value="For verification" {{ old('status') == 'For verification' ? 'selected' : '' }}>For Verification</option>
+      <option value="Incomplete" {{ old('status') == 'Incomplete' ? 'selected' : '' }}>In progress</option>
   </select>
+  
   <button type="submit"class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
     Filter
   </button>
-</form>
+</form> --}}
+<form action="{{url('/filter')}}" method="GET">
+  @csrf
+  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+    Filter by:
+  </label>  
+  <select class="form-select appearance-none block w-1/2 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
+  aria-label="Default select example" id="selectFilter" name="selectFilter" placeholder="Select Filter" required>
+    <option value="RVM ID">RVM ID</option>  
+    <option value="Status">Task Status</option>
+    <option value="Deadline">Deadline</option>
+    <option value="Date Sent"> Date Sent</option>
+  </select>
+
+  <div id="dateSent">
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      Date sent
+    </label>   
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      Start Date
+    </label>     
+    <input type="date" class="peer block min-h-[auto] w-1/2 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+    placeholder="Select a date" name="startDate" />
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      End Date
+    </label>     
+    <input type="date" class="peer block min-h-[auto] w-1/2 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+    placeholder="Select a date" name="endDate" />
+  </div>
+
+  <div id="deadline">
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      Date sent
+    </label>   
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      Start Date
+    </label>     
+    <input type="date" class="peer block min-h-[auto] w-1/2 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+    placeholder="Select a date" name="startDeadline" />
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      End Date
+    </label>     
+    <input type="date" class="peer block min-h-[auto] w-1/2 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+    placeholder="Select a date" name="endDeadline" />
+  </div>
+
+
+  <div id="rvmid">
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      RVM ID
+    </label>   
+    <select id="rvmid" name="rvmid" class="form-select overflow-x appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+          @php
+              $rvmids = App\Models\Rvms::all();
+          @endphp
+          @foreach($rvmids as $ids)
+            <option value="{{$ids->rvm_id}}">{{$ids->rvm_id}}</option>
+          @endforeach
+      </select>
+  </div>
+
+  <div id="taskstatus">
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      Status
+    </label>   
+    <select id="status" name="status" class="form-select overflow appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+      <option value="Done">Done</option>
+      <option value="For verification">For Verification</option>
+      <option value="Incomplete">In progress</option>
+    </select>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-1 mb-6 md:mb-0">
+      <button type="submit" class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+        Filter
+      </button>
+    </div>
+    <div class="w-full md:w-1/2 px-1 mb-6 md:mb-0">
+      <a href="{{url('/notifications')}}">
+        <button class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+          Clear Filter
+        </button>
+      </a>
+    </div>
+  </div>
+  </form>
+
+<script>
+  document.getElementById("dateSent").style.display = "none";
+  document.getElementById("taskstatus").style.display = "none";
+  document.getElementById("rvmid").style.display = "none";
+  document.getElementById("deadline").style.display = "none";
+
+  document.getElementById("selectFilter").onchange = function() {
+    if (this.value === "Date Sent") {
+      document.getElementById("dateSent").style.display = "block";
+      document.getElementById("taskstatus").style.display = "none";
+      document.getElementById("rvmid").style.display = "none";
+      document.getElementById("deadline").style.display = "none";
+    } else if(this.value === "Status") {
+      document.getElementById("dateSent").style.display = "none";
+      document.getElementById("taskstatus").style.display = "block";
+      document.getElementById("rvmid").style.display = "none";
+      document.getElementById("deadline").style.display = "none";
+    } else if(this.value === "RVM ID") {
+      document.getElementById("rvmid").style.display = "block";
+      document.getElementById("dateSent").style.display = "none";
+      document.getElementById("taskstatus").style.display = "none";
+      document.getElementById("deadline").style.display = "none";
+    }  else if(this.value === "Deadline") {
+      document.getElementById("rvmid").style.display = "none";
+      document.getElementById("dateSent").style.display = "none";
+      document.getElementById("taskstatus").style.display = "none";
+      document.getElementById("deadline").style.display = "block";
+    } else {
+      document.getElementById("dateSent").style.display = "none";
+      document.getElementById("taskstatus").style.display = "none";
+      document.getElementById("rvmid").style.display = "none";
+      document.getElementById("deadline").style.display = "none";
+    }
+  }
+</script>
+
 
   @if (isset($filtered))
     <div class="bg-blue-100 rounded-lg py-5 px-6 mb-4 text-base text-blue-700 mb-3" role="alert">
@@ -67,7 +190,7 @@
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
         <div class="overflow-hidden">
-          <table class="min-w-full">
+          <table class="min-w-full" id ="notification-list">
             <thead class="bg-white border-b">
               <tr>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
@@ -212,29 +335,30 @@
   </div>
 
   <script>
+    //   $(function() {
+    //     $('#status').val('{{ session('status') }}');
+    // });
 
-    const rows = document.querySelectorAll("tr");
-    
-    rows.forEach(row => {
-        row.addEventListener("click", () => {
-            window.location.href = row.dataset.href;
-        });
-    });
+    // $('#status').on('change', function() {
+    //         var filterValue = $(this).val();
+    //         var rvmId = $('#rvm-id').val();
 
-     var adminnotif_channel = pusher.subscribe('coins-changed');
-
-    adminnotif_channel.bind('insert-1', function(data) {
-      var row = "<tr  class='bg-gray-100 border-b transition duration-300 ease-in-out hover:bg-gray-200'>"+
-              "<td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.id 
-              + "</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.kg_Weight 
-              + " g </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.price 
-              + " PHP</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.created_at 
-              + "</td></tr>";
-      $('#plastic-tbody').prepend(row);
-      
-      const myspan = document.getElementById('plastictotal');
-      myspan.innerHTML = data.total_kg;
-    });
-  </script>
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: '/filter',
+    //             data: {
+    //                 '_token': $('meta[name="csrf-token"]').attr('content'),
+    //                 'status': filterValue,
+    //                 'rvmid': rvmId
+    //             },
+    //             success: function(data) {
+    //                 $('#notification-list').html(data);
+    //             },
+    //             error: function() {
+    //                 console.log('Error');
+    //             }
+    //         });
+    //     });
+</script>
 
 @endsection

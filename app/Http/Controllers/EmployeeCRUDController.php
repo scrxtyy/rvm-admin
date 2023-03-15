@@ -50,9 +50,11 @@ class EmployeeCRUDController extends Controller
             'password.required' => 'Password field is required.',
             'password.confirmed' => 'Password does not match.',  
             'password.min' => 'Password must be at least 8 characters.',
+            'email.unique' => 'Email already exists.'
         ];
         $request->validate([
             'password' => 'required|confirmed|min:8',
+            'email' => 'unique:users,email',
         ],$errors);
         
         $input = User::create([
@@ -133,7 +135,7 @@ class EmployeeCRUDController extends Controller
         
         $message = "Password changed! Please log in.";
         session(['message' => $message]);
-        return route('/login');
+        return redirect()->route('login');
 
     }
 
@@ -191,51 +193,63 @@ class EmployeeCRUDController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
-        $employees = User::where('name', 'like', "%{$search}%")->paginate(5);
+        $employees = User::where('name', 'like', "%{$search}%")
+        ->orWhere('email', 'LIKE', "%{$search}%")
+        ->orWhere('id', 'LIKE', "%{$search}%")
+        ->orWhere('rvm_id', 'LIKE', "%{$search}%")->paginate(5);
         return view('employees.index', ['employees' => $employees]);
     }
 
     public function clearsearch(Request $request){
-        $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
+        $employees = DB::table('users')->whereNotNull('rvm_id')->get();
         return view ('employees.index', compact('employees'));
-    }
-    public function sort(Request $request)
-    {
-        $column = $request->get('column');
-        $order = $request->get('order');
-        if($order == "asc"){
-            $ordermsg = "Ascending";
-        }
-        if($order == "desc"){
-            $ordermsg = "Descending";
-        }
-        $notifications = Notifications::orderBy($column, $order)->paginate(10);
-        $sorted = "Sorted by " . "'". $column ."' in ". $ordermsg . " order.";
-        return view('employees.notifs')->with('notifications', $notifications)->with('sorted',$sorted);
     }
 
     public function filter(Request $request){
-        $status = $request->status;
-        if ($request->status == "Incomplete") {
-            $status = null;
-        }
-    $notifications = Notifications::where('rvm_id', '=', $request->rvmid)
-        ->where('status', '=', $status)->get();
+        $filterBy = $request->selectFilter;
+        $what = '';
 
-    $filtered = "Showing only " . "'".$request->status ."' status for RVM ID: ". $request->rvmid;
-    return view('employees.notifs')->with('notifications',$notifications)->with('filtered',$filtered); 
+        if($filterBy == 'Date Sent'){
+            $notifications = Notifications::whereBetween('created_at', [$request->startDate, $request->endDate])->latest()->get();
+            $what = $request->startDate .' to '.$request->endDate;
+        }
+        else if($filterBy == 'Deadline'){
+            $notifications = Notifications::whereBetween('deadline', [$request->startDeadline, $request->endDeadline])->latest()->get();
+            $what = $request->startDeadline .' to '.$request->endDeadline;
+        }
+        else if($filterBy=='Status'){
+            $status = $request->status;
+            if ($request->status == "Incomplete") {
+                $status = null;
+            }
+        
+            $notifications = Notifications::where('rvm_id', '=', $request->rvmid)
+                ->where('status', '=', $status)->latest()->get();
+            $what = $request->status;
+        }
+        else if($filterBy=='RVM ID'){
+            $notifications = Notifications::where('rvm_id', '=', $request->rvmid)->latest()->get();
+            $what = $request->rvmid;
+        }else{
+        $notifications = Notifications::latest()->get();
+        }
+        $filtered = "Filter by '" .$filterBy. "': ". $what;
+        return view('employees.notifs')
+            ->with('notifications',$notifications)
+            ->with('filtered',$filtered);
     }
+    
 
     public function filterEmployee(Request $request){
-        $status = $request->status;
-        if ($request->status == "Incomplete") {
+        $status = $request->empstatus;
+        if ($request->empstatus == "Incomplete") {
             $status = null;
         }
-    $notifications = Notifications::where('rvm_id', '=', $request->rvmid)
-        ->where('status', '=', $status)->get();
+        $notifications = Notifications::where('rvm_id', '=', $request->emprvmid)
+            ->where('status', '=', $status)->get();
 
-    $filtered = "Showing only " . "'".$request->status ."' status for RVM ID: ". $request->rvmid;
-    return view('rvm.employeenotif')->with('notifications',$notifications)->with('filtered',$filtered); 
+        $filtered = "Showing only " . "'".$request->empstatus ."' status for RVM ID: ". $request->emprvmid;
+        return view('rvm.employeenotif')->with('notifications',$notifications)->with('filtered',$filtered); 
     }
 
     public function sortEmployee(Request $request)

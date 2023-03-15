@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\NotifController;
 use App\Http\Controllers\RVMController;
 use App\Models\fullStorageNotifications;
+use App\Models\GramsToCoins;
 use App\Models\Notifications;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,11 @@ Route::get('/employee/{id}', [EmployeeCRUDController::class, 'show'])->middlewar
 
 //Route::get('/rvms', [EmployeeCRUDController::class, 'rvmTable'])->middleware(['auth','verified'])->name('rvms');
 
+Route::get('/configure-price',function(){
+    $grams = GramsToCoins::all();
+    return view('employees.configprices')->with('grams',$grams);
+})->name('config');
+Route::get('/updatePrice',[RVMController::class, 'updatePrice']);
 Route::resource('/rvm',RVMController::class)->middleware(['auth','verified']);
 Route::group(['prefix' => 'rvm'], function () {
     Route::get('/', function(){

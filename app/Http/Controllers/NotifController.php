@@ -19,7 +19,6 @@ use Carbon\Carbon;
 
 class NotifController extends Controller
 {
-
     public function storageBlade(){
         $storageTable = fullStorageNotifications::latest()->get();
         return view('employees.fullstorage')->with('storageTable',$storageTable);
@@ -80,8 +79,7 @@ class NotifController extends Controller
         Mail::to($email)->queue(new RvmMail($task));
         
         $count = Notifications::where('sender_id', '=', $request->id)->where('isread', '=', 0)->count();
-         
-
+        
         $pusher = new Pusher(
             env('PUSHER_APP_KEY'),
             env('PUSHER_APP_SECRET'),
@@ -117,10 +115,17 @@ class NotifController extends Controller
     }
 
     public function uploadProof(Request $request){
+        $errors = [
+            'proof.image' => 'Proof must be in an image format. (JPEG, JPG, PNG)',
+        ];
+        $request->validate([
+            'proof' => 'image|mimes:jpeg,jpg,png',
+        ],$errors);
+
         $image = $request->proof;
         $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
         Image::make($image)->resize(300,200)->save('image/'.$name_gen);
-            
+       
         DB::table('notifications')->where('id',$request->id)->update(['proof' => 'image/'.$name_gen]);
         DB::table('notifications')->where('id', $request->id)->update(['status' => "For verification"]);
 

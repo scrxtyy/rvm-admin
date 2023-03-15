@@ -7,7 +7,7 @@
   </h3>
 </div>
 
-<form action="{{url('/filterEmployee')}}" method="GET">
+{{-- <form action="{{url('/filterEmployee')}}" method="GET">
     @php
         $rvm = Auth::user();
     @endphp
@@ -23,13 +23,31 @@
   <button type="submit"class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
     Filter
   </button>
+</form> --}}
+<form>
+  @csrf
+    @php
+      $rvm = Auth::user();
+    @endphp
+    <input type="hidden" name="emprvmid" value="{{$rvm->rvm_id}}">
+  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+    Filter by: (Status)
+  </label>     
+  <select id="empstatus" name="empstatus" class="form-select overflow appearance-none font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+    <option value="Done" {{ session('empstatus') == 'Done' ? 'selected' : '' }}>Done</option>
+    <option value="For verification" {{ session('empstatus') == 'For verification' ? 'selected' : '' }}>For Verification</option>
+    <option value="Incomplete" {{ session('empstatus') == 'Incomplete' ? 'selected' : '' }}>In progress</option>
+</select>
+<button type="submit"class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+  Filter
+</button>
 </form>
 
   <div class="flex flex-col">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
         <div class="overflow-hidden">
-          <table class="min-w-full">
+          <table class="min-w-full" id="notification-list">
             <thead class="border-b bg-neutral-800 font-bold text-white dark:border-neutral-500 dark:bg-neutral-900">
               <tr>
                 <th scope="col" class="text-sm font-bold text-white-900 px-6 py-4 text-left">
@@ -106,12 +124,38 @@
     </div>
   </div>
   <script>
-    const rows = document.querySelectorAll("tr[data-href]");
+
+    // $(function() {
+    //     $('#status').val('{{ session('status') }}');
+    // });
+
+    // $('#status').on('change', function() {
+    //         var filterValue = $(this).val();
+    //         var rvmId = $('#rvm-id').val();
+
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: '/filterEmployee',
+    //             data: {
+    //                 '_token': $('meta[name="csrf-token"]').attr('content'),
+    //                 'status': filterValue,
+    //                 'rvmid': rvmId
+    //             },
+    //             success: function(data) {
+    //                 $('#notification-list').html(data);
+    //             },
+    //             error: function() {
+    //                 console.log('Error');
+    //             }
+    //         });
+    //     });
+
+        const rows = document.querySelectorAll("tr[data-href]");
     
-    rows.forEach(row => {
-        row.addEventListener("click", () => {
-            window.location.href = row.dataset.href;
+        rows.forEach(row => {
+            row.addEventListener("click", () => {
+                window.location.href = row.dataset.href;
+            });
         });
-    });
   </script>
 @endsection

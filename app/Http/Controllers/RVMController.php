@@ -7,7 +7,9 @@ use App\Models\monitorPlastics;
 use App\Models\monitorTincans;
 use App\Models\Rvms;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class RVMController extends Controller
 {
@@ -107,7 +109,7 @@ class RVMController extends Controller
         $rvms = Rvms::find($id);
         $input = $request->all();
         $rvms->update($input);
-        return redirect()->back('rvm');  
+        return redirect()->route('rvm');  
     }
 
     /**
@@ -119,6 +121,18 @@ class RVMController extends Controller
     public function destroy($id)
     {
         Rvms::destroy($id);
-        return redirect()->back('rvm'); 
+        return redirect()->route('rvm'); 
+    }
+
+    public function updatePrice(Request $request){
+        $admin = Auth::user();
+        $hashedPassword = $admin ? $admin->getAuthPassword() : null;
+        if (Hash::check($request->password, $hashedPassword)) {
+            DB::table('grams_to_coins')->where('id', 1)->update([$request->waste => $request->gramsperpiso]);     
+            session(['message' => 'Grams per coins successfully updated!']);
+        } else {
+            session(['incorrect' => 'Incorrect Admin password!']);
+        }
+        return redirect()->back();
     }
 }
