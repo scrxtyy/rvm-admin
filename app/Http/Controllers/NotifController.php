@@ -91,11 +91,11 @@ class NotifController extends Controller
         );
         
         $events = [
-            [
-                'channel' => 'notify-user',
-                'name' => 'notif',
-                'data' => $notify
-            ],
+        //     [
+        //         'channel' => 'notify-user',
+        //         'name' => 'notif',
+        //         'data' => $notify
+        //     ],
             [
                 'channel' => 'update-count',
                 'name' => 'count',
@@ -105,8 +105,8 @@ class NotifController extends Controller
         
         $pusher->triggerBatch($events);
 
-        // UpdateNotifCount::dispatch($count);
-        // NotifyUser::dispatch($notify);
+        //UpdateNotifCount::dispatch($count);
+        NotifyUser::dispatch($notify);
 
         $message = "Notification sent to RVM ID: ". $request->rvmid;
         session(['message' => $message]);

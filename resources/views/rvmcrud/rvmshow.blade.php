@@ -182,9 +182,9 @@
   <div class="tab-pane fade show active" id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Plastic Bottles</h2>
-      <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
+      <label class="rounded items-center max-w-xs gap-2 bg-black text-white p-4">
         Total:<span id="plastictotal"> {{$totalplastic}} </span>KG / 5 KG
-      </x-button>
+      </label>
     </div>
     
     <div class="flex flex-col">
@@ -247,9 +247,9 @@
   <div class="tab-pane fade" id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Tin Cans</h2>
-        <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
+        <label class="rounded items-center max-w-xs gap-2 bg-black text-white p-4">
           Total:<span id="tincanstotal"> {{$totaltincans}} </span>KG / 5 KG
-        </x-button>
+        </label>
       </div>
     <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -311,9 +311,9 @@
   <div class="tab-pane fade" id="tabs-messages" role="tabpanel" aria-labelledby="tabs-profile-tab">
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Coins</h2>
-      <x-button target="_blank" href="#" variant="black" class="items-center max-w-xs gap-2">
+      <label class="rounded items-center max-w-xs gap-2 bg-black text-white p-4">
         Total:<span id="currentcoins"> {{$currentCoins}} </span>PHP / 200 PHP
-      </x-button>
+      </label>
     </div>
 
     <div class="flex flex-col">

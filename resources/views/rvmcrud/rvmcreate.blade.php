@@ -3,9 +3,21 @@
 @section('content')
   
   @php
-        $rvm = App\Models\Rvms::latest()->first();   
+        $rvm = App\Models\Rvms::oldest()->first();   
         $lastrvmid = $rvm->rvm_id;
   @endphp
+  @if( session('message') )
+  <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+    {{session('message')}}
+    {{session()->forget('message')}}
+  </div>
+  @endif
+  @if( session('incorrect') )
+  <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
+    {{session('incorrect')}}
+    {{session()->forget('incorrect')}}
+  </div>
+  @endif
 
   <form class="w-full max-w-lg" action="{{route('rvm')}}" method="post">
     @if ($errors->any())
@@ -22,7 +34,7 @@
           RVM ID
         </label>
         <label class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="rvm_id" id="rvm_id">
-          {{$lastrvmid}}
+          {{$lastrvmid+1}}
         </label>
       </div>
     </div>

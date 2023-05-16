@@ -42,11 +42,15 @@ class RVMController extends Controller
      */
     public function store(Request $request)
     {
+        
+        $rvm = Rvms::oldest()->first();   
+        $lastrvmid = $rvm->rvm_id;
         Rvms::create([
-            'rvm_id' => $request->rvm_id,
+            'rvm_id' => $lastrvmid +1,
             'location' => $request->location,
         ]);
         
+        session(['message' => 'RVM Successfully created!']);
         return redirect()->route('rvm');
     }
 
@@ -109,6 +113,7 @@ class RVMController extends Controller
         $rvms = Rvms::find($id);
         $input = $request->all();
         $rvms->update($input);
+        
         return redirect()->route('rvm');  
     }
 

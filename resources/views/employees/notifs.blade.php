@@ -115,20 +115,14 @@
       <option value="Incomplete">In progress</option>
     </select>
   </div>
-  <div class="flex flex-wrap -mx-3 mb-6">
-    <div class="w-full md:w-1/2 px-1 mb-6 md:mb-0">
       <button type="submit" class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
         Filter
       </button>
-    </div>
-    <div class="w-full md:w-1/2 px-1 mb-6 md:mb-0">
       <a href="{{url('/notifications')}}">
         <button class="inline-block px-6 py-2.5 m-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
           Clear Filter
         </button>
       </a>
-    </div>
-  </div>
   </form>
 
 <script>

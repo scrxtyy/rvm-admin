@@ -2,6 +2,19 @@
 
 @section('content')
 
+@if( session('message') )
+  <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
+    {{session('message')}}
+    {{session()->forget('message')}}
+  </div>
+@endif
+
+@if( session('incorrect') )
+  <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
+    {{session('incorrect')}}
+    {{session()->forget('incorrect')}}
+  </div>
+@endif
 <span class="mb-2 font-semibold">CURRENT DATA:</span>
 
     @foreach ($grams as $item)
@@ -35,18 +48,7 @@
   <form action="{{url('/updatePrice')}}" method="get">
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        @if( session('message') )
-        <div class="bg-green-100 rounded-lg py-5 px-6 mb-4 text-base text-green-700 mb-3" role="alert">
-          {{session('message')}}
-          {{session()->forget('message')}}
-        </div>
-        @endif
-        @if( session('incorrect') )
-        <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
-          {{session('incorrect')}}
-          {{session()->forget('incorrect')}}
-        </div>
-        @endif
+     
         {!! csrf_field() !!}
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
           Select waste price to configure:

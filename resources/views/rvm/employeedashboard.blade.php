@@ -32,13 +32,13 @@
         });
         
         var channel = pusher.subscribe('notify-user');
-        var emptied_channel = pusher.subscribe('storage-emptied');
+        // var emptied_channel = pusher.subscribe('storage-emptied');
         
         channel.bind('notif', function(data) {
-          toastr.success(JSON.stringify(data));
+          toastr.success(JSON.stringify(data.notify));
         });
-        emptied_channel.bind('empty', function(data) {
-          alert(data);
-        });
+        // emptied_channel.bind('empty', function(data) {
+        //   alert(data);
+        // });
     </script>
 </x-app-layout>
