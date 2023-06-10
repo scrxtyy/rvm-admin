@@ -12,6 +12,7 @@ use App\Models\monitorCoins;
 use App\Models\monitorPlastics;
 use App\Models\monitorTincans;
 use App\Models\Notifications;
+use App\Models\UserReports;
 use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Collection\Paginate;
 use DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 
 class EmployeeCRUDController extends Controller
 {
@@ -64,6 +66,14 @@ class EmployeeCRUDController extends Controller
             'password' => Hash::make($request->password),
         ])->assignRole('employee');
 
+        //REPORT
+            $input2 = UserReports::create([
+                'user_type'=>'0',
+                'user_id'=> '19',
+                'action'=> 'User: ' .Str::upper($request->name).' has been created.'
+                
+            ]);
+        //END OF REPORT
         $toEmail = [
             'rvm_id'=>$request->rvmid,
             'name'=>$request->name,
@@ -129,9 +139,19 @@ class EmployeeCRUDController extends Controller
             'password' => 'required|confirmed|min:8',
         ],$errors);
 
+        //REPORT
+        UserReports::create([
+            'user_type' => '0',
+            'user_id' => '19',
+            'action' => 'User password has been changed with ID: '.$request->id
+        ]);
+        //END OF REPORT
+
         $updated_pw = Hash::make($request->password);
         
         DB::table('users')->where('email', $request->email)->update(['password' => $updated_pw]);
+
+        
         
         $message = "Password changed! Please log in.";
         session(['message' => $message]);
@@ -158,10 +178,16 @@ class EmployeeCRUDController extends Controller
         ],$errors);
 
         $employees = User::find($request->id);
-        $employees = User::find($request->id);
         $updated_pw = Hash::make($request->new_password);
         
         DB::table('users')->where('id', $request->id)->update(['password' => $updated_pw]);
+         //REPORT
+         UserReports::create([
+            'user_type' => '0',
+            'user_id' => '19',
+            'action' => 'User password has been changed with ID: '.$request->id
+        ]);
+        //END OF REPORT
 
         $email = $employees->email;
         Mail::to($email)->queue(new PasswordChanged($request->new_password));

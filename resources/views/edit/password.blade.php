@@ -12,25 +12,12 @@ Change Password
 <form action="{{route('changePassword')}}" method="post">
     <br>
     @csrf
-    @if(session('success'))
-        <h1>{{session('success')}}</h1>
-        {{session()->forget('success')}}
-    @endif
+   
  
 
     <input type="hidden" name="id" value="{{$employees->id}}">
     {{-- <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0"> --}}
-    @if ($errors->any())
-        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-            <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
-                <ul class="list-disc">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
-    @endif
+    
         {{-- <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         Old Password
         </label>
@@ -45,6 +32,21 @@ Change Password
         </label>
     </div> --}}
     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        @if(session('success'))
+            <h1>{{session('success')}}</h1>
+            {{session()->forget('success')}}
+        @endif
+        @if ($errors->any())
+            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
+                    <ul class="list-disc">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
         New Password
         </label>
