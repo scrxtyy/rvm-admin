@@ -12,9 +12,6 @@ Change Password
 <form action="{{route('changePassword')}}" method="post">
     <br>
     @csrf
-   
- 
-
     <input type="hidden" name="id" value="{{$employees->id}}">
     {{-- <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0"> --}}
     
