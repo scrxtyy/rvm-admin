@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Collection\Paginate;
-use DB;
+use App\Http\Controllers\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 
@@ -161,7 +161,6 @@ class EmployeeCRUDController extends Controller
 
     public function editpassword($id){
         $employees = User::find($id);
-        
         return view('edit.password')->with('employees', $employees);
     }
 
