@@ -28,13 +28,13 @@
       </div>
     @endif
     @csrf
-    <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="flex flex-wrap -mx-3 mb-6" >
       <div class="w-full px-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-name">
           RVM ID
         </label>
         <label class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="rvm_id" id="rvm_id">
-          {{$lastrvmid+1}}
+          
         </label>
       </div>
     </div>
@@ -54,4 +54,12 @@
     </div>
  </div>
   </form>
+  
+  <script>
+    window.onload = function generateCode() {
+     var prefix = "RVM-";
+     var code = prefix + Math.floor(Math.random() * 100000) + "-" + Math.floor(Math.random() * 100000) ;
+     document.getElementById("rvm_id").innerHTML = code;
+   }
+ </script>
 @endsection

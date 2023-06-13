@@ -3,6 +3,7 @@
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\NotifController;
+use App\Http\Controllers\RecordsController;
 use App\Http\Controllers\RVMController;
 use App\Models\fullStorageNotifications;
 use App\Models\GramsToCoins;
@@ -35,6 +36,7 @@ Route::get('/configure-price',function(){
     $grams = GramsToCoins::all();
     return view('employees.configprices')->with('grams',$grams);
 })->name('config');
+Route::get('/logs',[RecordsController::class,'displayLogs'])->name('logs');
 Route::get('/updatePrice',[RVMController::class, 'updatePrice']);
 Route::resource('/rvm',RVMController::class)->middleware(['auth','verified']);
 Route::group(['prefix' => 'rvm'], function () {
@@ -45,7 +47,7 @@ Route::group(['prefix' => 'rvm'], function () {
     Route::get('/{id}', [RVMController::class, 'show']);
     // Route::get('/{id}/edit', [RVMController::class, 'edit']);
     // Route::get('/create', [RVMController::class, 'create']);
-    //Route::get('/add',[RVMController::class,'store']);
+    // Route::get('/add',[RVMController::class,'store']);
     // Route::get('{id}/destroy', [RVMController::class, 'destroy']);
 });
 

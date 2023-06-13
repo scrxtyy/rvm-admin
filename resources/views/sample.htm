@@ -2,19 +2,10 @@
 <html>
 <head>
     <script>
-        function generateCode() {
-            var prefix = "RVM - ";
-            var code = prefix + Math.floor(Math.random() * 100000) + " - " + generateRandomString(4) ;
+        window.onload = function generateCode() {
+            var prefix = "RVM-";
+            var code = prefix + Math.floor(Math.random() * 100000) + "-" + Math.floor(Math.random() * 100000) ;
             document.getElementById("code").innerHTML = code;
-        }
-		 function generateRandomString(length) {
-            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwzyx';
-            var randomString = '';
-            for (var i = 0; i < length; i++) {
-                var randomIndex = Math.floor(Math.random() * characters.length);
-                randomString += characters.charAt(randomIndex);
-            }
-            return randomString;
         }
     </script>
 </head>
