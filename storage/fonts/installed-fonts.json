@@ -1,0 +1,11 @@
+{
+    "inter": {
+        "200": "C:\\xampp\\htdocs\\rvm-admin\\storage\\fonts\/inter_200_e6c1fbcf88f8b708cc1d3e57af1c144b",
+        "300": "C:\\xampp\\htdocs\\rvm-admin\\storage\\fonts\/inter_300_6f003d6153bb6629d9efcdc027439d83",
+        "normal": "C:\\xampp\\htdocs\\rvm-admin\\storage\\fonts\/inter_normal_4c1c39b2d60dc6de8a3bc272ce3fe7dc",
+        "600": "C:\\xampp\\htdocs\\rvm-admin\\storage\\fonts\/inter_600_5fa3cee4db6b0338a4ce38a93c93ddd3",
+        "bold": "C:\\xampp\\htdocs\\rvm-admin\\storage\\fonts\/inter_bold_c57a050bb9f74fe1522e9f687ba11188",
+        "800": "C:\\xampp\\htdocs\\rvm-admin\\storage\\fonts\/inter_800_d0a767ffeda1c5c5782aa5e0f854b616",
+        "900": "inter_900_4577264094a2ca5c1e656fd5cd767851"
+    }
+}

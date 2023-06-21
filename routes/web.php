@@ -37,6 +37,7 @@ Route::get('/configure-price',function(){
     return view('employees.configprices')->with('grams',$grams);
 })->name('config');
 Route::get('/logs',[RecordsController::class,'displayLogs'])->name('logs');
+Route::get('/downloadLogs',[RecordsController::class,'downloadPDF']);
 Route::get('/updatePrice',[RVMController::class, 'updatePrice']);
 Route::resource('/rvm',RVMController::class)->middleware(['auth','verified']);
 Route::group(['prefix' => 'rvm'], function () {

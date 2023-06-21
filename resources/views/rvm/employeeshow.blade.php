@@ -219,8 +219,7 @@ Tin Cans
     >
       Tin Cans
     </a>
-    <a
-    href="{{ url('/employee/' . $employees->id . '/coins#down')}}"
+    <a href="{{ url('/employee/' . $employees->id . '/coins#down')}}"
       class="
         rounded-r
         px-6

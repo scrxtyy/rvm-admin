@@ -1,3 +1,6 @@
+@vite('resources/css/app.css')
+@vite('resources/js/app.js')
+
 <x-app-layout>
     <x-slot name="header">
         
