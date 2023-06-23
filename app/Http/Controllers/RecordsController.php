@@ -16,18 +16,11 @@ class RecordsController extends Controller
         $logs = DB::table('user_reports')->paginate(10);
         return view ('employees.logs', compact('logs'));
     }
-    public function downloadPDF(){
-        // $logssql = UserReports::all();
-        // foreach ($logssql as $log) {
-        //     echo $log->action;
-        // }
-        // $logs = $logssql->toArray();
-        // $pdf = Pdf::loadView('employees.logs',$logs);
-        // return $pdf->download('Downloads/logs.pdf');
-        $logs = UserReports::all();
+    public function downloadPDF(Request $request){
+        $logs = UserReports::whereBetween('created_at',[$request->startDate,$request->endDate]);
         view()->share('user_reports',$logs);
         ini_set('max_execution_time', 120);
-        $pdf = PDF::loadView('employees.logs')->setOption(['defaultFont' => 'sans-serif']);
+        $pdf = PDF::loadView('pdf.logs',compact('logs'));
         return $pdf->download('reports.pdf');
     }
     // public function downloadPDF(Request $request){
