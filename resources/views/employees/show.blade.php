@@ -262,10 +262,17 @@
     </div>
     
     <div class="flex flex-col">
+      <br><br>
+      Plastic Bottles Data Chart (kg per day): <br>
+          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div id="chart-wrapper">
+              <canvas id="chart1"></canvas>
+            </div>
+          </div>
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
             <div class="overflow-hidden">
-              <table class="min-w-full">
+              <table id = " " class="min-w-full" style="width:100%">
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
@@ -301,19 +308,12 @@
                         </tr>
                     @endforeach
                 </tbody>
-                {{ $plasticsLog->links() }}
+                {{-- {{ $plasticsLog->links() }} --}}
               </table>
             </div>
           </div>
         </div>
       </div>
-      <br><br>
-      Plastic Bottles Data Chart (kg per day): <br>
-          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div id="chart-wrapper">
-              <canvas id="chart1"></canvas>
-            </div>
-          </div>
 
   </div>
 
@@ -326,10 +326,18 @@
         </label>
       </div>
     <div class="flex flex-col">
+      <br><br>
+      Tin Cans Data Chart (grams per day):
+      <br>
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div id="chart-wrapper">
+            <canvas id="chart2"></canvas>
+          </div>
+        </div>
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
             <div class="overflow-hidden">
-              <table class="min-w-full">
+              <table id = " " class="min-w-full">
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
@@ -365,20 +373,12 @@
                         </tr>
                     @endforeach
                 </tbody>
-                {{ $cansLog->links() }}
+                {{-- {{ $cansLog->links() }} --}}
               </table>
             </div>
           </div>
         </div>
       </div>
-        <br><br>
-        Tin Cans Data Chart (grams per day):
-        <br>
-          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div id="chart-wrapper">
-              <canvas id="chart2"></canvas>
-            </div>
-          </div>
   </div>
 
   {{-- COINS TAB --}}
@@ -394,7 +394,7 @@
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div class="overflow-hidden">
-            <table class="min-w-full">
+            <table id =" " class="min-w-full">
               <thead class="border-b bg-gray-800">
                 <tr>
                   
@@ -424,7 +424,7 @@
                       </tr>
                 @endforeach
               </tbody>
-              {{$coinTable->links()}}
+              {{-- {{$coinTable->links()}} --}}
             </table>
           </div>
         </div>
@@ -435,6 +435,7 @@
 
 </div>
 <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
 @role('employee') 
   <script>
     //Pusher.logToConsole = true;
@@ -451,8 +452,13 @@
 @endrole
 
 <br><br><br>
-
   <script>
+    $(document).ready(function () {
+      $('table.min-w-full').DataTable({
+        searching: false
+    });
+
+});
     //Pusher.logToConsole = true;
     var pusher = new Pusher('b89eb6a948d95cf92f3b', {
     cluster: 'ap1'
