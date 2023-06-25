@@ -90,6 +90,15 @@
     </div>
   </div>
 </div> --}}
+<script>
+  // Initialization for ES Users
+  import {
+    Tab,
+    initTE,
+  } from "tw-elements";
+
+  initTE({ Tab });
+</script>
 
 <form action="{{url('/downloadLogs')}}" method="get">
   <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">

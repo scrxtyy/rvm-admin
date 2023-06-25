@@ -115,7 +115,16 @@
       
   @endif
 </div>
+<script>
+  
+    // Initialization for ES Users
+    import {
+      Tab,
+      initTE,
+    } from "tw-elements";
 
+    initTE({ Tab });
+</script>
 {{-- RADIAL PROGRESS BAR --}}
 {{-- <div class="flex items-center justify-center">
   <div class="inline-flex shadow-md hover:shadow-lg focus:shadow-lg" role="group">
@@ -207,7 +216,7 @@
       hover:border-transparent hover:bg-gray-100
       focus:border-transparent
       active
-    " id="tabs-home-tab" data-bs-toggle="pill" data-bs-target="#tabs-home" role="tab" aria-controls="tabs-home"
+    " id="tabs-home-tab" data-te-toggle="pill" data-te-target="#tabs-home" role="tab" aria-controls="tabs-home"
       aria-selected="true">Plastics</a>
   </li>
 
@@ -226,7 +235,7 @@
       my-2
       hover:border-transparent hover:bg-gray-100
       focus:border-transparent
-    " id="tabs-profile-tab" data-bs-toggle="pill" data-bs-target="#tabs-profile" role="tab"
+    " id="tabs-profile-tab" data-te-toggle="pill" data-te-target="#tabs-profile" role="tab"
       aria-controls="tabs-profile" aria-selected="false">Tin Cans</a>
   </li>
 
@@ -245,7 +254,7 @@
       my-2
       hover:border-transparent hover:bg-gray-100
       focus:border-transparent
-    " id="tabs-messages-tab" data-bs-toggle="pill" data-bs-target="#tabs-messages" role="tab"
+    " id="tabs-messages-tab" data-te-toggle="pill" data-te-target="#tabs-messages" role="tab"
       aria-controls="tabs-messages" aria-selected="false">Coins</a>
   </li>
 </ul>
@@ -287,7 +296,6 @@
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
                       Date/Time
                     </th>
-    
                   </tr>
                 </thead>
                 <tbody id="plastic-tbody">

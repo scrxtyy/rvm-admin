@@ -36,6 +36,10 @@ Route::get('/configure-price',function(){
     $grams = GramsToCoins::all();
     return view('employees.configprices')->with('grams',$grams);
 })->name('config');
+Route::get('/brgy',function(){
+    return view('employees.brgy');
+}
+);
 Route::get('/logs',[RecordsController::class,'displayLogs'])->name('logs');
 Route::get('/downloadLogs',[RecordsController::class,'downloadPDF']);
 Route::get('/updatePrice',[RVMController::class, 'updatePrice']);

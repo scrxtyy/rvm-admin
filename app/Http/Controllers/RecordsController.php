@@ -17,7 +17,7 @@ class RecordsController extends Controller
         return view ('employees.logs', compact('logs'));
     }
     public function downloadPDF(Request $request){
-        $logs = UserReports::whereBetween('created_at',[$request->startDate,$request->endDate]);
+        $logs = UserReports::whereBetween('created_at',[$request->startDate,$request->endDate])->get();
         view()->share('user_reports',$logs);
         ini_set('max_execution_time', 120);
         $pdf = PDF::loadView('pdf.logs',compact('logs'));
