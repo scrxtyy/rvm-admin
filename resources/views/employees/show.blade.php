@@ -115,16 +115,7 @@
       
   @endif
 </div>
-<script>
-  
-    // Initialization for ES Users
-    import {
-      Tab,
-      initTE,
-    } from "tw-elements";
 
-    initTE({ Tab });
-</script>
 {{-- RADIAL PROGRESS BAR --}}
 {{-- <div class="flex items-center justify-center">
   <div class="inline-flex shadow-md hover:shadow-lg focus:shadow-lg" role="group">
@@ -446,6 +437,13 @@
 
 @role('employee') 
   <script>
+    // Initialization for ES Users
+    import {
+      Tab,
+      initTE,
+    } from "tw-elements";
+
+    initTE({ Tab });
     //Pusher.logToConsole = true;
     var pusher = new Pusher('b89eb6a948d95cf92f3b', {
     cluster: 'ap1'
