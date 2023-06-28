@@ -248,6 +248,13 @@ Tin Cans
   @yield('logs')
 
 <script>
+      $(document).ready(function () {
+        $('#').DataTable({
+        ordering: true,
+        searching: false
+    });
+
+});
   const ctx1 = document.getElementById('chart1');
   // ctx.canvas.width = 300;
   // ctx.canvas.height = 300;  

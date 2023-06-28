@@ -9,7 +9,7 @@
     #chart-wrapper {
       display: inline-block;
       position: relative;
-      width: 100%;
+      width: 90%;
     }
     body{
       scroll-behavior: smooth!important;
@@ -179,6 +179,14 @@
 <div class="tab-content" id="tabs-tabContent">
 
   {{-- PLASTIC BOTTLES TAB --}}
+  <br><br>
+  Plastic Bottles Data Chart (kg per day): <br>
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div id="chart-wrapper">
+          <canvas id="chart1"></canvas>
+        </div>
+      </div>
+
   <div class="tab-pane fade show active" id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Plastic Bottles</h2>
@@ -191,7 +199,7 @@
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
             <div class="overflow-hidden">
-              <table class="min-w-full">
+              <table id = " " class="min-w-full" style = "width:100%">
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
@@ -233,17 +241,17 @@
           </div>
         </div>
       </div>
-      <br><br>
-      Plastic Bottles Data Chart (kg per day): <br>
-          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div id="chart-wrapper">
-              <canvas id="chart1"></canvas>
-            </div>
-          </div>
-
   </div>
 
   {{-- TIN CANS TAB --}}
+  <br><br>
+  Tin Cans Data Chart (grams per day):
+  <br>
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div id="chart-wrapper">
+        <canvas id="chart2"></canvas>
+      </div>
+    </div>
   <div class="tab-pane fade" id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Tin Cans</h2>
@@ -255,7 +263,7 @@
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
             <div class="overflow-hidden">
-              <table class="min-w-full">
+              <table id = " " class="min-w-full" style = "width:100%">
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
@@ -297,14 +305,6 @@
           </div>
         </div>
       </div>
-        <br><br>
-        Tin Cans Data Chart (grams per day):
-        <br>
-          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div id="chart-wrapper">
-              <canvas id="chart2"></canvas>
-            </div>
-          </div>
   </div>
 
   {{-- COINS TAB --}}
@@ -320,7 +320,7 @@
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div class="overflow-hidden">
-            <table class="min-w-full">
+            <table id = " " class="min-w-full" style ="width:100%">
               <thead class="border-b bg-gray-800">
                 <tr>
                   
@@ -379,6 +379,15 @@
 <br><br><br>
 
   <script>
+        $(document).ready(function () {
+      $('table.min-w-full').DataTable({
+        searching: false,
+        ordering: true,
+        info: false,
+        paging: false
+    });
+
+});
     //Pusher.logToConsole = true;
     var pusher = new Pusher('b89eb6a948d95cf92f3b', {
     cluster: 'ap1'

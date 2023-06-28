@@ -9,7 +9,8 @@
     #chart-wrapper {
       display: inline-block;
       position: relative;
-      width: 100%;
+      width: 90%;
+
     }
     body{
       scroll-behavior: smooth!important;
@@ -307,7 +308,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-                {{-- {{ $plasticsLog->links() }} --}}
+                {{ $plasticsLog->links() }}
               </table>
             </div>
           </div>
@@ -372,7 +373,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-                {{-- {{ $cansLog->links() }} --}}
+                {{ $cansLog->links() }}
               </table>
             </div>
           </div>
@@ -423,7 +424,7 @@
                       </tr>
                 @endforeach
               </tbody>
-              {{-- {{$coinTable->links()}} --}}
+              {{$coinTable->links()}}
             </table>
           </div>
         </div>
@@ -461,9 +462,11 @@
   <script>
     $(document).ready(function () {
       $('table.min-w-full').DataTable({
-        searching: false
+        ordering: true,
+        searching: false,
+        paging: false,
+        info: false
     });
-
 });
     //Pusher.logToConsole = true;
     var pusher = new Pusher('b89eb6a948d95cf92f3b', {
