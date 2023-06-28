@@ -270,8 +270,24 @@
               <canvas id="chart1"></canvas>
             </div>
           </div>
+
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <form action="{{url('/downloadplasticsLogs')}}" method="get">
+              @csrf
+              <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+                Start Date
+              </label>     
+              <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              placeholder="Select a date" name="startDate" required/>
+              <b> | </b>
+              <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
+                End Date
+              </label>     
+              <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              placeholder="Select a date" name="endDate" required/>
+              <x-button type="submit">Download PDF</x-button>
+            </form>
             <div class="overflow-hidden">
               <table id = " " class="min-w-full" style="width:100%">
                 <thead class="border-b bg-gray-800">
@@ -336,6 +352,21 @@
         </div>
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+              <form action="{{url('/downloadtincansLogs')}}" method="get">
+                @csrf
+                <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+                  Start Date
+                </label>     
+                <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                placeholder="Select a date" name="startDate" required/>
+                <b> | </b>
+                <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
+                  End Date
+                </label>     
+                <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                placeholder="Select a date" name="endDate" required/>
+                <x-button type="submit">Download PDF</x-button>
+              </form>
             <div class="overflow-hidden">
               <table id = " " class="min-w-full">
                 <thead class="border-b bg-gray-800">
@@ -389,7 +420,21 @@
         Total:<span id="currentcoins"> {{$currentCoins}} </span>PHP / 200 PHP
       </label>
     </div>
-
+      <form action="{{url('/downloadcoinsLogs')}}" method="get">
+        @csrf
+        <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+          Start Date
+        </label>     
+        <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+        placeholder="Select a date" name="startDate" required/>
+        <b> | </b>
+        <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
+          End Date
+        </label>     
+        <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+        placeholder="Select a date" name="endDate" required/>
+        <x-button type="submit">Download PDF</x-button>
+      </form>
     <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">

@@ -6,10 +6,12 @@ use App\Models\monitorCoins;
 use App\Models\monitorPlastics;
 use App\Models\monitorTincans;
 use App\Models\Rvms;
+use App\Models\UserReports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class RVMController extends Controller
 {
@@ -46,10 +48,17 @@ class RVMController extends Controller
         $rvm = Rvms::oldest()->first();   
         $lastrvmid = $rvm->rvm_id;
         Rvms::create([
-            'rvm_id' => $lastrvmid +1,
+            'rvm_id' => $request->rvm_id,
             'location' => $request->location,
         ]);
-        
+         //REPORT
+            $input2 = UserReports::create([
+                'user_type'=>'0',
+                'user_id'=> '19',
+                'action'=> 'RVM: ' .Str::upper($request->rvm_id).' has been created.'
+                
+            ]);
+        //END OF REPORT
         session(['message' => 'RVM Successfully created!']);
         return redirect()->route('rvm');
     }
@@ -114,6 +123,15 @@ class RVMController extends Controller
         $input = $request->all();
         $rvms->update($input);
         
+        //REPORT
+          UserReports::create([
+            'user_type'=>'0',
+            'user_id'=> '19',
+            'action'=> 'RVM: ' .$id.' details has been updated.'
+            
+            ]);
+        //END OF REPORT
+        
         return redirect()->route('rvm');  
     }
 
@@ -126,6 +144,14 @@ class RVMController extends Controller
     public function destroy($id)
     {
         Rvms::destroy($id);
+        //REPORT
+            $input2 = UserReports::create([
+                'user_type'=>'0',
+                'user_id'=> '19',
+                'action'=> 'RVM: ' .Str::upper($id).' has been deleted.'
+                
+            ]);
+        //END OF REPORT
         return redirect()->route('rvm'); 
     }
 

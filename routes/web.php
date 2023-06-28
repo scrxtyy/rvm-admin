@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeCRUDController;
 use App\Http\Controllers\NotifController;
@@ -42,6 +43,12 @@ Route::get('/brgy',function(){
 );
 Route::get('/logs',[RecordsController::class,'displayLogs'])->name('logs');
 Route::get('/downloadLogs',[RecordsController::class,'downloadPDF']);
+
+Route::get('/downloadtincansLogs',[DataController::class,'downloadtincansPDF']);
+Route::get('/downloadplasticsLogs',[DataController::class,'downloadplasticsPDF']);
+Route::get('/downloadcoinsLogs',[DataController::class,'downloadcoinsPDF']);
+
+
 Route::get('/updatePrice',[RVMController::class, 'updatePrice']);
 Route::resource('/rvm',RVMController::class)->middleware(['auth','verified']);
 Route::group(['prefix' => 'rvm'], function () {

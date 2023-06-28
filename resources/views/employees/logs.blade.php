@@ -5,10 +5,11 @@
       <h2 class="text-xl font-semibold leading-tight">
           {{ __('Logs') }}
       </h2>
-</div>
+ </div>
+
 <br>
 @php
-       $logs = DB::table('user_reports')->paginate(10);
+       $logs = DB::table('user_reports')->latest()->paginate(10);
 @endphp
 {{-- <button
   type="button"
@@ -100,20 +101,20 @@
   initTE({ Tab });
 </script>
 
-<form action="{{url('/downloadLogs')}}" method="get">
-  <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
-    Start Date
-  </label>     
-  <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-  placeholder="Select a date" name="startDate" required/>
-  <b> | </b>
-  <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
-    End Date
-  </label>     
-  <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-  placeholder="Select a date" name="endDate" required/>
-  <x-button type="submit">Download PDF</x-button>
-</form>
+  <form action="{{url('/downloadtincansLogs')}}" method="get">
+    <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+      Start Date
+    </label>     
+    <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+    placeholder="Select a date" name="startDate" required/>
+    <b> | </b>
+    <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
+      End Date
+    </label>     
+    <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+    placeholder="Select a date" name="endDate" required/>
+    <x-button type="submit">Download PDF</x-button>
+  </form>
 <br>
 
 <div class="overflow-hidden bg-white shadow-md dark:bg-dark-eval-1">

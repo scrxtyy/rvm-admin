@@ -29,7 +29,7 @@ class EmployeeCRUDController extends Controller
     public $message = "";
     public function index()
     { 
-        $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(5);
+        $employees = DB::table('users')->whereNotNull('rvm_id')->paginate(10);
         return view ('employees.index', compact('employees'));
     }
 
@@ -120,6 +120,14 @@ class EmployeeCRUDController extends Controller
     public function edit($id)
     {
         $employees = User::find($id);
+            //REPORT
+                 UserReports::create([
+                    'user_type'=>'0',
+                    'user_id'=> '19',
+                    'action'=> 'USER: ' .$id.' details has been updated.'
+                    
+                ]);
+            //END OF REPORT
         $message = "Employee Detail Successfully Updated!";
         return view('edit.edit',compact('employees', 'message'));
     }
@@ -211,6 +219,14 @@ class EmployeeCRUDController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
+            //REPORT
+                $input2 = UserReports::create([
+                    'user_type'=>'0',
+                    'user_id'=> '19',
+                    'action'=> 'USER: ' .$id.' has been deleted.'
+                    
+                ]);
+            //END OF REPORT
         $deletemessage = "Employee deleted.";
         session(['deletemessage' => $deletemessage]);
         return redirect()->route('dashboard');  
