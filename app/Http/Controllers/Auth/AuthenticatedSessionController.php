@@ -33,6 +33,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        //REPORT
+            UserReports::create([
+            'user_type'=>'0',
+            'user_id'=> Auth::id(),
+            'action'=> 'Employee with user ID: ' .Auth::id().' has logged in.'
+            
+            ]);
+        //END OF REPORT
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -44,6 +53,7 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+        
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

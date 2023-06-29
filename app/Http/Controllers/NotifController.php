@@ -8,7 +8,9 @@ use App\Mail\RvmMail;
 use App\Models\fullStorageNotifications;
 use App\Models\Notifications;
 use App\Models\User;
+use App\Models\UserReports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
@@ -38,6 +40,7 @@ class NotifController extends Controller
     }
     public function assignTask($id){
         $employees = User::find($id);
+
         $name = $employees->name;
         $rvmid = $employees->rvm_id;
         return view('employees.assign',compact('id', 'name', 'rvmid'));
@@ -80,6 +83,14 @@ class NotifController extends Controller
         
         $count = Notifications::where('sender_id', '=', $request->id)->where('isread', '=', 0)->count();
         
+        //REPORT
+            UserReports::create([
+                'user_type'=>'0',
+                'user_id'=> '19',
+                'action'=> 'Assigned task to '.$task.' to employee with user ID: ' .$request->id,
+                
+                ]);
+        //END OF REPORT
         $pusher = new Pusher(
             env('PUSHER_APP_KEY'),
             env('PUSHER_APP_SECRET'),
@@ -128,6 +139,16 @@ class NotifController extends Controller
        
         DB::table('notifications')->where('id',$request->id)->update(['proof' => 'image/'.$name_gen]);
         DB::table('notifications')->where('id', $request->id)->update(['status' => "For verification"]);
+
+        
+            //REPORT
+            UserReports::create([
+                'user_type'=>'0',
+                'user_id'=> Auth::id(),
+                'action'=> 'Employee with user ID: '.Auth::id().'has uploaded proof of task ID: '.$request->id,
+                
+                ]);
+            //END OF REPORT
 
         $message = "Proof successfully submitted! Please wait for admin approval.";
         session(['message' => $message]);
