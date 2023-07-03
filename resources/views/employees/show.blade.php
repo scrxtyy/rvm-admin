@@ -327,7 +327,7 @@
                                   {{$plasticLog->id}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {{intval($plasticLog->kg_Weight)}}
+                                  {{intval($plasticLog->kg_Weight)*1000}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{$plasticLog->price}}
@@ -423,7 +423,7 @@
                               {{$canLog->id}}
                           </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {{intval($canLog->kg_weight)}}
+                                  {{intval($canLog->kg_weight)*1000}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{$canLog->price}}
@@ -600,9 +600,9 @@ $(document).ready(function () {
     plastic_channel.bind('insert-1', function(data) {
       var row = "<tr  class='bg-gray-100 border-b transition duration-300 ease-in-out hover:bg-gray-200'>"+
               "<td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.id 
-              + "</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.kg_Weight 
-              + " g </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.price 
-              + " PHP</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.created_at 
+              + "</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + (data.kg_Weight*1000) 
+              + " </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.price 
+              + " </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.created_at 
               + "</td></tr>";
       $('#plastic-tbody').prepend(row);
       
@@ -613,9 +613,9 @@ $(document).ready(function () {
     tincan_channel.bind('insert-2', function(data) {
       var row = "<tr  class='bg-gray-100 border-b transition duration-300 ease-in-out hover:bg-gray-200'>"+
               "<td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.id 
-              + "</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.kg_weight 
-              + " g </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.price 
-              + " PHP</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.created_at 
+              + "</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + (data.kg_weight*1000) 
+              + " </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.price 
+              + " </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.created_at 
               + "</td></tr>";
       $('#tincans-tbody').prepend(row);
       
@@ -627,8 +627,8 @@ $(document).ready(function () {
       var row = "<tr class='bg-gray-100 border-b transition duration-300 ease-in-out hover:bg-gray-200'>"+
               "<td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.created_at
               + "</td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.coins_in 
-              + " PHP </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.coins_out 
-              + " PHP</td></tr>";
+              + " </td><td class='text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap'>" + data.coins_out 
+              + " </td></tr>";
       $('#coins-tbody').prepend(row);
 
       const myspan = document.getElementById('currentcoins');
