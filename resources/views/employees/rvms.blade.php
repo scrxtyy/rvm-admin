@@ -20,12 +20,19 @@
   {{ session()->forget('message') }}
 </div>
 @endif
-@if( session('deletemessage') )
+@if( session('deleted') )
 <div class="bg-red-100 rounded-lg py-5 px-6 mb-4 text-base text-red-700 mb-3" role="alert">
-  {{session('deletemessage')}}
-  {{ session()->forget('deletemessage') }}
+  {{session('deleted')}}
+  {{ session()->forget('deleted') }}
 </div>
 @endif
+@if( session('edited') )
+<div class="bg-yellow-100 rounded-lg py-5 px-6 mb-4 text-base text-yellow-700 mb-3" role="alert">
+  {{session('edited')}}
+  {{ session()->forget('edited') }}
+</div>
+@endif
+
 
 <div class="overflow-hidden bg-white shadow-md dark:bg-dark-eval-1">
    

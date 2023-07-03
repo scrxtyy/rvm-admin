@@ -130,6 +130,7 @@ class RVMController extends Controller
             ]);
         //END OF REPORT
         
+        session(['edited' => 'RVM details has been successfully updated.']);
         return redirect()->route('rvm');  
     }
 
@@ -150,6 +151,8 @@ class RVMController extends Controller
                 
             ]);
         //END OF REPORT
+        
+        session(['deleted' => 'RVM has been deleted.']);
         return redirect()->route('rvm'); 
     }
 
