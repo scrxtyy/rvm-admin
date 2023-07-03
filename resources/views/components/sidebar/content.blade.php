@@ -96,7 +96,7 @@
 
     @foreach ($rvms as $index)
 
-        <x-sidebar.link title="RVM {{ $index->rvm_id}}" href="{{ url('/rvm/' . $index->rvm_id) }}" :isActive="request()->route()->parameter('id') == $index->rvm_id">
+        <x-sidebar.link title="RVM {{$index->rvm_id}}" href="{{ url('/rvm/' . $index->rvm_id) }}" :isActive="request()->route()->parameter('id') == $index->rvm_id">
             <x-slot name="icon">
                 <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
             </x-slot>

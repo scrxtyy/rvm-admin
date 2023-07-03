@@ -40,9 +40,47 @@
     <div class="flex flex-wrap -mx-3 mb-6">
       <div class="w-full px-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
-          Location
-        </label>        
-        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="location" name="location" type="text" required>
+          Barangay
+        </label>  
+            <div className="w-72">
+              <Select label="Select Barangay" class="appearance-none block w-72 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="barangay" name="barangay">
+                <Option>Aplaya</Option>
+                <Option>Balibago</Option>
+                <Option>Caingin</Option>
+                <Option>Dila</Option>
+                <Option>Dita</Option>
+                <Option>Don Jose</Option>
+                <Option>Ibaba</Option>
+                <Option>Kanluran</Option>
+                <Option>Labas</Option>
+                <Option>Macabling</Option>
+                <Option>Malitlit</Option>
+                <Option>Malusak</Option>
+                <Option>Market Area</Option>
+                <Option>Pooc</Option>
+                <Option>Pulong Santa Cruz</Option>
+                <Option>Santo Domingo</Option>
+                <Option>Sinalhan</Option>
+                <Option>Tagapo</Option>
+              </Select>
+            </div>
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              City
+            </label> 
+            <div className="w-72">
+              <Select label="Select City" class="appearance-none block w-72 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="city" name="city">
+                <Option>Sta. Rosa</Option>
+              </Select>
+            </div>
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+              Province
+            </label> 
+              <div className="w-72">
+              <Select label="Select Province" class="appearance-none block w-72 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="province" name="province">
+                <Option>Laguna</Option>
+              </Select>
+            </div>
+        {{-- <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="location" name="location" type="text" required> --}}
          </div>
    </div>
    <div class="flex flex-wrap -mx-3 mb-6">

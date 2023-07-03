@@ -44,12 +44,10 @@ class RVMController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $rvm = Rvms::oldest()->first();   
-        $lastrvmid = $rvm->rvm_id;
+        $location = "Brgy. ".$request->barangay.", ".$request->city.",".$request->province;
         Rvms::create([
             'rvm_id' => $request->rvm_id,
-            'location' => $request->location,
+            'location' => $location,
         ]);
          //REPORT
             $input2 = UserReports::create([

@@ -138,7 +138,6 @@
                     </tr>
                   @endforeach
                 </tbody>
-                {{ $logs->links() }}
               </table>
             </div>
           </div>
