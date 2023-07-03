@@ -45,7 +45,7 @@ class RVMController extends Controller
     public function store(Request $request)
     {
         $location = "Brgy. ".$request->barangay.", ".$request->city.",".$request->province;
-        Rvms::create([
+        $input = Rvms::create([
             'rvm_id' => $request->rvm_id,
             'location' => $location,
         ]);

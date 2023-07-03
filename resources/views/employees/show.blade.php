@@ -1,7 +1,10 @@
 @extends('employees.dashboard')
 
 @section('content')
- 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-circle-progress/1.2.2/circle-progress.min.js"></script>        
@@ -196,7 +199,7 @@
   <li class="nav-item" role="presentation">
     <a href="#tabs-home" class="
       nav-link
-      block
+      active
       font-medium
       text-xs
       leading-tight
@@ -208,7 +211,7 @@
       hover:border-transparent hover:bg-gray-100
       focus:border-transparent
       active
-    " id="tabs-home-tab" data-te-toggle="pill" data-te-target="#tabs-home" role="tab" aria-controls="tabs-home"
+    " id="tabs-home-tab" data-bs-toggle="tab" data-bs-target="#tabs-home" role="tab" aria-controls="tabs-home"
       aria-selected="true">Plastics</a>
   </li>
 
@@ -216,7 +219,6 @@
   <li class="nav-item" role="presentation">
     <a href="#tabs-profile" class="
       nav-link
-      block
       font-medium
       text-xs
       leading-tight
@@ -227,7 +229,7 @@
       my-2
       hover:border-transparent hover:bg-gray-100
       focus:border-transparent
-    " id="tabs-profile-tab" data-te-toggle="pill" data-te-target="#tabs-profile" role="tab"
+    " id="tabs-profile-tab" data-bs-toggle="tab" data-bs-target="#tabs-profile" role="tab"
       aria-controls="tabs-profile" aria-selected="false">Tin Cans</a>
   </li>
 
@@ -235,7 +237,6 @@
   <li class="nav-item" role="presentation">
     <a href="#tabs-messages" class="
       nav-link
-      block
       font-medium
       text-xs
       leading-tight
@@ -246,7 +247,7 @@
       my-2
       hover:border-transparent hover:bg-gray-100
       focus:border-transparent
-    " id="tabs-messages-tab" data-te-toggle="pill" data-te-target="#tabs-messages" role="tab"
+    " id="tabs-messages-tab" data-bs-toggle="tab" data-te-target="#tabs-messages" role="tab"
       aria-controls="tabs-messages" aria-selected="false">Coins</a>
   </li>
 </ul>
@@ -288,13 +289,13 @@
               <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
                 Start Date
               </label>     
-              <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              <input type="date" class="peermin-h-[auto] w-25 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
               placeholder="Select a date" name="startDate" required/>
               <b> | </b>
               <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
                 End Date
               </label>     
-              <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              <input type="date" class="peer min-h-[auto] w-25 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
               placeholder="Select a date" name="endDate" required/>
               <x-button type="submit">Download PDF</x-button>
             </form>
@@ -326,10 +327,10 @@
                                   {{$plasticLog->id}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {{intval($plasticLog->kg_Weight)}} g
+                                  {{intval($plasticLog->kg_Weight)}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$plasticLog->price}} PHP
+                                {{$plasticLog->price}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{$plasticLog->created_at}}
@@ -383,13 +384,13 @@
                 <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
                   Start Date
                 </label>     
-                <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                <input type="date" class="peermin-h-[auto] w-25 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                 placeholder="Select a date" name="startDate" required/>
                 <b> | </b>
                 <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
                   End Date
                 </label>     
-                <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                <input type="date" class="peer min-h-[auto] w-25 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                 placeholder="Select a date" name="endDate" required/>
                 <x-button type="submit">Download PDF</x-button>
               </form>
@@ -422,10 +423,10 @@
                               {{$canLog->id}}
                           </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {{intval($canLog->kg_weight)}} g
+                                  {{intval($canLog->kg_weight)}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$canLog->price}} PHP
+                                {{$canLog->price}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{$canLog->created_at}}
@@ -466,13 +467,13 @@
         <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
           Start Date
         </label>     
-        <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+        <input type="date" class="peermin-h-[auto] w-25 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
         placeholder="Select a date" name="startDate" required/>
         <b> | </b>
         <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
           End Date
         </label>     
-        <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+        <input type="date" class="peer min-h-[auto] w-25 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
         placeholder="Select a date" name="endDate" required/>
         <x-button type="submit">Download PDF</x-button>
       </form>
@@ -505,10 +506,10 @@
                             {{$coinsTable->created_at}}
                         </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$coinsTable->coins_in}} PHP
+                                {{$coinsTable->coins_in}}
                             </td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$coinsTable->coins_out}} PHP
+                                {{$coinsTable->coins_out}}
                             </td>
                         </tr>
                   @endforeach
@@ -535,6 +536,9 @@
     } from "tw-elements";
 
     initTE({ Tab });
+    
+  </script>
+  <script>
     //Pusher.logToConsole = true;
     var pusher = new Pusher('b89eb6a948d95cf92f3b', {
     cluster: 'ap1'
@@ -583,6 +587,7 @@ $(document).ready(function () {
         info: false
     });
 });
+
     //Pusher.logToConsole = true;
     var pusher = new Pusher('b89eb6a948d95cf92f3b', {
     cluster: 'ap1'
