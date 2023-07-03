@@ -278,7 +278,6 @@
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Tin Cans</h2>
         <label class="rounded items-center max-w-xs gap-2 bg-black text-white p-4">
-
           @if($totaltincans)
             @if(is_null($totaltincans->total_kg))
                 <p>No records found.</p>

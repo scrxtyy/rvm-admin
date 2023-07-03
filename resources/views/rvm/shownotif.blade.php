@@ -38,28 +38,44 @@
             <span class="text-yellow-500">Incomplete</span>
         @endif
     </p>
-      @if ($notif->status == "For verification")
-        <button
-        type="button"
-        class="inline-block px-6 py-2.5 mt-4 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-        data-mdb-ripple="true"
-        data-mdb-ripple-color="light" data-bs-toggle="modal" data-bs-target="#modalopen"
-        >
-        Re-upload proof
-        </button>
-      @else
-        <button
-          type="button"
-          class="inline-block px-6 py-2.5 mt-4 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-          data-mdb-ripple="true"
-          data-mdb-ripple-color="light" data-bs-toggle="modal" data-bs-target="#modalopen"
-        >
-          Submit proof
-        </button>
-      @endif     
+      {{-- @if ($notif->status == "For verification")
+            <button
+            type="button"
+            class="inline-block px-6 py-2.5 mt-4 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+            data-mdb-ripple="true"
+            data-mdb-ripple-color="light" data-bs-toggle="modal" data-bs-target="#modalopen"
+            >
+            Re-upload proof
+            </button>
+          @else
+            <button
+              type="button"
+              class="inline-block px-6 py-2.5 mt-4 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+              data-mdb-ripple="true"
+              data-mdb-ripple-color="light" data-bs-toggle="modal" data-bs-target="#modalopen"
+            >
+              Submit proof
+            </button>
+          @endif      --}}
+        <br><br>
+      <form action="{{url('/uploadProof')}}" enctype="multipart/form-data" method="post">
+        @csrf
+        <input type="hidden" name="id" value="{{$notif->id}}">
+        <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Please upload proof: </label>
+        <input class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
+        type="file" id="proof" name="proof" accept="image/png, image/jpg, image/jpeg">
+        <br><br>
+        @if ($notif->status == "For verification")
+        <button type="submit" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+          Re-upload Proof</button>   
+        @else
+        <button type="submit" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+          Submit Proof</button>   
+        @endif                     
+      </form>
   </div>
   <!-- Jumbotron -->
-
+{{-- 
   
   <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
     id="modalopen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -71,23 +87,9 @@
             data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body relative p-4">
-          <form action="{{url('/uploadProof')}}" enctype="multipart/form-data" method="post">
-            @csrf
-            <input type="hidden" name="id" value="{{$notif->id}}">
-            <label for="formFile" class="form-label inline-block mb-2 text-gray-700">Please upload proof: </label>
-            <input class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" 
-            type="file" id="proof" name="proof" accept="image/png, image/jpg, image/jpeg">
-            <br><br>
-            @if ($notif->status == "For verification")
-            <button type="submit" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-              Re-upload Proof</button>   
-            @else
-            <button type="submit" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
-              Submit Proof</button>   
-            @endif                     
-          </form>
+         
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 @endsection
