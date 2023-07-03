@@ -299,7 +299,7 @@
               <x-button type="submit">Download PDF</x-button>
             </form>
             <div class="overflow-hidden">
-              <table id = " " class="min-w-full" style="width:100%">
+              <table id = "Plastic" class="min-w-full" style="width:100%">
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
@@ -394,7 +394,7 @@
                 <x-button type="submit">Download PDF</x-button>
               </form>
             <div class="overflow-hidden">
-              <table id = " " class="min-w-full">
+              <table id = "Tin-cans" class="min-w-full">
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
@@ -480,7 +480,7 @@
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div class="overflow-hidden">
-            <table id =" " class="min-w-full">
+            <table id ="Coins" class="min-w-full">
               <thead class="border-b bg-gray-800">
                 <tr>
                   
@@ -550,8 +550,33 @@
 
 <br><br><br>
   <script>
+
+
+
     $(document).ready(function () {
-      $('table.min-w-full').DataTable({
+      $('#Plastic').DataTable({
+      columnDefs: [
+      { type: 'num', targets: [0, 1, 2] }],
+        ordering: true,
+        searching: false,
+        paging: false,
+        info: false
+    });
+});
+$(document).ready(function () {
+      $('#Tin-cans').DataTable({
+      columnDefs: [
+      { type: 'num', targets: [0, 1, 2] }],
+        ordering: true,
+        searching: false,
+        paging: false,
+        info: false
+    });
+});
+$(document).ready(function () {
+      $('#Coins').DataTable({
+      columnDefs: [
+      { type: 'num', targets: [1, 2] }],
         ordering: true,
         searching: false,
         paging: false,
