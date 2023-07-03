@@ -113,7 +113,6 @@
   @endif --}}
 </div>
 
-
 <ul class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4" id="tabs-tab"
   role="tablist">
 
@@ -133,7 +132,7 @@
       hover:border-transparent hover:bg-gray-100
       focus:border-transparent
       active
-    " id="tabs-home-tab" data-bs-toggle="pill" data-bs-target="#tabs-home" role="tab" aria-controls="tabs-home"
+    " id="tabs-home-tab" data-te-toggle="pill" data-te-target="#tabs-home" role="tab" aria-controls="tabs-home"
       aria-selected="true">Plastics</a>
   </li>
 
@@ -152,7 +151,7 @@
       my-2
       hover:border-transparent hover:bg-gray-100
       focus:border-transparent
-    " id="tabs-profile-tab" data-bs-toggle="pill" data-bs-target="#tabs-profile" role="tab"
+    " id="tabs-profile-tab" data-te-toggle="pill" data-te-target="#tabs-profile" role="tab"
       aria-controls="tabs-profile" aria-selected="false">Tin Cans</a>
   </li>
 
@@ -171,7 +170,7 @@
       my-2
       hover:border-transparent hover:bg-gray-100
       focus:border-transparent
-    " id="tabs-messages-tab" data-bs-toggle="pill" data-bs-target="#tabs-messages" role="tab"
+    " id="tabs-messages-tab" data-te-toggle="pill" data-te-target="#tabs-messages" role="tab"
       aria-controls="tabs-messages" aria-selected="false">Coins</a>
   </li>
 </ul>
@@ -179,41 +178,52 @@
 <div class="tab-content" id="tabs-tabContent">
 
   {{-- PLASTIC BOTTLES TAB --}}
-  <br><br>
-  Plastic Bottles Data Chart (kg per day): <br>
-      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div id="chart-wrapper">
-          <canvas id="chart1"></canvas>
-        </div>
-      </div>
-      <form action="{{url('/downloadplasticsLogs')}}" method="get">
-        @csrf
-        <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
-          Start Date
-        </label>     
-        <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-        placeholder="Select a date" name="startDate" required/>
-        <b> | </b>
-        <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
-          End Date
-        </label>     
-        <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-        placeholder="Select a date" name="endDate" required/>
-        <x-button type="submit">Download PDF</x-button>
-      </form>
   <div class="tab-pane fade show active" id="tabs-home" role="tabpanel" aria-labelledby="tabs-home-tab">
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Plastic Bottles</h2>
       <label class="rounded items-center max-w-xs gap-2 bg-black text-white p-4">
-        Total:<span id="plastictotal"> {{$totalplastic}} </span>KG / 5 KG
+        @if($totalplastic)
+          @if(is_null($totalplastic->total_kg))
+              <p>No records found.</p>
+          @else
+              {{-- Display your data here --}}
+              Total:<span id="plastictotal"> {{ $totalplastic->total_kg }}</span> KG / 5 KG
+          @endif
+        @else
+            <p>No records found.</p>
+        @endif
       </label>
     </div>
     
     <div class="flex flex-col">
+      <br><br>
+      Plastic Bottles Data Chart (kg per day): <br>
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div id="chart-wrapper">
+            <canvas id="chart1"></canvas>
+          </div>
+        </div>
+     
+
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <form action="{{url('/downloadplasticsLogs')}}" method="get">
+              @csrf
+              <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+                Start Date
+              </label>     
+              <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              placeholder="Select a date" name="startDate" required/>
+              <b> | </b>
+              <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
+                End Date
+              </label>     
+              <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              placeholder="Select a date" name="endDate" required/>
+              <x-button type="submit">Download PDF</x-button>
+            </form>
             <div class="overflow-hidden">
-              <table id = " " class="min-w-full" style = "width:100%">
+              <table id = " " class="min-w-full" style="width:100%">
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
@@ -228,71 +238,87 @@
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
                       Date/Time
                     </th>
-    
                   </tr>
                 </thead>
-                <tbody id="plastic-tbody">
-                    @foreach($plasticsLog as $plasticLog)
-                        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{$plasticLog->id}}
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{intval($plasticLog->kg_Weight)}} g
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$plasticLog->price}} PHP
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$plasticLog->created_at}}
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                {{ $plasticsLog->links() }}
+                @if ($plasticsLog->isEmpty())
+                    <tr style="colspan:4">No records Found.</tr>
+                @else
+                  <tbody id="plastic-tbody">
+                      @foreach($plasticsLog as $plasticLog)
+                          <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {{$plasticLog->id}}
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {{intval($plasticLog->kg_Weight)}} g
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                {{$plasticLog->price}} PHP
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                {{$plasticLog->created_at}}
+                              </td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+                  {{ $plasticsLog->links() }}
+                @endif
+               
+                
               </table>
             </div>
           </div>
         </div>
       </div>
+
   </div>
 
   {{-- TIN CANS TAB --}}
-  <br><br>
-  Tin Cans Data Chart (grams per day):
-  <br>
-    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-      <div id="chart-wrapper">
-        <canvas id="chart2"></canvas>
-      </div>
-    </div>
-    <form action="{{url('/downloadtincansLogs')}}" method="get">
-      @csrf
-      <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
-        Start Date
-      </label>     
-      <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-      placeholder="Select a date" name="startDate" required/>
-      <b> | </b>
-      <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
-        End Date
-      </label>     
-      <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-      placeholder="Select a date" name="endDate" required/>
-      <x-button type="submit">Download PDF</x-button>
-    </form>
   <div class="tab-pane fade" id="tabs-profile" role="tabpanel" aria-labelledby="tabs-profile-tab">
       <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Tin Cans</h2>
         <label class="rounded items-center max-w-xs gap-2 bg-black text-white p-4">
-          Total:<span id="tincanstotal"> {{$totaltincans}} </span>KG / 5 KG
+
+          @if($totaltincans)
+            @if(is_null($totaltincans->total_kg))
+                <p>No records found.</p>
+            @else
+                {{-- Display your data here --}}
+                Total:<span id="tincanstotal"> {{ $totaltincans->total_kg }}</span> KG / 5 KG
+            @endif
+          @else
+              <p>No records found.</p>
+          @endif
         </label>
       </div>
     <div class="flex flex-col">
+      <br><br>
+      Tin Cans Data Chart (grams per day):
+      <br>
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div id="chart-wrapper">
+            <canvas id="chart2"></canvas>
+          </div>
+        </div>
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+              <form action="{{url('/downloadtincansLogs')}}" method="get">
+                @csrf
+                <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+                  Start Date
+                </label>     
+                <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                placeholder="Select a date" name="startDate" required/>
+                <b> | </b>
+                <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
+                  End Date
+                </label>     
+                <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+                placeholder="Select a date" name="endDate" required/>
+                <x-button type="submit">Download PDF</x-button>
+              </form>
             <div class="overflow-hidden">
-              <table id = " " class="min-w-full" style = "width:100%">
+              <table id = " " class="min-w-full">
                 <thead class="border-b bg-gray-800">
                   <tr>
                     <th scope="col" class="text-sm font-medium text-white px-6 py-4">
@@ -310,25 +336,29 @@
 
                   </tr>
                 </thead>
-                <tbody id="tincans-tbody">
-                    @foreach($cansLog as $canLog)
-                        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">  
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                            {{$canLog->id}}
-                        </td>
+                 @if ($cansLog->isEmpty())
+                    <tr style="colspan:4">No records Found.</tr>
+                @else
+                  <tbody id="tincans-tbody">
+                      @foreach($cansLog as $canLog)
+                          <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">  
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                {{intval($canLog->kg_weight)}} g
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$canLog->price}} PHP
-                            </td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$canLog->created_at}}
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-                {{ $cansLog->links() }}
+                              {{$canLog->id}}
+                          </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                  {{intval($canLog->kg_weight)}} g
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                {{$canLog->price}} PHP
+                              </td>
+                              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                {{$canLog->created_at}}
+                              </td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+                  {{ $cansLog->links() }}
+                @endif
               </table>
             </div>
           </div>
@@ -341,29 +371,40 @@
     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <h2 class="font-medium leading-tight text-2xl mt-0 mb-2 text-gray-600">Coins</h2>
       <label class="rounded items-center max-w-xs gap-2 bg-black text-white p-4">
-        Total:<span id="currentcoins"> {{$currentCoins}} </span>PHP / 200 PHP
+
+        @if($currentCoins)
+          @if(is_null($currentCoins->coins_total))
+              <p>No records found.</p>
+          @else
+              {{-- Display your data here --}}
+              Total:<span id="currentcoins"> {{ $currentCoins->coins_total }}</span> PHP / 200 PHP
+          @endif
+        @else
+            <p>No records found.</p>
+        @endif
+       
       </label>
     </div>
-    <form action="{{url('/downloadcoinsLogs')}}" method="get">
-      @csrf
-      <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
-        Start Date
-      </label>     
-      <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-      placeholder="Select a date" name="startDate" required/>
-      <b> | </b>
-      <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
-        End Date
-      </label>     
-      <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-      placeholder="Select a date" name="endDate" required/>
-      <x-button type="submit">Download PDF</x-button>
-    </form>
+      <form action="{{url('/downloadcoinsLogs')}}" method="get">
+        @csrf
+        <label class="uppercase tracking-wide text-gray-700 text-xs font-bold mt-2" for="status">
+          Start Date
+        </label>     
+        <input type="date" class="peermin-h-[auto] w-50 outline-gray rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+        placeholder="Select a date" name="startDate" required/>
+        <b> | </b>
+        <label class="uppercase tracking-wide text-gray-700 text-xs py-2 font-bold mt-2" for="status">
+          End Date
+        </label>     
+        <input type="date" class="peer min-h-[auto] w-50 rounded border-0 bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+        placeholder="Select a date" name="endDate" required/>
+        <x-button type="submit">Download PDF</x-button>
+      </form>
     <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div class="overflow-hidden">
-            <table id = " " class="min-w-full" style ="width:100%">
+            <table id =" " class="min-w-full">
               <thead class="border-b bg-gray-800">
                 <tr>
                   
@@ -378,22 +419,26 @@
                   </th>
                 </tr>
               </thead>
-              <tbody id="coins-tbody">
-                  @foreach($coinTable as $coinsTable)
-                      <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                        <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                          {{$coinsTable->created_at}}
-                      </td>
+              @if ($coinTable->isEmpty())
+                  <tr style="colspan:4">No records Found.</tr>
+              @else
+                <tbody id="coins-tbody">
+                    @foreach($coinTable as $coinsTable)
+                        <tr class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                           <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$coinsTable->coins_in}} PHP
-                          </td>
-                          <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                              {{$coinsTable->coins_out}} PHP
-                          </td>
-                      </tr>
-                @endforeach
-              </tbody>
-              {{$coinTable->links()}}
+                            {{$coinsTable->created_at}}
+                        </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                {{$coinsTable->coins_in}} PHP
+                            </td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                {{$coinsTable->coins_out}} PHP
+                            </td>
+                        </tr>
+                  @endforeach
+                </tbody>
+                {{$coinTable->links()}}
+              @endif
             </table>
           </div>
         </div>
@@ -404,6 +449,7 @@
 
 </div>
 <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
 @role('employee') 
   <script>
     //Pusher.logToConsole = true;

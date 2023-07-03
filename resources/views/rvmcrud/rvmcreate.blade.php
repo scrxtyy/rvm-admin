@@ -95,7 +95,7 @@
   <script>
     window.onload = function generateCode() {
      var prefix = "RVM-";
-     var code = prefix + Math.floor(Math.random() * 100000);
+     var code = Math.floor(Math.random() * 100000);
      document.getElementById("rvm_id").value = code;
    }
  </script>

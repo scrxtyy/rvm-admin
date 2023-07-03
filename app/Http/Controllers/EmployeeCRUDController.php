@@ -92,14 +92,14 @@ class EmployeeCRUDController extends Controller
     {
         $employees = User::find($id);
 
-        $selecttotal= monitorPlastics::where('rvm_id',$employees->rvm_id)->latest()->first();
-        $totalplastic = $selecttotal->total_kg;
+        $totalplastic= monitorPlastics::where('rvm_id',$employees->rvm_id)->latest()->first();
+        //$totalplastic = $selecttotal->total_kg;
         
-        $selecttotal1= monitorTincans::where('rvm_id',$employees->rvm_id)->latest()->first();
-        $totaltincans = $selecttotal1->total_kg;
+        $totaltincans= monitorTincans::where('rvm_id',$employees->rvm_id)->latest()->first();
+        //$totaltincans = $selecttotal1->total_kg;
 
-        $coinsLog = monitorCoins::where('rvm_id',$employees->rvm_id)->latest()->first(); 
-        $currentCoins = $coinsLog->coins_total;
+        $currentCoins = monitorCoins::where('rvm_id',$employees->rvm_id)->latest()->first(); 
+        //$currentCoins = $coinsLog->coins_total;
 
         $plasticBars = monitorPlastics::where('rvm_id', $employees->rvm_id)->selectRaw("DATE(created_at) as date, SUM(kg_Weight) as count")->groupBy('date')->get();
 
