@@ -33,11 +33,17 @@
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-name">
           RVM ID
         </label>
-        <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="rvm_id" id="rvm_id">
+        <input class="appearance-none block w-72 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="rvm_id" id="rvm_id">
 
       </div>
     </div>
     <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
+          Address
+        </label>  
+        <input class="appearance-none block w-72 bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" name="address" id="address" required>
+      </div>
       <div class="w-full px-3">
         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-password">
           Barangay

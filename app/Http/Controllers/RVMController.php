@@ -44,7 +44,13 @@ class RVMController extends Controller
      */
     public function store(Request $request)
     {
-        $location = "Brgy. ".$request->barangay.", ".$request->city.",".$request->province;
+        // $errors = [
+        //     'barangay.unique' => 'RVM already exists in that location.'
+        // ];
+        // $request->validate([
+        //     'barangay' => 'unique:rvms,location',
+        // ],$errors);
+        $location = $request->address.", Brgy. ".$request->barangay.", ".$request->city.",".$request->province;
         $input = Rvms::create([
             'rvm_id' => $request->rvm_id,
             'location' => $location,
