@@ -253,7 +253,7 @@
                                   {{$plasticLog->id}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {{intval($plasticLog->kg_Weight)*1000}}
+                                  {{$plasticLog->kg_Weight*1000}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{$plasticLog->price}}
@@ -348,7 +348,7 @@
                               {{$canLog->id}}
                           </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                  {{intval($canLog->kg_weight)*1000}}
+                                  {{$canLog->kg_weight*1000}}
                               </td>
                               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 {{$canLog->price}}
