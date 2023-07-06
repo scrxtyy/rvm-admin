@@ -264,7 +264,7 @@
               <p>No records found.</p>
           @else
               {{-- Display your data here --}}
-              Total:<span id="plastictotal"> {{ $totalplastic->total_kg }}</span> KG / 5 KG
+              Total:<span id="plastictotal"> {{ number_format($totalplastic->total_kg,2) }}</span> KG / 5 KG
           @endif
         @else
             <p>No records found.</p>
@@ -361,7 +361,7 @@
                 <p>No records found.</p>
             @else
                 {{-- Display your data here --}}
-                Total:<span id="tincanstotal"> {{ $totaltincans->total_kg }}</span> KG / 5 KG
+                Total:<span id="tincanstotal"> {{ number_format($totaltincans->total_kg,2) }}</span> KG / 5 KG
             @endif
           @else
               <p>No records found.</p>

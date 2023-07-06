@@ -31,10 +31,10 @@ class DataController extends Controller
     public function downloadcoinsPDF(Request $request){
         $startDate = $request->startDate;
         $endDate = $request->endDate;
-        $logs = monitorCoins::whereBetween('created_at',[$startDate,$endDate]);
+        $logs = monitorCoins::whereBetween('created_at',[$startDate,$endDate])->get();
         view()->share('monitor_coins',$logs);
         ini_set('max_execution_time', 120);
-        $pdf = Pdf::loadView('pdf.coinslogs',compact('logs','startDate','endDate'))->get();
+        $pdf = Pdf::loadView('pdf.coinslogs',compact('logs','startDate','endDate'));
         return $pdf->download('coinsreports.pdf');
     }
 }

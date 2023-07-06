@@ -27,6 +27,7 @@
 <h2>System Reports</h2>
 Displaying data from {{$startDate}} to {{$endDate}}
 <br>
+
 <table>
   <tr>
     <th>LOG ID</th>

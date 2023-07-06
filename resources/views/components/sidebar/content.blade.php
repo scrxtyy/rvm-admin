@@ -41,11 +41,6 @@
           </svg>
        </x-slot>
     </x-sidebar.link>
-    <x-sidebar.link title="RVMs" href="{{ route('rvm') }}" :isActive="request()->routeIs('rvm')">
-        <x-slot name="icon">
-            <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
-        </x-slot>
-    </x-sidebar.link>
     <x-sidebar.link title="Sent Notifications" href="{{ route('notifications') }}" :isActive="request()->routeIs('notifications')">
         <x-slot name="icon">
             <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="comment-alt" class="w-5 h-5" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -85,21 +80,44 @@
           </svg>
        </x-slot>
     </x-sidebar.link> --}}
-    <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">RVM IDs</div>
-    <x-sidebar.link title="Add a new machine" href="{{ route('rvm.create') }}" :isActive="request()->routeIs('rvm.create')">
+    <div x-transition x-show="isSidebarOpen || isSidebarHovered" class="text-sm text-gray-500">Machines</div>
+    {{-- <x-sidebar.link title="Add a new machine" href="{{ route('rvm.create') }}" :isActive="request()->routeIs('rvm.create')">
         <x-slot name="icon">
             <svg fill="none" stroke="currentColor" class="w-6 h-6" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z"></path>
               </svg>
         </x-slot>
-    </x-sidebar.link>
+    </x-sidebar.link> --}}
+    {{-- <x-sidebar.link title="RVMs" href="{{ route('rvm') }}" :isActive="request()->routeIs('rvm')">
+        <x-slot name="icon">
+            <x-heroicon-o-view-grid class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        </x-slot>
+
+    </x-sidebar.link> --}}
 
     @foreach ($rvms as $index)
 
         <x-sidebar.link title="RVM {{$index->rvm_id}}" href="{{ url('/rvm/' . $index->rvm_id) }}" :isActive="request()->route()->parameter('id') == $index->rvm_id">
+            <div class="relative flex items-center">
             <x-slot name="icon">
                 <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+                
             </x-slot>
+            {{-- <a href="{{ url('/rvm/' . $index->rvm_id . '/edit') }}" title="Edit RVM" class="d-md-flex">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                  </svg>
+                  
+              </a>
+            
+            <form method="POST" action="{{ url('/rvm' . '/' . $index->rvm_id) }}" accept-charset="UTF-8" style="display:inline">
+              {{ method_field('DELETE') }}
+              {{ csrf_field() }}
+                <svg fill="none" stroke="currentColor" class="w-4 h-4" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path>
+                </svg>
+          </form> --}}
+        </div>
         </x-sidebar.link>
     @endforeach
 @endif

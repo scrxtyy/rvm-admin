@@ -64,6 +64,7 @@ class EmployeeCRUDController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'disabled'=> false,
         ])->assignRole('employee');
 
         //REPORT
@@ -218,16 +219,22 @@ class EmployeeCRUDController extends Controller
    
     public function destroy($id)
     {
-        User::destroy($id);
-            //REPORT
-                $input2 = UserReports::create([
-                    'user_type'=>'0',
-                    'user_id'=> '19',
-                    'action'=> 'USER: ' .$id.' has been deleted.'
-                    
-                ]);
-            //END OF REPORT
-        $deletemessage = "Employee deleted.";
+        //User::destroy($id);
+        DB::table('users')->where('id', $id)->update(['disabled' =>true]);
+        // $user->disabled = ! $user->disabled;
+        // $user->save();
+
+        //REPORT
+            $input2 = UserReports::create([
+                'user_type'=>'0',
+                'user_id'=> '19',
+                'action'=> 'USER: ' .$id.' has been deleted.'
+                
+            ]);
+        //END OF REPORT 
+        
+
+        $deletemessage = "Employee has been deleted.";
         session(['deletemessage' => $deletemessage]);
         return redirect()->route('dashboard');  
     }

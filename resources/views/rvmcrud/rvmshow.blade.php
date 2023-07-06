@@ -98,7 +98,7 @@
     }
 </style>
 <div id="my-element"></div>
-<div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+<div class="flex flex-col gap-4 md:flex-row md:items-center">
   <h3 class="text-xl font-semibold leading-tight">
       <b>RVM ID:</b> RVM{{ $rvms->rvm_id}}
   </h3>
@@ -114,6 +114,26 @@
     </form>
       
   @endif --}}
+  <div class="tr-position-absolute">
+    <a href="{{ url('/rvm/' . $rvms->rvm_id . '/edit') }}" title="Edit RVM">
+      <button class="inline-block px-4 py-2.5 bg-yellow-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg transition duration-150 ease-in-out">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+        </svg>
+        
+      </button>
+    </a>
+
+  <form method="POST" action="{{ url('/rvm' . '/' . $rvms->rvm_id) }}" accept-charset="UTF-8" style="display:inline">
+    {{ method_field('DELETE') }}
+    {{ csrf_field() }}
+    <button type="submit" class="inline-block px-4 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out" title="Delete RVM" onclick="return confirm(&quot;Confirm delete?&quot;)">
+      <svg fill="none" stroke="currentColor" class="w-4 h-4" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path>
+      </svg>
+    </button>
+  </form>
+</div>
 </div>
 
 <ul class="nav nav-tabs flex flex-col md:flex-row flex-wrap list-none border-b-0 pl-0 mb-4" id="tabs-tab"
@@ -190,7 +210,7 @@
               <p>No records found.</p>
           @else
               {{-- Display your data here --}}
-              Total:<span id="plastictotal"> {{ $totalplastic->total_kg }}</span> KG / 5 KG
+              Total:<span id="plastictotal"> {{ number_format($totalplastic->total_kg,2) }}</span> KG / 5 KG
           @endif
         @else
             <p>No records found.</p>
@@ -286,7 +306,7 @@
                 <p>No records found.</p>
             @else
                 {{-- Display your data here --}}
-                Total:<span id="tincanstotal"> {{ $totaltincans->total_kg }}</span> KG / 5 KG
+                Total:<span id="tincanstotal"> {{ number_format($totaltincans->total_kg,2) }}</span> KG / 5 KG
             @endif
           @else
               <p>No records found.</p>

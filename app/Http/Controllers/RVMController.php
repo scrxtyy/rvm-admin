@@ -54,6 +54,7 @@ class RVMController extends Controller
         $input = Rvms::create([
             'rvm_id' => $request->rvm_id,
             'location' => $location,
+            'status'=>0
         ]);
          //REPORT
             $input2 = UserReports::create([
@@ -148,7 +149,8 @@ class RVMController extends Controller
      */
     public function destroy($id)
     {
-        Rvms::destroy($id);
+        //Rvms::destroy($id);
+        DB::table('rvms')->where('id', $id)->update(['status' =>1]);
         //REPORT
             $input2 = UserReports::create([
                 'user_type'=>'0',
